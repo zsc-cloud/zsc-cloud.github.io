@@ -6,7 +6,7 @@
   
     
       
-        <meta name="robots" content="index,follow">
+        <meta name="robots" content="noindex,follow">
       
     
   
@@ -27,8 +27,6 @@
   <!-- 页面元数据 -->
   
   <title>赵树超个人博客</title>
-  
-    <meta name="keywords" content="赵树超个人博客,赵树超,个人博客,zhaoshuchao">
   
 
   
@@ -108,7 +106,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   <body>
     
 
-<header id="l_header" class="l_header auto shadow blur " style='opacity: 0' >
+<header id="l_header" class="l_header auto shadow blur show" style='opacity: 0' >
   <div class='container'>
   <div id='wrapper'>
     <div class='nav-sub'>
@@ -347,7 +345,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
       <div id="l_cover">
   
     
-        <div id="full" class='cover-wrapper  search' style="display: ;">
+        <div id="full" class='cover-wrapper  search' style="display: none;">
           
             <div id='cover-backstretch'></div>
           
@@ -413,7 +411,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   </div>
 </div>
 
-          <div id="scroll-down" style="display: ;"><i class="fa fa-chevron-down scroll-down-effects"></i></div>
+          <div id="scroll-down" style="display: none;"><i class="fa fa-chevron-down scroll-down-effects"></i></div>
         </div>
     
   
@@ -427,59 +425,28 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   
   <section class="post-list">
     
+    
       
         
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-            
-              <div class='post-wrapper'>
-                <div class="post post-v3 white-box reveal shadow">
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
   
-  
-    <div class='pin'>
-      <img src='https://cdn.jsdelivr.net/gh/twitter/twemoji@13.0/assets/svg/1f4cc.svg'/>
-    </div>
   
   
   
     
-    <h2 class="article-title" pin>
-      <a href="/2021/06/01/MySQL%E4%B8%AD%E7%9A%84%E7%B4%A2%E5%BC%95/">
-        MySQL中的索引
+    <h2 class="article-title" >
+      <a href="/2021/06/01/Lock/">
+        Lock
       </a>
     </h2>
   
   <div class='md'>
     
       
-        什么是索引
-帮助MySQL高效获取数据的数据结构。更通俗的说，数据库索引好比是一本书前面的目录，能加快数据库的查询速度。
-
-一般来说索引本身也很大，不可能全部存储在内存中，因此索引往往是存储在磁盘上的文件中的（可能存储在单独的索引文件中，也可能和数据一起存储在数据文件中）
-
-
-索引的优势和劣势优势
-可以 提高数据检索的效率，降低数据库的IO成本，类似于书的目录。
-
-通过索引列对数据进行排序，...
+        LOCKlock锁是什么Lock是JDK中的一个接口，两个直接实现类 ReentrantLock（重入锁）, ReentrantReadWriteLock（读写锁）。
+Lock锁，使用时手动获取锁和释放锁，比synchronized更加灵活；可中断的获取锁；超时获取锁。
+12345678   //默认情况下 锁是不公平的; 公平锁(参数true)表示等待时间长优先获取到锁  private ...
       
     
   </div>
@@ -490,142 +457,12 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
         <time>2021-06-01</time>
         
           <span class="dot"></span>
-          <a class="category-link" href="/categories/MySQL/">MySQL</a><span class="sep"></span><a class="category-link" href="/categories/MySQL/%E7%B4%A2%E5%BC%95/">索引</a>
+          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JUC/">JUC</a>
         
       </div>
       
         <div>
-          <a class='readmore' href='/2021/06/01/MySQL%E4%B8%AD%E7%9A%84%E7%B4%A2%E5%BC%95/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-              </div>
-            
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-            
-              <div class='post-wrapper'>
-                <div class="post post-v3 white-box reveal shadow">
-  
-  
-    <div class='pin'>
-      <img src='https://cdn.jsdelivr.net/gh/twitter/twemoji@13.0/assets/svg/1f4cc.svg'/>
-    </div>
-  
-  
-  
-    
-    <h2 class="article-title" pin>
-      <a href="/2021/05/01/MySQL%E4%B8%AD%E7%9A%84%E4%BA%8B%E5%8A%A1/">
-        MySQL中的事务
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        什么是事务事务是由一条或者多条DML语句组成逻辑执行单元，这系列操作要么全部执行成功，要么全部执行失败。通常一个事务对应一个完整的业务(例如银行账户转账业务，该业务就是一个最小的工作单元)
-事务的特性（ACID）原子性(atomicity)： 事务的最小工作单元，要么全成功，要么全失败。
-一致性(consistency)： 事务开始和结束后，数据库的完整性不会被破坏。（最重要）
-隔离性(is...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-05-01</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/MySQL/">MySQL</a><span class="sep"></span><a class="category-link" href="/categories/MySQL/%E4%BA%8B%E5%8A%A1/">事务</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/05/01/MySQL%E4%B8%AD%E7%9A%84%E4%BA%8B%E5%8A%A1/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-              </div>
-            
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-      
-    
-    
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/06/02/Redis%E6%8C%81%E4%B9%85%E5%8C%96/">
-        Redis持久化
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        redis持久化的意义redis的数据全部在内存中，如果突然宕机，数据就会全部丢失，因此必须有一种机制来保证redis的数据在遇到突发状况的时候不会丢失，或者只丢失少量，于是必须根据一些策略来把redis内存中的数据写到磁盘中，这样当redis服务重启中，就可以根据磁盘中的数据来恢复数据到内存中。
-redis持久化机制redis有两种持久化机制：AOF和RDB
-(1) RDBRDB是一次的全...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-06-02</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/Redis/">Redis</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/06/02/Redis%E6%8C%81%E4%B9%85%E5%8C%96/'>
+          <a class='readmore' href='/2021/06/01/Lock/'>
             阅读全文
           </a>
         </div>
@@ -647,18 +484,17 @@ redis持久化机制redis有两种持久化机制：AOF和RDB
   
     
     <h2 class="article-title" >
-      <a href="/2021/06/02/Redis%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">
-        Redis基础知识
+      <a href="/2021/05/04/JMM%E5%8F%8AVolatile%E5%85%B3%E9%94%AE%E5%AD%97/">
+        JMM及Volatile关键字
       </a>
     </h2>
   
   <div class='md'>
     
       
-        Redis概念Redis是一个使用C语言编写的，开源的高性能非关系型的数据库，键值对形式
-
-应用场景在日常的 Web 应用对数据库的访问中，读操作的次数远超写操作，比例大概在 1:9 到 3:7，所以需要读的可能性是比写的可能大得多的。当我们使用 SQL 语句去数据库进行读写操作时，数据库就会 去磁盘把对应的数据索引取回来，这是一个相对较慢的过程。
-如果我们把数据放在 Redis 中，也就是...
+        JMM（JavaMemoryModel）理解Java内存区域与Java内存模型Java内存区域
+Java虚拟机在运行程序时会把其自动管理的内存划分为以上几个区域，每个区域都有的用途以及创建销毁的时机，其中蓝色部分代表的是所有线程共享的数据区域，而绿色部分代表的是每个线程的私有数据区域。
+方法区（Method Area）方法区属于线程共享的内存区域，又称Non-Heap（非堆），主要用于存储已...
       
     
   </div>
@@ -666,15 +502,64 @@ redis持久化机制redis有两种持久化机制：AOF和RDB
     <div class='meta-v3' line_style='solid'>
       <div>
         
-        <time>2021-06-02</time>
+        <time>2021-05-04</time>
         
           <span class="dot"></span>
-          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/Redis/">Redis</a>
+          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JUC/">JUC</a>
         
       </div>
       
         <div>
-          <a class='readmore' href='/2021/06/02/Redis%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/'>
+          <a class='readmore' href='/2021/05/04/JMM%E5%8F%8AVolatile%E5%85%B3%E9%94%AE%E5%AD%97/'>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
+      <a href="/2021/04/24/%E7%BA%BF%E7%A8%8B%E9%80%9A%E8%AE%AF/">
+        线程通讯
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        概述 线程与线程之间不是相互独立的个体，它们彼此之间需要相互通信和协作。
+最典型的例子就是生产者-消费者问题：当队列满时，生产者需要等待队列有空间才能继续往里面放入商品，而在等待的期间内，生产者必须释放对临界资源（即队列）的占用权。因为生产者如果不释放对临界资源的占用权，那么消费者就无法消费队列中的商品，就不会让队列有空间，那么生产者就会一直无限等待下去。因此一般情况下，当队列满时，会让生产...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-04-24</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JUC/">JUC</a>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/04/24/%E7%BA%BF%E7%A8%8B%E9%80%9A%E8%AE%AF/'>
             阅读全文
           </a>
         </div>
@@ -696,18 +581,19 @@ redis持久化机制redis有两种持久化机制：AOF和RDB
   
     
     <h2 class="article-title" >
-      <a href="/2021/06/02/SQL%E4%BC%98%E5%8C%96/">
-        SQL优化
+      <a href="/2021/04/23/JVM%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/">
+        JVM内存结构
       </a>
     </h2>
   
   <div class='md'>
     
       
-        简单的SQL优化
-对查询优化，应尽量避免全表扫描，首先应考虑在where以及order by涉及到的列上建立索引.只返回有用的字段，不要全部返回(不要用select * from  返回的字段一点要有用，尽量实现覆盖索引，避免回表操作)
+        
+本文都是基于JDK1.8讨论
 
-应尽量避免在where子句中对字段进行null值判断，否则将导致放弃使用索引而进行全表扫描.（建议创建字段时设置一个默认值，避免null值,比如字符默认为...
+类加载器什么是类加载器Java中的所有类，都需要由类加载器装载到JVM中才能运行。类加载器本身也是一个类，而它的工作就是把class文件从硬盘读取到内存中。在写程序的时候，我们几乎不需要关心类的加载，因为这些都是隐式装载的，除非我们有特殊的用法，像是反射，就需要显式的加载所需要的类。
+Java类的加载是动态的，它并不会一次性将所有类全部加载后再运行，而是保证...
       
     
   </div>
@@ -715,15 +601,15 @@ redis持久化机制redis有两种持久化机制：AOF和RDB
     <div class='meta-v3' line_style='solid'>
       <div>
         
-        <time>2021-06-02</time>
+        <time>2021-04-23</time>
         
           <span class="dot"></span>
-          <a class="category-link" href="/categories/MySQL/">MySQL</a><span class="sep"></span><a class="category-link" href="/categories/MySQL/SQL%E4%BC%98%E5%8C%96/">SQL优化</a>
+          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JVM/">JVM</a>
         
       </div>
       
         <div>
-          <a class='readmore' href='/2021/06/02/SQL%E4%BC%98%E5%8C%96/'>
+          <a class='readmore' href='/2021/04/23/JVM%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/'>
             阅读全文
           </a>
         </div>
@@ -734,54 +620,6 @@ redis持久化机制redis有两种持久化机制：AOF和RDB
 </div>
 
           </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/06/02/SQL%E8%AF%AD%E5%8F%A5/">
-        SQL语句
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        1234567891011121314151617181920212223242526# 直接将查询结果导入或复制到新创建的表CREATE TABLE n SELECT * FROM m;# 删除一个存在表DROP TABLE IF EXISTS m;# 更改存在表的名称ALTER TABLE n RENAME m;# 添加列ALTER  TABLE  table_name  ADD  列名...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-06-02</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/MySQL/">MySQL</a><span class="sep"></span><a class="category-link" href="/categories/MySQL/SQL%E8%AF%AD%E5%8F%A5/">SQL语句</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/06/02/SQL%E8%AF%AD%E5%8F%A5/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
         
       
     
@@ -791,11 +629,17 @@ redis持久化机制redis有两种持久化机制：AOF和RDB
       <br>
       <div class="prev-next">
         
+          <a class="prev" rel="prev" href="/page/2/">
+            <section class="post prev white-box shadow" >
+              <i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;上一页&nbsp;
+            </section>
+          </a>
+        
         <p class="current">
-          1 / 4
+          3 / 4
         </p>
         
-          <a class="next" rel="next" href="/page/2/">
+          <a class="next" rel="next" href="/page/4/">
             <section class="post next white-box shadow">
               &nbsp;下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i>
             </section>
@@ -999,14 +843,14 @@ redis持久化机制redis有两种持久化机制：AOF和RDB
   // header 这里无论是否开启pjax都需要
   var l_header=document.getElementById("l_header");
   
-  l_header.classList.remove("show");
+  l_header.classList.add("show");
   
   
     // cover
     var cover_wrapper=document.querySelector('.cover-wrapper');
     
-    cover_wrapper.id="full";
-    cover_wrapper.style.display="";
+    cover_wrapper.id="none";
+    cover_wrapper.style.display="none";
     
   
 </script>
