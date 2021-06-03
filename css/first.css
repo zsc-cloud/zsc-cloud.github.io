@@ -113,16 +113,16 @@ h2 {
   font-size: 1.5rem;
 }
 h3 {
-  font-size: 1.25rem;
+  font-size: 1.35rem;
 }
 h4 {
-  font-size: 1.125rem;
+  font-size: 1.25rem;
 }
 h5 {
-  font-size: 1rem;
+  font-size: 1.15rem;
 }
 h6 {
-  font-size: 1rem;
+  font-size: 1.05rem;
 }
 h1,
 h2,
@@ -931,7 +931,7 @@ th {
   flex-shrink: 0;
   line-height: 64px;
   padding: 0 24px;
-  font-size: 1.25rem;
+  font-size: 1.35rem;
   font-family: "Varela Round", "PingFang SC", "Microsoft YaHei", Helvetica, Arial, Helvetica, monospace;
 }
 .l_header #wrapper .nav-main .title img {
@@ -1707,7 +1707,7 @@ ul.list-v >li>a:hover {
   white-space: normal;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 1.125rem;
+  font-size: 1.25rem;
 }
 #u-search .modal-body .modal-results .result .digest {
   display: block;
