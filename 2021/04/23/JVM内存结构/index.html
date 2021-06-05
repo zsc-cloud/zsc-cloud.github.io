@@ -361,7 +361,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     
       <div class="m_search">
         <form name="searchform" class="form u-search-form">
-          <input type="text" class="input u-search-input" placeholder="A Wonderful Theme for Hexo" />
+          <input type="text" class="input u-search-input" placeholder="only search in the website" />
           <i class="icon fas fa-search fa-fw"></i>
         </form>
       </div>
@@ -529,7 +529,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <li><p>防止重复加载同一个.class。通过委托去向上面问一问，加载过了，就不用再加载一遍。保证数据安全。</p>
 </li>
 <li><p>保证核心.class不能被篡改。通过委托方式，不会去篡改核心.class，即使篡改也不会去加载，即使加载也不会是同一个.class对象了。不同的加载器加载同一个.class也不是同一个Class对象。这样保证了Class执行安全</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210522191822.png" class="lazyload" data-srcset="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210522191822.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII="></p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210522191822.png"></p>
 <p>我们可以通过这样的代码来获取类加载器:</p>
 </li>
 </ol>
@@ -560,20 +560,20 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>ps：在JDK1.8中，Sun HotSpot虚拟机把虚拟机栈和本地方法栈合并为 Java栈</p>
 <p>方法区是jdk1.7之前的叫法，在1.8中叫做元空间</p>
 </blockquote>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210522191909.png" class="lazyload" data-srcset="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210522191909.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII="></p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210522191909.png"></p>
 <h5 id="虚拟机栈"><a href="#虚拟机栈" class="headerlink" title="虚拟机栈"></a><strong>虚拟机栈</strong></h5><p>虚拟机栈是用于描述java<strong>方法执行</strong>的内存模型。</p>
 <p>　<strong>作用</strong>：每个java方法在执行时，会创建一个“<strong>栈帧</strong>（stack frame）”，栈帧的结构分为“局部变量表、操作数栈、动态链接、方法出口”几个部分。我们常说的“堆内存、栈内存”中的“<strong>栈内存”</strong>指的便是虚拟机栈，确切地说，指的是虚拟机栈的栈帧中的<strong>局部变量表</strong>，因为这里存放了一个方法的所有局部变量。</p>
 <p><strong>栈中放置以下内容：</strong>栈中存放基本类型的原值和引用类型的地址值.</p>
 <p>基本类型包括：byte,short,int,long,char,float,double,Boolean,returnAddress ；引用类型包括：类类型，接口类型和数组。</p>
 <p>方法调用时，创建栈帧，并<strong>压入虚拟机栈</strong>；方法执行完毕，栈帧出栈并被销毁，如下图所示：</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210522191919.png" class="lazyload" data-srcset="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210522191919.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII="></p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210522191919.png"></p>
 <p>局部变量表 : 保存函数参数,局部变量(当前函数有效,函数执行结束它销毁)</p>
 <p>操作数栈 : 存中间运算结果, 临时存储空间</p>
 <p>帧数据区 : 保存访问常量池指针, 异常处理表</p>
 <p><strong>虚拟机栈是线程隔离的，即每个线程都有自己独立的虚拟机栈。</strong></p>
 <p><strong>若单个线程请求的栈深度大于虚拟机允许的深度，则会抛出StackOverflowError（栈溢出错误）。</strong></p>
 <p>举个粟子：如下图 ，假设JVM参数-Xss设置为1m，如果某个方法里面创建一个128kb的数组，那这个方法在同一个线程中只能递归4次，再递归第五次的时候就会报StackOverflowException异常，因为虚拟机栈的大小只有1m，每次递归都需要为方法在虚拟机栈中分配128kb的空间，很显示到第五次的时候就空间不足了。</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210522191927.jpeg" class="lazyload" data-srcset="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210522191927.jpeg" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII="></p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210522191927.jpeg"></p>
 <h5 id="本地方法栈"><a href="#本地方法栈" class="headerlink" title="本地方法栈"></a>本地方法栈</h5><p>本地方法栈（Native Method Stacks）与虚拟机栈所发挥的作用是非常相似的，</p>
 <p>用于本地方法调用, JDK源码中好多使用了Native关键字, 也就是调用底层C语言编写的方法.</p>
 <p>与虚拟机栈一样，本地方法栈区域也会抛出StackOverflowError和OutOfMemoryError异常</p>
@@ -583,7 +583,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <h5 id="方法区"><a href="#方法区" class="headerlink" title="方法区"></a>方法区</h5><p>在JDK8叫元数据区</p>
 <p>方法区存储了类的元数据信息、静态变量、常量等数据。</p>
 <p>方法区的大小决定系统可以保存多少个类。如果系统定义太多的类，导致方法区溢出。虚拟机同样会抛出内存溢出的错误。</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602155112.jpeg" class="lazyload" data-srcset="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602155112.jpeg" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII="></p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602155112.jpeg"></p>
 <h5 id="堆（heap"><a href="#堆（heap" class="headerlink" title="堆（heap)"></a>堆（heap)</h5><p>平常大家使用<strong>new</strong>关键字创建的对象都会进入堆中，堆也是GC重点照顾的区域，堆会被划分为：<strong>新生代</strong>、<strong>老年代</strong>，而新生代还会被进一步划分为Eden区和Survivor区：</p>
 <p>在堆中产生了一个数组或者对象后，还可以在栈中定义一个特殊的变量，这个变量的取值等于数组或者对象在堆内存中的<strong>首地址</strong>，在栈中的这个特殊的变量就变成了数组或者对象的引用变量，以后就可以在程序中使用栈内存中的引用变量来访问堆中的数组或者对象，引用变量相当于为数组或者对象起的一个别名或者代号</p>
 <blockquote>
@@ -593,7 +593,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <blockquote>
 <p>在JDK1.8之前还有一个永久区，在1.8中去掉，永久区的数据现在保存在元空间中</p>
 </blockquote>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602155109.jpeg" class="lazyload" data-srcset="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602155109.jpeg" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII="></p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602155109.jpeg"></p>
 <p>新生代中的Eden区和Survivor（From区和To区）区，是根据 JVM回收算法来的，只是现在大部分都是使用的<strong>分代回收算法</strong>，所以在介绍堆的时候会直接将新生代归纳为Eden区和Survivor区。</p>
 <p>堆的详情信息会在GC中说明</p>
 <h5 id="直接内存"><a href="#直接内存" class="headerlink" title="直接内存"></a>直接内存</h5><p>作用 : 提高一些场景中的性能.</p>
@@ -713,7 +713,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
           
           >
           
-            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=">
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png">
           
         </a>
       
@@ -725,7 +725,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
           
           >
           
-            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=">
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png">
           
         </a>
       
@@ -737,7 +737,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
           
           >
           
-            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=">
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png">
           
         </a>
       
@@ -909,6 +909,16 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
             id="categoriesMySQLE7B4A2E5BC95"
             ><div class='name'>索引</div><div class='badge'>(1)</div></a></li>
         
+          <li><a class="flat-box"
+            title="/categories/%E5%B7%A5%E5%85%B7/" href="/categories/%E5%B7%A5%E5%85%B7/"
+            id="categoriesE5B7A5E585B7"
+            ><div class='name'>工具</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/%E5%B7%A5%E5%85%B7/%E5%9B%BE%E5%BA%8A/" href="/categories/%E5%B7%A5%E5%85%B7/%E5%9B%BE%E5%BA%8A/"
+            id="categoriesE5B7A5E585B7E59BBEE5BA8A"
+            ><div class='name'>图床</div><div class='badge'>(1)</div></a></li>
+        
       </ul>
     </div>
   </section>
@@ -931,7 +941,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 
 
     <div class='content'>
-      <a href="/tags/GC/" style="font-size: 1px; color: #999">GC</a> <a href="/tags/JUC/" style="font-size: 24px; color: #555">JUC</a> <a href="/tags/JVM/" style="font-size: 6.75px; color: #888">JVM</a> <a href="/tags/Java/" style="font-size: 1px; color: #999">Java</a> <a href="/tags/JavaSE/" style="font-size: 12.5px; color: #777">JavaSE</a> <a href="/tags/MySQL/" style="font-size: 18.25px; color: #666">MySQL</a> <a href="/tags/Redis/" style="font-size: 6.75px; color: #888">Redis</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 24px; color: #555">并发编程</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.25px; color: #666">数据库</a> <a href="/tags/%E7%BA%BF%E7%A8%8B/" style="font-size: 6.75px; color: #888">线程</a> <a href="/tags/%E9%94%81/" style="font-size: 6.75px; color: #888">锁</a> <a href="/tags/%E9%9B%86%E5%90%88/" style="font-size: 6.75px; color: #888">集合</a>
+      <a href="/tags/GC/" style="font-size: 1px; color: #999">GC</a> <a href="/tags/JUC/" style="font-size: 24px; color: #555">JUC</a> <a href="/tags/JVM/" style="font-size: 6.75px; color: #888">JVM</a> <a href="/tags/Java/" style="font-size: 1px; color: #999">Java</a> <a href="/tags/JavaSE/" style="font-size: 12.5px; color: #777">JavaSE</a> <a href="/tags/MySQL/" style="font-size: 18.25px; color: #666">MySQL</a> <a href="/tags/Redis/" style="font-size: 6.75px; color: #888">Redis</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 1px; color: #999">工具</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 24px; color: #555">并发编程</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.25px; color: #666">数据库</a> <a href="/tags/%E7%BA%BF%E7%A8%8B/" style="font-size: 6.75px; color: #888">线程</a> <a href="/tags/%E9%94%81/" style="font-size: 6.75px; color: #888">锁</a> <a href="/tags/%E9%9B%86%E5%90%88/" style="font-size: 6.75px; color: #888">集合</a>
     </div>
   </section>
 
@@ -1144,6 +1154,8 @@ var loadCSS = function( href, before, media, attributes ){
   
   
   
+  loadCSS("https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/styles/solarized-light.min.css", window.volantis.loadcss);
+  
 </script>
 <!-- required -->
 
@@ -1271,33 +1283,6 @@ var loadCSS = function( href, before, media, attributes ){
 
 
 
-  <script defer src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script>
-<script>
-  // https://www.npmjs.com/package/vanilla-lazyload
-  // Set the options globally
-  // to make LazyLoad self-initialize
-  window.lazyLoadOptions = {
-    elements_selector: ".lazyload",
-    threshold: 0
-  };
-  // Listen to the initialization event
-  // and get the instance of LazyLoad
-  window.addEventListener(
-    "LazyLoad::Initialized",
-    function (event) {
-      window.lazyLoadInstance = event.detail.instance;
-    },
-    false
-  );
-  document.addEventListener('DOMContentLoaded', function () {
-    lazyLoadInstance.update();
-  });
-  document.addEventListener('pjax:complete', function () {
-    lazyLoadInstance.update();
-  });
-</script>
-
-
 
 
   
@@ -1414,6 +1399,20 @@ function setSearchService() {
 
 
 
+
+  
+
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/highlight.min.js"></script>
+
+<script>hljs.initHighlightingOnLoad();</script>
+
+<script>
+volantis.pjax.push(()=>{
+	document.querySelectorAll('pre code').forEach((block) => {
+	  hljs.highlightBlock(block);
+	});
+},"highlightjs")
+</script>
 
 
 

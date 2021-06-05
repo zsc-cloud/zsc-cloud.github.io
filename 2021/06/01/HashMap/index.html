@@ -361,7 +361,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     
       <div class="m_search">
         <form name="searchform" class="form u-search-form">
-          <input type="text" class="input u-search-input" placeholder="A Wonderful Theme for Hexo" />
+          <input type="text" class="input u-search-input" placeholder="only search in the website" />
           <i class="icon fas fa-search fa-fw"></i>
         </form>
       </div>
@@ -513,7 +513,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   <h3 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h3><h4 id="Hash"><a href="#Hash" class="headerlink" title="Hash"></a>Hash</h4><h5 id="Hash表"><a href="#Hash表" class="headerlink" title="Hash表"></a>Hash表</h5><p>Hash表也称散列表，直译为哈希表，hash表是一种根据关键字值（key-value）而直接进行访问的数据结构。</p>
 <p>在哈希表的键值对关系中，key到value中间还存在着一个映射值，这个映射值就是数组的下标index，key正是通过映射到数组对应的下标index而访问到value值的，通过一个映射函数f(key)映射到数组下标，这个函数我们称之为哈希函数</p>
 <h5 id="Hash冲突"><a href="#Hash冲突" class="headerlink" title="Hash冲突"></a>Hash冲突</h5><p>哈希表中，每个key通过哈希函数的计算都会得到一个唯一的index，但并不是每个index都对应一个唯一的key，就是说可能有两个以上的key映射到同一个index，这就产生了<strong>哈希冲突</strong>的问题</p>
-<p>一个好的hash算法，应该是尽量避免不同的key映射出相同的index，这样才能减少哈希冲突的出现。比如在HashMap中解决哈希冲突采用的是<strong>拉链法</strong>，这种方法把冲突于某个数组下标的数据都保存到对应数组单元中一个链表中，如下图所示，这种数据结构中数组单元保存不是单一的数值，而是一个链表。按照这种方式，如果哈希冲突越多，可能造成数组的利用率就越低，因为有些数组单元可能被闲置，而数组单元上的链表可能会越大，这势必影响到Map的性能，所以尽可能地避免哈希冲突很重要<br>                                 <img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210531133359.png" class="lazyload" data-srcset="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210531133359.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" alt="img"></p>
+<p>一个好的hash算法，应该是尽量避免不同的key映射出相同的index，这样才能减少哈希冲突的出现。比如在HashMap中解决哈希冲突采用的是<strong>拉链法</strong>，这种方法把冲突于某个数组下标的数据都保存到对应数组单元中一个链表中，如下图所示，这种数据结构中数组单元保存不是单一的数值，而是一个链表。按照这种方式，如果哈希冲突越多，可能造成数组的利用率就越低，因为有些数组单元可能被闲置，而数组单元上的链表可能会越大，这势必影响到Map的性能，所以尽可能地避免哈希冲突很重要<br>                                 <img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210531133359.png" alt="img"></p>
 <h5 id="常见的hash算法"><a href="#常见的hash算法" class="headerlink" title="常见的hash算法"></a>常见的hash算法</h5><p>a. 直接定址法：直接以关键字k或者k加上某个常数（k+c）作为哈希地址（H(k)=ak+b）。</p>
 <p>b. 数字分析法：提取关键字中取值比较均匀的数字作为哈希地址（如一组出生日期，相较于年-月，月-日的差别要大得多，可以降低冲突概率）</p>
 <p>c. 分段叠加法：按照哈希表地址位数将关键字分成位数相等的几部分，其中最后一部分可以比较短。然后将这几部分相加，舍弃最高进位后的结果就是该关键字的哈希地址。</p>
@@ -547,19 +547,19 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 
 <h2 id="正文HashMap"><a href="#正文HashMap" class="headerlink" title="正文HashMap"></a>正文HashMap</h2><h4 id="HashMap的组成结构"><a href="#HashMap的组成结构" class="headerlink" title="HashMap的组成结构"></a>HashMap的组成结构</h4><p>HashMap是我们非常常用的数据结构，由<strong>数组和链表组合构成</strong>的数据</p>
 <p>大概如下，数组里面每个地方都存了Key-Value这样的实例，在Java7叫Entry在Java8中叫Node。</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210531141114.jpeg" class="lazyload" data-srcset="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210531141114.jpeg" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" alt="img"></p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210531141114.jpeg" alt="img"></p>
 <p>因为他本身所有的位置都为null，在put插入的时候会根据key的hash值去计算一个index值。</p>
 <p>就比如我put（”张三“，3），我插入了为”帅丙“的元素，这个时候我们会通过哈希函数计算出插入的位置，计算出来index是2那结果如下。  index =  index(hash(“张三”))= 2</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602161537.png" class="lazyload" data-srcset="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602161537.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" alt="image-20210602161537043"></p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602161537.png" alt="image-20210602161537043"></p>
 <p>我们都知道数组长度是有限的，在有限的长度里面我们使用哈希，哈希本身就存在概率性，就是”张三“和”李四“我们都去hash有一定的概率会一样，就像上面的情况我再次哈希”李四“极端情况也会hash到一个值上，那就形成了链表。</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602161620.png" class="lazyload" data-srcset="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602161620.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" alt="image-20210602161620487"></p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602161620.png" alt="image-20210602161620487"></p>
 <blockquote>
 <p>这种头插法是JDK1.7实现方式，JDK1.8为尾插法</p>
 </blockquote>
 <p>每一个节点都会保存自身的hash、key、value、以及下个节点，我看看Node的源码。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="keyword">implements</span> <span class="title">Map</span>.<span class="title">Entry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> hash;</span><br><span class="line">    <span class="keyword">final</span> K key;</span><br><span class="line">    V value;</span><br><span class="line">    Node&lt;K,V&gt; next;</span><br><span class="line">..........</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h4 id="put方法流程"><a href="#put方法流程" class="headerlink" title="put方法流程"></a>put方法流程</h4><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210531152803.png" class="lazyload" data-srcset="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210531152803.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" alt="在这里插入图片描述" style="zoom:80%;" />
+<h4 id="put方法流程"><a href="#put方法流程" class="headerlink" title="put方法流程"></a>put方法流程</h4><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210531152803.png" alt="在这里插入图片描述" style="zoom:80%;" />
 
 <ol>
 <li>判断数组是否为空，为空进行初始化;</li>
@@ -579,13 +579,13 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>当HashMap的当前长度达到总长度的0.75。触发扩容。扩容时，新建一个空HashMap，长度为原Map的2倍，然后对数据重新Hash,存入新的Map</p>
 <h4 id="头插法造成的问题"><a href="#头插法造成的问题" class="headerlink" title="头插法造成的问题"></a>头插法造成的问题</h4><p>我们要在容量为2的容器里面<strong>用不同线程</strong>插入A，B，C，假如我们在resize之前打个短点，那意味着数据都插入了但是还没resize那扩容前可能是这样的。</p>
 <p>我们可以看到链表的指向A-&gt;B-&gt;C</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210531143256.jpeg" class="lazyload" data-srcset="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210531143256.jpeg" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" alt="img"></p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210531143256.jpeg" alt="img"></p>
 <p>因为resize的赋值方式，也就是使用了<strong>单链表的头插入方式，同一位置上新元素总会被放在链表的头部位置</strong>，在旧数组中同一条Entry链上的元素，通过重新计算索引位置后，有可能被放到了新数组的不同位置上。</p>
 <p>就可能出现下面的情况，大家发现问题没有？</p>
 <p>B的下一个指针指向了A</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210531143332.jpeg" class="lazyload" data-srcset="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210531143332.jpeg" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" alt="img"></p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210531143332.jpeg" alt="img"></p>
 <p>一旦几个线程都调整完成，就可能出现环形链表</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210531143339.jpeg" class="lazyload" data-srcset="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210531143339.jpeg" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" alt="img"></p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210531143339.jpeg" alt="img"></p>
 <h4 id="JDK1-8尾插法"><a href="#JDK1-8尾插法" class="headerlink" title="JDK1.8尾插法"></a>JDK1.8尾插法</h4><p>因为<strong>java8之后链表有红黑树</strong>的部分，大家可以看到代码已经多了很多if else的逻辑判断了，红黑树的引入巧妙的将原本O(n)的时间复杂度降低到了O(logn)。</p>
 <blockquote>
 <p>JDK1.8中，当链表的长度大于8，数组长度大于等于 64,这个链表就会进化为红黑树。当红黑树的个数小于6，就会退化为链表</p>
@@ -593,13 +593,13 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 </blockquote>
 <p><strong>使用头插</strong>会改变链表的上的顺序，但是如果<strong>使用尾插</strong>，在扩容时会保持链表元素原本的顺序，就不会出现链表成环的问题了。</p>
 <p>就是说原本是A-&gt;B，在扩容后那个链表还是A-&gt;B</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210531143710.jpeg" class="lazyload" data-srcset="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210531143710.jpeg" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" alt="img"></p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210531143710.jpeg" alt="img"></p>
 <p>Java7在多线程操作HashMap时可能引起死循环，原因是扩容转移后前后链表顺序倒置，在转移过程中修改了原来链表中节点的引用关系。</p>
 <p>Java8在同样的前提下并不会引起死循环，原因是扩容转移后前后链表顺序不变，保持之前节点的引用关系。</p>
 <p>我认为即使不会出现死循环，但是通过源码看到put/get方法都没有加同步锁，多线程情况最容易出现的就是：无法保证上一秒put的值，下一秒get的时候还是原值，所以线程安全还是无法保证。</p>
 <h4 id="HashMap线程安全问题"><a href="#HashMap线程安全问题" class="headerlink" title="HashMap线程安全问题"></a>HashMap线程安全问题</h4><p>在并发的情况下，我们一般都会使用<strong>HashTable</strong>或者<strong>ConcurrentHashMap</strong>，但是因为前者的<strong>并发度</strong>的原因基本上没啥使用场景了，所以存在线程不安全的场景我们都使用的是ConcurrentHashMap。</p>
 <p>HashTable实现安全很简单，直接get/put加锁</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210531144134.jpeg" class="lazyload" data-srcset="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210531144134.jpeg" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" alt="img"></p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210531144134.jpeg" alt="img"></p>
 <h4 id="HashTable"><a href="#HashTable" class="headerlink" title="HashTable"></a>HashTable</h4><p><strong>HashTable和HashMap的区别</strong></p>
 <p>Hashtable 是不允许键或值为 null 的，HashMap 的键值则都可以为 null。</p>
 <p><strong>实现方式不同</strong>：Hashtable 继承了 Dictionary类，而 HashMap 继承的是 AbstractMap 类。</p>
@@ -610,7 +610,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>所以，当其他线程改变了HashMap 的结构，如：增加、删除元素，将会抛出ConcurrentModificationException 异常，而 Hashtable 则不会。</p>
 <h4 id="ConcurrentHashMap"><a href="#ConcurrentHashMap" class="headerlink" title="ConcurrentHashMap"></a>ConcurrentHashMap</h4><p>ConcurrentHashMap 底层是基于 <code>数组 + 链表</code> 组成的，不过在 jdk1.7 和 1.8 中具体实现稍有不同。</p>
 <h5 id="JDK1-7"><a href="#JDK1-7" class="headerlink" title="JDK1.7"></a>JDK1.7</h5><p>先说一下他在1.7中的数据结构吧：</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210531144833.jpeg" class="lazyload" data-srcset="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210531144833.jpeg" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" alt="img"></p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210531144833.jpeg" alt="img"></p>
 <p>如图所示，是由 Segment 数组、HashEntry 组成，和 HashMap 一样，仍然是<strong>数组加链表</strong>。</p>
 <p>Segment 是 ConcurrentHashMap 的一个内部类</p>
 <p>HashEntry跟HashMap差不多的，但是不同点是，他使用volatile去修饰了他的数据Value还有下一个节点next。</p>
@@ -638,14 +638,14 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <li>如果都不满足，则利用 synchronized 锁写入数据。</li>
 <li>如果数量大于 TREEIFY_THRESHOLD 则要转换为红黑树。</li>
 </ol>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210531151634.jpeg" class="lazyload" data-srcset="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210531151634.jpeg" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII="></p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210531151634.jpeg"></p>
 <p><strong>get操作</strong></p>
 <ul>
 <li>根据计算出来的 hashcode 寻址，如果就在桶上那么直接返回值。</li>
 <li>如果是红黑树那就按照树的方式获取值。</li>
 <li>就不满足那就按照链表的方式遍历获取值。</li>
 </ul>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210531151720.jpeg" class="lazyload" data-srcset="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210531151720.jpeg" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" alt="img"></p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210531151720.jpeg" alt="img"></p>
 <p>小结：1.8 在 1.7 的数据结构上做了大的改动，采用红黑树之后可以保证查询效率（<code>O(logn)</code>），甚至取消了 ReentrantLock 改为了 synchronized，这样可以看出在新版的 JDK 中对 synchronized 优化是很到位的。</p>
 
   
@@ -700,7 +700,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
           
           >
           
-            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=">
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png">
           
         </a>
       
@@ -712,7 +712,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
           
           >
           
-            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=">
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png">
           
         </a>
       
@@ -724,7 +724,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
           
           >
           
-            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=">
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png">
           
         </a>
       
@@ -893,6 +893,16 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
             id="categoriesMySQLE7B4A2E5BC95"
             ><div class='name'>索引</div><div class='badge'>(1)</div></a></li>
         
+          <li><a class="flat-box"
+            title="/categories/%E5%B7%A5%E5%85%B7/" href="/categories/%E5%B7%A5%E5%85%B7/"
+            id="categoriesE5B7A5E585B7"
+            ><div class='name'>工具</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/%E5%B7%A5%E5%85%B7/%E5%9B%BE%E5%BA%8A/" href="/categories/%E5%B7%A5%E5%85%B7/%E5%9B%BE%E5%BA%8A/"
+            id="categoriesE5B7A5E585B7E59BBEE5BA8A"
+            ><div class='name'>图床</div><div class='badge'>(1)</div></a></li>
+        
       </ul>
     </div>
   </section>
@@ -915,7 +925,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 
 
     <div class='content'>
-      <a href="/tags/GC/" style="font-size: 1px; color: #999">GC</a> <a href="/tags/JUC/" style="font-size: 24px; color: #555">JUC</a> <a href="/tags/JVM/" style="font-size: 6.75px; color: #888">JVM</a> <a href="/tags/Java/" style="font-size: 1px; color: #999">Java</a> <a href="/tags/JavaSE/" style="font-size: 12.5px; color: #777">JavaSE</a> <a href="/tags/MySQL/" style="font-size: 18.25px; color: #666">MySQL</a> <a href="/tags/Redis/" style="font-size: 6.75px; color: #888">Redis</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 24px; color: #555">并发编程</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.25px; color: #666">数据库</a> <a href="/tags/%E7%BA%BF%E7%A8%8B/" style="font-size: 6.75px; color: #888">线程</a> <a href="/tags/%E9%94%81/" style="font-size: 6.75px; color: #888">锁</a> <a href="/tags/%E9%9B%86%E5%90%88/" style="font-size: 6.75px; color: #888">集合</a>
+      <a href="/tags/GC/" style="font-size: 1px; color: #999">GC</a> <a href="/tags/JUC/" style="font-size: 24px; color: #555">JUC</a> <a href="/tags/JVM/" style="font-size: 6.75px; color: #888">JVM</a> <a href="/tags/Java/" style="font-size: 1px; color: #999">Java</a> <a href="/tags/JavaSE/" style="font-size: 12.5px; color: #777">JavaSE</a> <a href="/tags/MySQL/" style="font-size: 18.25px; color: #666">MySQL</a> <a href="/tags/Redis/" style="font-size: 6.75px; color: #888">Redis</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 1px; color: #999">工具</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 24px; color: #555">并发编程</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.25px; color: #666">数据库</a> <a href="/tags/%E7%BA%BF%E7%A8%8B/" style="font-size: 6.75px; color: #888">线程</a> <a href="/tags/%E9%94%81/" style="font-size: 6.75px; color: #888">锁</a> <a href="/tags/%E9%9B%86%E5%90%88/" style="font-size: 6.75px; color: #888">集合</a>
     </div>
   </section>
 
@@ -1128,6 +1138,8 @@ var loadCSS = function( href, before, media, attributes ){
   
   
   
+  loadCSS("https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/styles/solarized-light.min.css", window.volantis.loadcss);
+  
 </script>
 <!-- required -->
 
@@ -1255,33 +1267,6 @@ var loadCSS = function( href, before, media, attributes ){
 
 
 
-  <script defer src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script>
-<script>
-  // https://www.npmjs.com/package/vanilla-lazyload
-  // Set the options globally
-  // to make LazyLoad self-initialize
-  window.lazyLoadOptions = {
-    elements_selector: ".lazyload",
-    threshold: 0
-  };
-  // Listen to the initialization event
-  // and get the instance of LazyLoad
-  window.addEventListener(
-    "LazyLoad::Initialized",
-    function (event) {
-      window.lazyLoadInstance = event.detail.instance;
-    },
-    false
-  );
-  document.addEventListener('DOMContentLoaded', function () {
-    lazyLoadInstance.update();
-  });
-  document.addEventListener('pjax:complete', function () {
-    lazyLoadInstance.update();
-  });
-</script>
-
-
 
 
   
@@ -1398,6 +1383,20 @@ function setSearchService() {
 
 
 
+
+  
+
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/highlight.min.js"></script>
+
+<script>hljs.initHighlightingOnLoad();</script>
+
+<script>
+volantis.pjax.push(()=>{
+	document.querySelectorAll('pre code').forEach((block) => {
+	  hljs.highlightBlock(block);
+	});
+},"highlightjs")
+</script>
 
 
 

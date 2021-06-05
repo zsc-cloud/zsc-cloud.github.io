@@ -5,8 +5,6 @@
   <!-- SEO相关 -->
   
     
-      <meta name="robots" content="noindex,follow">
-    
   
   <!-- 渲染优化 -->
   <meta http-equiv='x-dns-prefetch-control' content='on' />
@@ -24,7 +22,9 @@
 
   <!-- 页面元数据 -->
   
-  <title>归档：2021/5 - Never Meet Blog</title>
+  <title>Gitee+PicGo+Typora实现高速图床 - Never Meet Blog</title>
+  
+    <meta name="keywords" content="工具">
   
 
   
@@ -106,7 +106,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   <body>
     
 
-<header id="l_header" class="l_header auto shadow blur " style='opacity: 0' >
+<header id="l_header" class="l_header auto shadow blur show" style='opacity: 0' >
   <div class='container'>
   <div id='wrapper'>
     <div class='nav-sub'>
@@ -345,7 +345,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
       <div id="l_cover">
   
     
-        <div id="half" class='cover-wrapper  search' style="display: ;">
+        <div id="full" class='cover-wrapper post search' style="display: none;">
           
             <div id='cover-backstretch'></div>
           
@@ -422,129 +422,330 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
           
 
 <div class='l_main'>
-	
-		
-  <section class="post-list">
+  <article class="article post white-box reveal md shadow article-type-post" id="post" itemscope itemprop="blogPost">
+  
+
+
+  
+  <div class="article-meta" id="top">
     
+    
+    
+      <h1 class="title">
+        Gitee+PicGo+Typora实现高速图床
+      </h1>
+      <div class='new-meta-box'>
+        
+          
+            
+<div class='new-meta-item author'>
+  <a class='author' href="/" rel="nofollow">
+    <img no-lazy src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210603111048.png">
+    <p>By：赵树超</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  <div class='new-meta-item category'>
+    <a class='notlink'>
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <a class="category-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a><span class="sep"></span><a class="category-link" href="/categories/%E5%B7%A5%E5%85%B7/%E5%9B%BE%E5%BA%8A/">图床</a>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2021年6月4日</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  <div class="new-meta-item browse leancloud">
+    <a class='notlink'>
       
-        
+      <div id="lc-pv" data-title="Gitee+PicGo+Typora实现高速图床" data-path="/2021/06/04/Gitee-PicGo-Typora%E5%AE%9E%E7%8E%B0%E9%AB%98%E9%80%9F%E5%9B%BE%E5%BA%8A/">
+        <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+        <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+        次浏览
+      </div>
+    </a>
+  </div>
+
+
           
         
           
-            <div class='post-wrapper'>
-              <div class="post post-v3 white-box reveal shadow">
+            
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>字数：1k字</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>时长：3分钟</p>
+    </a>
+  </div>
+
+
+          
+        
+      </div>
+    
+  </div>
+
+
   
   
-    <div class='pin'>
-      <img src='https://cdn.jsdelivr.net/gh/twitter/twemoji@13.0/assets/svg/1f4cc.svg'/>
+  <blockquote>
+<p><strong>之前使用GitHub搭建床图，我们都知道GitHub在国内速度感人，图片经常刷不出来，而且上传巨慢，今天我们用国内Gitee搭建床图，实现秒级上传，而且配和Typora笔记集成实现自动上传</strong></p>
+</blockquote>
+<h3 id="Gitee创建图床仓库"><a href="#Gitee创建图床仓库" class="headerlink" title="Gitee创建图床仓库"></a>Gitee创建图床仓库</h3><h5 id="注册登录码云账户，并创建一个仓库"><a href="#注册登录码云账户，并创建一个仓库" class="headerlink" title="注册登录码云账户，并创建一个仓库"></a>注册登录码云账户，并创建一个仓库</h5><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210605100622.png" alt="image-20210605100622875" style="zoom:67%;" />
+
+<blockquote>
+<p><strong>注意这里一定要选择开源，否则最后生成的图片地址访问不到！</strong></p>
+</blockquote>
+<h5 id="获取仓库的私人令牌token"><a href="#获取仓库的私人令牌token" class="headerlink" title="获取仓库的私人令牌token"></a>获取仓库的私人令牌token</h5><p>这个token需要配置在PicGo中，用于自动上传使用，很重要</p>
+<ol>
+<li>进入Gitee首页点击头像，进入设置，在安全设置中找到私人令牌</li>
+</ol>
+<img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210605101826.png" alt="image-20210605101826038" style="zoom:67%;" />
+
+<ol start="2">
+<li><p>生成新的令牌：</p>
+<p>这里全选就可以，提交之后就生成一个token，这个要<strong>保存好</strong>，因为这个token只有在<strong>第一次生成的时候才会显示</strong>，关闭页面之后就无法显示。以后忘记了只能重新生成</p>
+<img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210605102005.png" alt="image-20210605102005400" style="zoom:67%;" /></li>
+</ol>
+<h3 id="安装配置PicGo"><a href="#安装配置PicGo" class="headerlink" title="安装配置PicGo"></a>安装配置PicGo</h3><h5 id="安装node-js"><a href="#安装node-js" class="headerlink" title="安装node.js"></a>安装node.js</h5><p>picGo依赖于node.js，所以我们要先安装node.js</p>
+<blockquote>
+<p>下载地址：<a target="_blank" rel="noopener" href="https://nodejs.org/zh-cn/">https://nodejs.org/zh-cn/</a></p>
+<p>node.js安装很简单，在这里就不演示，基本直接下一步就OK，node.js会自动配置环境变量</p>
+<p>安装好在cmd中输入：node -v 出现版本号就说明安装成功了。安装之后最好是重启一下。</p>
+<p><a target="_blank" rel="noopener" href="https://www.runoob.com/nodejs/nodejs-install-setup.html">node.js安装教程</a></p>
+</blockquote>
+<h5 id="下载PicGo"><a href="#下载PicGo" class="headerlink" title="下载PicGo"></a>下载PicGo</h5><p><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/picgo/releases">官网下载地址</a></p>
+<blockquote>
+<p>git下载很慢</p>
+<p>百度云下载：链接：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1yYaw01mIUIIgyhQ324Q-xQ">https://pan.baidu.com/s/1yYaw01mIUIIgyhQ324Q-xQ</a>   提取码：8888 </p>
+</blockquote>
+<p>安装成功页面如下：</p>
+<img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210605095818.png" alt="image-20210605095818661" style="zoom:67%;" />
+
+<h5 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h5><p>在插件设置中搜索gitee，找到gitee-upload并安装</p>
+<img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210605100011.png" alt="image-20210605100011315" style="zoom:67%;" />
+
+<h5 id="配置Gitee"><a href="#配置Gitee" class="headerlink" title="配置Gitee"></a>配置Gitee</h5><p>在首页 —&gt;图床设置中找到gitee</p>
+<ul>
+<li><p><strong>repo</strong>：用户名/仓库名称,也就是仓库的URL，比如我自己的仓库zhao_shu_chao/img</p>
+</li>
+<li><p><strong>branch</strong>：分支，这里写上master</p>
+</li>
+<li><p><strong>token</strong>：这里填入刚刚我们申请的码云的私人令牌，也就是那个token </p>
+</li>
+<li><p><strong>path</strong>：路径，我这里写的是blog</p>
+</li>
+<li><p>customPath：提交消息，这一项和下一项customURL都不用填。在提交到码云后，会显示提交消息，插件默认提交的是 Upload 图片名 by picGo - 时间</p>
+</li>
+</ul>
+<img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210605101006.png" alt="image-20210605101006159" style="zoom: 80%;" />
+
+<h5 id="生成的格式"><a href="#生成的格式" class="headerlink" title="生成的格式"></a>生成的格式</h5><blockquote>
+<p>配置到这里基本就可以使用了。剩下的就是一些额外说明</p>
+</blockquote>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210605102603.png" alt="image-20210605102603897"></p>
+<p>在这里我们可以测试上传一张图片试试效果，上传之后再相册中查看照片路径</p>
+<p>这个支持五种返回的链接的格式，前三种都是我们常用的</p>
+<p>格式实例：</p>
+<ol>
+<li><p>生成时链接格式选择<strong>markdown:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![](https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210522184639.jpeg)</span><br></pre></td></tr></table></figure></li>
+<li><p>生成时链接选择<strong>URL：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210522184639.jpeg</span><br></pre></td></tr></table></figure></li>
+<li><p>生成时链接选择<strong>HTML：</strong></p>
+</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;img src=&quot;https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210522184639.jpeg&quot;/&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="时间戳自动命名"><a href="#时间戳自动命名" class="headerlink" title="时间戳自动命名"></a>时间戳自动命名</h5><p>在PicGo设置中打开时间戳命名即可</p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210605103418.png" alt="image-20210605103418290"></p>
+<h5 id="配置完毕"><a href="#配置完毕" class="headerlink" title="配置完毕"></a>配置完毕</h5><h3 id="集成Typora"><a href="#集成Typora" class="headerlink" title="集成Typora"></a>集成Typora</h3><p>到这里我们配置完毕了。很多人都使用Tppora在本地写博客文章，下面就演示一下Typora集成刚刚我们配置的床图，实现截图放在Typora或者上传本地图片自动上传到我们的床图</p>
+<blockquote>
+<p>Typora下载地址：<a target="_blank" rel="noopener" href="https://typora.io/">https://typora.io/</a></p>
+</blockquote>
+<p>进入Typora的偏好设置，选择图像。</p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210605104013.png" alt="image-20210605104013090"></p>
+<p>在这里页面我们需要配置的是</p>
+<ol>
+<li>插入图片时选择：<strong>上传图片</strong></li>
+<li>对<strong>本地和网络</strong>图片进行勾选，这里千万不要对第五个勾选，也就是转义URL，会导致图片乱码不可读。</li>
+<li>上传服务选择<strong>PicGo(app)</strong>,选项里面还有一个pic(core)，不要选错了。</li>
+<li>配置好picGo的<strong>安装路径</strong>即可</li>
+</ol>
+<p>到这里就完毕配置完毕，我们可以测试一下。我们随便截图一张图片，直接复制到笔记中，我们可以看到这个图片的地址变成了我们配置的图床网络地址了。这就说明Typora配置已经生效，自动帮助我们上传到了Gitee啦。</p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210605104544.png" alt="image-20210605104544785"></p>
+<p>我们回到gitee仓库中，就可以看到我们的提交记录：</p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210605104909.png" alt="image-20210605104909569"></p>
+
+  
+  
+    
+    <div class='footer'>
+      
+      
+      
+        <div class='copyright'>
+          <blockquote>
+            
+              
+                <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+              
+            
+              
+                <p>本文永久链接是：<a href=https://zhaoshuchao.top/2021/06/04/Gitee-PicGo-Typora%E5%AE%9E%E7%8E%B0%E9%AB%98%E9%80%9F%E5%9B%BE%E5%BA%8A/>https://zhaoshuchao.top/2021/06/04/Gitee-PicGo-Typora%E5%AE%9E%E7%8E%B0%E9%AB%98%E9%80%9F%E5%9B%BE%E5%BA%8A/</a></p>
+              
+            
+          </blockquote>
+        </div>
+      
+      
     </div>
   
   
-  
     
-    <h2 class="article-title" pin>
-      <a href="/2021/05/01/MySQL%E4%B8%AD%E7%9A%84%E4%BA%8B%E5%8A%A1/">
-        MySQL中的事务
-      </a>
-    </h2>
+
+
+  <div class='article-meta' id="bottom">
+    <div class='new-meta-box'>
+      
+        
+          
   
-  <div class='md'>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E5%B7%A5%E5%85%B7/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>工具</p></a></div>
+
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
     
       
-        什么是事务事务是由一条或者多条DML语句组成逻辑执行单元，这系列操作要么全部执行成功，要么全部执行失败。通常一个事务对应一个完整的业务(例如银行账户转账业务，该业务就是一个最小的工作单元)
-事务的特性（ACID）原子性(atomicity)： 事务的最小工作单元，要么全成功，要么全失败。
-一致性(consistency)： 事务开始和结束后，数据库的完整性不会被破坏。（最重要）
-隔离性(is...
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zhaoshuchao.top/2021/06/04/Gitee-PicGo-Typora%E5%AE%9E%E7%8E%B0%E9%AB%98%E9%80%9F%E5%9B%BE%E5%BA%8A/&title=Gitee+PicGo+Typora实现高速图床 - Never Meet Blog&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://zhaoshuchao.top/2021/06/04/Gitee-PicGo-Typora%E5%AE%9E%E7%8E%B0%E9%AB%98%E9%80%9F%E5%9B%BE%E5%BA%8A/&title=Gitee+PicGo+Typora实现高速图床 - Never Meet Blog&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://service.weibo.com/share/share.php?url=https://zhaoshuchao.top/2021/06/04/Gitee-PicGo-Typora%E5%AE%9E%E7%8E%B0%E9%AB%98%E9%80%9F%E5%9B%BE%E5%BA%8A/&title=Gitee+PicGo+Typora实现高速图床 - Never Meet Blog&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+    
       
     
   </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-05-01</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/MySQL/">MySQL</a><span class="sep"></span><a class="category-link" href="/categories/MySQL/%E4%BA%8B%E5%8A%A1/">事务</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/05/01/MySQL%E4%B8%AD%E7%9A%84%E4%BA%8B%E5%8A%A1/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
 </div>
 
-            </div>
+
+
+        
+      
+        
           
-        
-      
-    
-    
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/05/04/JMM%E5%8F%8AVolatile%E5%85%B3%E9%94%AE%E5%AD%97/">
-        JMM及Volatile关键字
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        JMM（JavaMemoryModel）理解Java内存区域与Java内存模型Java内存区域
-Java虚拟机在运行程序时会把其自动管理的内存划分为以上几个区域，每个区域都有的用途以及创建销毁的时机，其中蓝色部分代表的是所有线程共享的数据区域，而绿色部分代表的是每个线程的私有数据区域。
-方法区（Method Area）方法区属于线程共享的内存区域，又称Non-Heap（非堆），主要用于存储已...
-      
-    
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>字数：1k字</p>
+    </a>
   </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>时长：3分钟</p>
+    </a>
+  </div>
+
+
         
-        <time>2021-05-04</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JUC/">JUC</a>
-        
-      </div>
       
-        <div>
-          <a class='readmore' href='/2021/05/04/JMM%E5%8F%8AVolatile%E5%85%B3%E9%94%AE%E5%AD%97/'>
-            阅读全文
-          </a>
-        </div>
+    </div>
+  </div>
+
+
+  
+  
+
+  
+    <div class="prev-next">
+      
+      
+        <a class='next' href='/2021/06/02/Redis%E6%8C%81%E4%B9%85%E5%8C%96/'>
+          <p class='title'>Redis持久化<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+          <p class='content'>redis持久化的意义redis的数据全部在内存中，如果突然宕机，数据就会全部丢失，因此必须有一种机制来保证redis的数据在遇到突发状况的时候不会丢失，或者只丢失少量，于是必须根据一些策略来把...</p>
+        </a>
       
     </div>
   
+</article>
 
+
+  
+
+  <article class="post white-box reveal shadow" id="comments">
+    <p ct><i class='fas fa-comments'></i> 评论</p>
+    
+    <div id="valine_container" class="valine_thread">
+  <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
 </div>
 
-          </div>
-        
-      
-        
-      
-    
-  </section>
-  
-    
-  
+  </article>
 
 
-	
+
+
+
+
 </div>
 <aside class='l_side'>
   
@@ -552,68 +753,22 @@ Java虚拟机在运行程序时会把其自动管理的内存划分为以上几�
     
     
 
-<section class="widget blogger shadow desktop mobile">
-  <div class='content'>
-    
-      
-        <a class='avatar flat-box rectangle' href='/about/'>
-          <img no-lazy src='https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602101337.png'/>
-        </a>
-      
-    
-    
-      <div class='text'>
-        
-        
-          <p>须知少时凌云志，曾许人间第一流.</p>
 
-        
-        
-      </div>
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
     
+  <header>
     
-      <div class="social-wrapper">
-        
-          
-            <a href="https://blog.csdn.net/qq_44161695"
-              class="social fas fa-rss flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="mailto:me@xxx.com"
-              class="social fas fa-envelope flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="https://gitee.com/zhao_shu_chao"
-              class="social fab fa-github flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="https://music.163.com/"
-              class="social fas fa-headphones-alt flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-      </div>
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
     
-  </div>
-</section>
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Gitee%E5%88%9B%E5%BB%BA%E5%9B%BE%E5%BA%8A%E4%BB%93%E5%BA%93"><span class="toc-text">Gitee创建图床仓库</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B3%A8%E5%86%8C%E7%99%BB%E5%BD%95%E7%A0%81%E4%BA%91%E8%B4%A6%E6%88%B7%EF%BC%8C%E5%B9%B6%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E4%BB%93%E5%BA%93"><span class="toc-text">注册登录码云账户，并创建一个仓库</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E4%BB%93%E5%BA%93%E7%9A%84%E7%A7%81%E4%BA%BA%E4%BB%A4%E7%89%8Ctoken"><span class="toc-text">获取仓库的私人令牌token</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AEPicGo"><span class="toc-text">安装配置PicGo</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%89%E8%A3%85node-js"><span class="toc-text">安装node.js</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BDPicGo"><span class="toc-text">下载PicGo</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E6%8F%92%E4%BB%B6"><span class="toc-text">安装插件</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEGitee"><span class="toc-text">配置Gitee</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%94%9F%E6%88%90%E7%9A%84%E6%A0%BC%E5%BC%8F"><span class="toc-text">生成的格式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E6%88%B3%E8%87%AA%E5%8A%A8%E5%91%BD%E5%90%8D"><span class="toc-text">时间戳自动命名</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E5%AE%8C%E6%AF%95"><span class="toc-text">配置完毕</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9B%86%E6%88%90Typora"><span class="toc-text">集成Typora</span></a></li></ol>
+    </div>
+  </section>
+
 
   
 
@@ -723,10 +878,9 @@ Java虚拟机在运行程序时会把其自动管理的内存划分为以上几�
 
   
 
-  
-
 
 </aside>
+
 
 
 		  
@@ -735,21 +889,21 @@ Java虚拟机在运行程序时会把其自动管理的内存划分为以上几�
 
 <script>
   window.pdata={}
-  pdata.ispage=false;
-  pdata.postTitle="";
+  pdata.ispage=true;
+  pdata.postTitle="Gitee+PicGo+Typora实现高速图床";
   pdata.commentPath="";
   pdata.commentPlaceholder="";
   // header 这里无论是否开启pjax都需要
   var l_header=document.getElementById("l_header");
   
-  l_header.classList.remove("show");
+  l_header.classList.add("show");
   
   
     // cover
     var cover_wrapper=document.querySelector('.cover-wrapper');
     
-    cover_wrapper.id="half";
-    cover_wrapper.style.display="";
+    cover_wrapper.id="none";
+    cover_wrapper.style.display="none";
     
   
 </script>
