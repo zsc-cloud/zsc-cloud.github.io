@@ -438,19 +438,18 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   
     
     <h2 class="article-title" >
-      <a href="/2021/04/23/JVM%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/">
-        JVM内存结构
+      <a href="/2021/06/01/AQS%E8%BE%85%E5%8A%A9%E7%B1%BB/">
+        AQS辅助类
       </a>
     </h2>
   
   <div class='md'>
     
       
-        
-本文都是基于JDK1.8讨论
-
-类加载器什么是类加载器Java中的所有类，都需要由类加载器装载到JVM中才能运行。类加载器本身也是一个类，而它的工作就是把class文件从硬盘读取到内存中。在写程序的时候，我们几乎不需要关心类的加载，因为这些都是隐式装载的，除非我们有特殊的用法，像是反射，就需要显式的加载所需要的类。
-Java类的加载是动态的，它并不会一次性将所有类全部加载后再运行，而是保证...
+        倒计数器 CountDownLatch一个同步辅助类，在完成一组正在其他线程中执行的操作之前，它允许一个或多个线程一直等待。
+CountDownLatch是一个辅助同步器类，用来作计数使用，
+它的作用有点类似于生活中的倒数计数器，先设定一个计数初始值，当计数降到0时，将会触发一些事件，如火箭的倒数计时。
+初始计数值在构造CountDownLatch对象时传入，每调用一次 countDown(...
       
     
   </div>
@@ -458,15 +457,15 @@ Java类的加载是动态的，它并不会一次性将所有类全部加载后�
     <div class='meta-v3' line_style='solid'>
       <div>
         
-        <time>2021-04-23</time>
+        <time>2021-06-01</time>
         
           <span class="dot"></span>
-          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JVM/">JVM</a>
+          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JUC/">JUC</a>
         
       </div>
       
         <div>
-          <a class='readmore' href='/2021/04/23/JVM%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/'>
+          <a class='readmore' href='/2021/06/01/AQS%E8%BE%85%E5%8A%A9%E7%B1%BB/'>
             阅读全文
           </a>
         </div>
@@ -488,17 +487,17 @@ Java类的加载是动态的，它并不会一次性将所有类全部加载后�
   
     
     <h2 class="article-title" >
-      <a href="/2021/04/15/Synchronized/">
-        Synchronized
+      <a href="/2021/06/01/Lock/">
+        Lock
       </a>
     </h2>
   
   <div class='md'>
     
       
-        
-
-前言：造成线程安全问题的主要诱因有两点: 一是存在共享数据(也称临界资源)，二是存在多条线程共同操作共享数据。因此为了解决这个问题，我们可能需要这样一个方案，当存在多个线程操作共享数据时，需要保证同一时刻有且只有一个线程在操作共享数据，其他线程必须等到该线程处理完数据后再进行，这种方式有个高尚的名称叫互斥锁，即能达到互斥访问目的的锁，也就是说当一个共享数据被当前正在访问的线程加上互斥锁后...
+        LOCKlock锁是什么Lock是JDK中的一个接口，两个直接实现类 ReentrantLock（重入锁）, ReentrantReadWriteLock（读写锁）。
+Lock锁，使用时手动获取锁和释放锁，比synchronized更加灵活；可中断的获取锁；超时获取锁。
+12345678   //默认情况下 锁是不公平的; 公平锁(参数true)表示等待时间长优先获取到锁  private ...
       
     
   </div>
@@ -506,7 +505,7 @@ Java类的加载是动态的，它并不会一次性将所有类全部加载后�
     <div class='meta-v3' line_style='solid'>
       <div>
         
-        <time>2021-04-15</time>
+        <time>2021-06-01</time>
         
           <span class="dot"></span>
           <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JUC/">JUC</a>
@@ -514,7 +513,7 @@ Java类的加载是动态的，它并不会一次性将所有类全部加载后�
       </div>
       
         <div>
-          <a class='readmore' href='/2021/04/15/Synchronized/'>
+          <a class='readmore' href='/2021/06/01/Lock/'>
             阅读全文
           </a>
         </div>
@@ -536,19 +535,17 @@ Java类的加载是动态的，它并不会一次性将所有类全部加载后�
   
     
     <h2 class="article-title" >
-      <a href="/2021/03/01/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
-        线程池
+      <a href="/2021/05/04/JMM%E5%8F%8AVolatile%E5%85%B3%E9%94%AE%E5%AD%97/">
+        JMM及Volatile关键字
       </a>
     </h2>
   
   <div class='md'>
     
       
-        线程池的优势总体来说，线程池有如下的优势：
-（1）降低资源消耗。通过重复利用已创建的线程降低线程创建和销毁造成的消耗。
-（2）提高响应速度。当任务到达时，任务可以不需要等到线程创建就能立即执行。
-（3）提高线程的可管理性。线程是稀缺资源，如果无限制的创建，不仅会消耗系统资源，还会降低系统的稳定性，使用线程池可以进行统一的分配，调优和监控。
-线程池的使用四种构造方法线程池的真正实现类是 Thr...
+        JMM（JavaMemoryModel）理解Java内存区域与Java内存模型Java内存区域
+Java虚拟机在运行程序时会把其自动管理的内存划分为以上几个区域，每个区域都有的用途以及创建销毁的时机，其中蓝色部分代表的是所有线程共享的数据区域，而绿色部分代表的是每个线程的私有数据区域。
+方法区（Method Area）方法区属于线程共享的内存区域，又称Non-Heap（非堆），主要用于存储已...
       
     
   </div>
@@ -556,7 +553,7 @@ Java类的加载是动态的，它并不会一次性将所有类全部加载后�
     <div class='meta-v3' line_style='solid'>
       <div>
         
-        <time>2021-03-01</time>
+        <time>2021-05-04</time>
         
           <span class="dot"></span>
           <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JUC/">JUC</a>
@@ -564,7 +561,56 @@ Java类的加载是动态的，它并不会一次性将所有类全部加载后�
       </div>
       
         <div>
-          <a class='readmore' href='/2021/03/01/%E7%BA%BF%E7%A8%8B%E6%B1%A0/'>
+          <a class='readmore' href='/2021/05/04/JMM%E5%8F%8AVolatile%E5%85%B3%E9%94%AE%E5%AD%97/'>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
+      <a href="/2021/04/24/%E7%BA%BF%E7%A8%8B%E9%80%9A%E8%AE%AF/">
+        线程通讯
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        概述 线程与线程之间不是相互独立的个体，它们彼此之间需要相互通信和协作。
+最典型的例子就是生产者-消费者问题：当队列满时，生产者需要等待队列有空间才能继续往里面放入商品，而在等待的期间内，生产者必须释放对临界资源（即队列）的占用权。因为生产者如果不释放对临界资源的占用权，那么消费者就无法消费队列中的商品，就不会让队列有空间，那么生产者就会一直无限等待下去。因此一般情况下，当队列满时，会让生产...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-04-24</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JUC/">JUC</a>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/04/24/%E7%BA%BF%E7%A8%8B%E9%80%9A%E8%AE%AF/'>
             阅读全文
           </a>
         </div>
@@ -591,8 +637,14 @@ Java类的加载是动态的，它并不会一次性将所有类全部加载后�
           </a>
         
         <p class="current">
-          4 / 4
+          4 / 5
         </p>
+        
+          <a class="next" rel="next" href="/page/5/">
+            <section class="post next white-box shadow">
+              &nbsp;下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i>
+            </section>
+          </a>
         
       </div>
     
@@ -689,6 +741,11 @@ Java类的加载是动态的，它并不会一次性将所有类全部加载后�
       <ul class="entry navigation">
         
           <li><a class="flat-box"
+            title="/categories/Hexo/" href="/categories/Hexo/"
+            id="categoriesHexo"
+            ><div class='name'>Hexo</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
             title="/categories/Java/" href="/categories/Java/"
             id="categoriesJava"
             ><div class='name'>Java</div><div class='badge'>(13)</div></a></li>
@@ -716,7 +773,7 @@ Java类的加载是动态的，它并不会一次性将所有类全部加载后�
           <li><a class="flat-box"
             title="/categories/MySQL/" href="/categories/MySQL/"
             id="categoriesMySQL"
-            ><div class='name'>MySQL</div><div class='badge'>(4)</div></a></li>
+            ><div class='name'>MySQL</div><div class='badge'>(5)</div></a></li>
         
           <li><a class="flat-box child"
             title="/categories/MySQL/SQL%E4%BC%98%E5%8C%96/" href="/categories/MySQL/SQL%E4%BC%98%E5%8C%96/"
@@ -734,6 +791,11 @@ Java类的加载是动态的，它并不会一次性将所有类全部加载后�
             ><div class='name'>事务</div><div class='badge'>(1)</div></a></li>
         
           <li><a class="flat-box child"
+            title="/categories/MySQL/%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86/" href="/categories/MySQL/%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86/"
+            id="categoriesMySQLE794A8E688B7E7AEA1E79086"
+            ><div class='name'>用户管理</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child"
             title="/categories/MySQL/%E7%B4%A2%E5%BC%95/" href="/categories/MySQL/%E7%B4%A2%E5%BC%95/"
             id="categoriesMySQLE7B4A2E5BC95"
             ><div class='name'>索引</div><div class='badge'>(1)</div></a></li>
@@ -747,6 +809,11 @@ Java类的加载是动态的，它并不会一次性将所有类全部加载后�
             title="/categories/%E5%B7%A5%E5%85%B7/%E5%9B%BE%E5%BA%8A/" href="/categories/%E5%B7%A5%E5%85%B7/%E5%9B%BE%E5%BA%8A/"
             id="categoriesE5B7A5E585B7E59BBEE5BA8A"
             ><div class='name'>图床</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/" href="/categories/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/"
+            id="categoriesE997AEE9A298E99A8FE7AC94"
+            ><div class='name'>问题随笔</div><div class='badge'>(4)</div></a></li>
         
       </ul>
     </div>
@@ -770,7 +837,7 @@ Java类的加载是动态的，它并不会一次性将所有类全部加载后�
 
 
     <div class='content'>
-      <a href="/tags/GC/" style="font-size: 1px; color: #999">GC</a> <a href="/tags/JUC/" style="font-size: 24px; color: #555">JUC</a> <a href="/tags/JVM/" style="font-size: 6.75px; color: #888">JVM</a> <a href="/tags/Java/" style="font-size: 1px; color: #999">Java</a> <a href="/tags/JavaSE/" style="font-size: 12.5px; color: #777">JavaSE</a> <a href="/tags/MySQL/" style="font-size: 18.25px; color: #666">MySQL</a> <a href="/tags/Redis/" style="font-size: 6.75px; color: #888">Redis</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 1px; color: #999">工具</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 24px; color: #555">并发编程</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.25px; color: #666">数据库</a> <a href="/tags/%E7%BA%BF%E7%A8%8B/" style="font-size: 6.75px; color: #888">线程</a> <a href="/tags/%E9%94%81/" style="font-size: 6.75px; color: #888">锁</a> <a href="/tags/%E9%9B%86%E5%90%88/" style="font-size: 6.75px; color: #888">集合</a>
+      <a href="/tags/GC/" style="font-size: 1px; color: #999">GC</a> <a href="/tags/Hexo/" style="font-size: 1px; color: #999">Hexo</a> <a href="/tags/JUC/" style="font-size: 24px; color: #555">JUC</a> <a href="/tags/JVM/" style="font-size: 5.6px; color: #8b8b8b">JVM</a> <a href="/tags/Java/" style="font-size: 1px; color: #999">Java</a> <a href="/tags/JavaSE/" style="font-size: 10.2px; color: #7e7e7e">JavaSE</a> <a href="/tags/Linux/" style="font-size: 1px; color: #999">Linux</a> <a href="/tags/MySQL/" style="font-size: 19.4px; color: #636363">MySQL</a> <a href="/tags/Redis/" style="font-size: 5.6px; color: #8b8b8b">Redis</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 1px; color: #999">工具</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 24px; color: #555">并发编程</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 14.8px; color: #707070">数据库</a> <a href="/tags/%E7%BA%BF%E7%A8%8B/" style="font-size: 5.6px; color: #8b8b8b">线程</a> <a href="/tags/%E9%94%81/" style="font-size: 5.6px; color: #8b8b8b">锁</a> <a href="/tags/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/" style="font-size: 10.2px; color: #7e7e7e">问题随笔</a> <a href="/tags/%E9%9B%86%E5%90%88/" style="font-size: 5.6px; color: #8b8b8b">集合</a>
     </div>
   </section>
 

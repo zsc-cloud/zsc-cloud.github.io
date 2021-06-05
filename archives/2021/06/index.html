@@ -429,7 +429,59 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
       
         
           
+            <div class='post-wrapper'>
+              <div class="post post-v3 white-box reveal shadow">
+  
+  
+    <div class='pin'>
+      <img src='https://cdn.jsdelivr.net/gh/twitter/twemoji@13.0/assets/svg/1f4cc.svg'/>
+    </div>
+  
+  
+  
+    
+    <h2 class="article-title" pin>
+      <a href="/2021/06/05/Linux%E5%AE%9A%E6%97%B6%E5%A4%87%E4%BB%BDMySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E6%96%87%E4%BB%B6/">
+        Linux定时备份MySQL数据库文件
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
         
+记录一下定时备份数据库的方法
+Linux里有一个 crontab 命令被用来提交和管理用户的需要周期性执行的任务，就像Windows里的定时任务一样，用这个就可以设置定时任务去执行相应的操作。
+所以，我们通过创建一个shell文件，把执行的命令放在里面，然后再用crontab去定时执行就可以达到我们想要的效果了。
+
+创建一个文件夹存放备份文件这里我是放在/home/deployer路径下
+...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-06-05</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/">问题随笔</a>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/06/05/Linux%E5%AE%9A%E6%97%B6%E5%A4%87%E4%BB%BDMySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E6%96%87%E4%BB%B6/'>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+            </div>
           
         
           
@@ -451,24 +503,22 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   
     
     <h2 class="article-title" pin>
-      <a href="/2021/06/01/MySQL%E4%B8%AD%E7%9A%84%E7%B4%A2%E5%BC%95/">
-        MySQL中的索引
+      <a href="/2021/06/05/%E4%BD%BF%E7%94%A8Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%8C%E7%BB%91%E5%AE%9AGitHub%E4%BB%A5%E5%8F%8A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D/">
+        使用Hexo搭建个人博客，绑定GitHub以及个人域名
       </a>
     </h2>
   
   <div class='md'>
     
       
-        什么是索引
-帮助MySQL高效获取数据的数据结构。更通俗的说，数据库索引好比是一本书前面的目录，能加快数据库的查询速度。
+        前言
+关于Hexo博客搭建由于网上的教程很多都是旧版本，有时候跟新版不一致装错还得删除再来一遍很让人很难受
+文章会基于win10系统开始搭建一个属于自己的博客。从本地启动，到部署到github,然后在到自己的域名
+本次搭建使用到的软件以及工具：Git，node.js，GitHub，Hexo
 
-一般来说索引本身也很大，不可能全部存储在内存中，因此索引往往是存储在磁盘上的文件中的（可能存储在单独的索引文件中，也可能和数据一起存储在数据文件中）
+安装Git点击Git官网下载对应的版本
 
-
-索引的优势和劣势优势
-可以 提高数据检索的效率，降低数据库的IO成本，类似于书的目录。
-
-通过索引列对数据进行排序，...
+上图红框内的选项是默认勾选的，建议不要动。绿色框1是决定是...
       
     
   </div>
@@ -476,15 +526,15 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     <div class='meta-v3' line_style='solid'>
       <div>
         
-        <time>2021-06-01</time>
+        <time>2021-06-05</time>
         
           <span class="dot"></span>
-          <a class="category-link" href="/categories/MySQL/">MySQL</a><span class="sep"></span><a class="category-link" href="/categories/MySQL/%E7%B4%A2%E5%BC%95/">索引</a>
+          <a class="category-link" href="/categories/Hexo/">Hexo</a>
         
       </div>
       
         <div>
-          <a class='readmore' href='/2021/06/01/MySQL%E4%B8%AD%E7%9A%84%E7%B4%A2%E5%BC%95/'>
+          <a class='readmore' href='/2021/06/05/%E4%BD%BF%E7%94%A8Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%8C%E7%BB%91%E5%AE%9AGitHub%E4%BB%A5%E5%8F%8A%E4%B8%AA%E4%BA%BA%E5%9F%9F%E5%90%8D/'>
             阅读全文
           </a>
         </div>
@@ -505,9 +555,167 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
         
           
         
+          
+        
       
     
     
+      
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
+      <a href="/2021/06/05/MySQL%E5%88%9B%E5%BB%BA%E7%94%A8%E6%88%B7/">
+        MySQL创建用户
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        
+MySQL创建可读用户和指定数据库用户
+必须在Root用户下创建
+
+MySQL 赋予用户权限命令的简单格式可概括为：grant 权限 on 数据库对象 to 用户
+创建数据库仅可读用户123# reader是用户名,xxxxxx为密码；GRANT后面跟的是用户权限，用户名@后面跟的是可连接的ip地址，%表示任意ip都可登陆GRANT Select ON *.* TO reader@&quo...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-06-05</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/MySQL/">MySQL</a><span class="sep"></span><a class="category-link" href="/categories/MySQL/%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86/">用户管理</a>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/06/05/MySQL%E5%88%9B%E5%BB%BA%E7%94%A8%E6%88%B7/'>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
+      <a href="/2021/06/05/jaxb%E4%BB%8Exml%E8%AF%BB%E5%8F%96%E7%89%B9%E6%AE%8A%E6%97%A5%E6%9C%9F%E6%A0%BC%E5%BC%8F%E4%B8%BAnull/">
+        jaxb从xml读取特殊日期格式为null
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        
+解决jaxb从xml文件读取 yyyy-MM-dd HH:mm:ss字段数据返回null 的问题
+
+编写DateAdapter类，处理日期格式1234567891011121314151617181920/** * @author zsc * @date 2020/9/30 * jaxb从xml文件读取特殊格式日期（解决读取 yyyy-MM-dd HH:mm:ss返回null 的问题） *...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-06-05</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/">问题随笔</a>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/06/05/jaxb%E4%BB%8Exml%E8%AF%BB%E5%8F%96%E7%89%B9%E6%AE%8A%E6%97%A5%E6%9C%9F%E6%A0%BC%E5%BC%8F%E4%B8%BAnull/'>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
+      <a href="/2021/06/05/%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93%E5%92%8C%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E5%90%88%E5%B9%B6/">
+        本地仓库和远程仓库合并
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        
+Git :fatal: refusing to merge unrelated histories解决
+
+本地创建了一个仓库，把本地仓库和Gitee上关联以后发现git pull/git push，git feach提醒fatal: refusing to merge unrelated histories
+原因是两个分支是两个不同的版本，具有不同的提交历史
+拉取远程代码的时候执行
+1$g...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-06-05</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/">问题随笔</a>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/06/05/%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93%E5%92%8C%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E5%90%88%E5%B9%B6/'>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
       
         
           <div class='post-wrapper'>
@@ -755,202 +963,6 @@ redis持久化机制redis有两种持久化机制：AOF和RDB
           </div>
         
       
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/06/01/%E5%8F%8D%E5%B0%84/">
-        反射
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        如何通过反射创建对象简单的说，反射机制就是在程序的运行过程中被允许对程序本身进行操作，比如自我检查，进行装载，还可以获取类本身，类的所有成员变量和方法，类的对象，还可以在运行过程中动态的创建类的实例，通过实例来调用类的方法，这就是反射机制一个比较重要的功能了。那么要通过程序来理解反射机制，首先要理解类的加载过程
-
-在Java程序执行的时候，要经历三个步骤：加载、连接和初始化。首先程序要加载到...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-06-01</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/Java%E5%9F%BA%E7%A1%80/">Java基础</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/06/01/%E5%8F%8D%E5%B0%84/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/06/01/HashMap/">
-        HashMap
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        前置知识HashHash表Hash表也称散列表，直译为哈希表，hash表是一种根据关键字值（key-value）而直接进行访问的数据结构。
-在哈希表的键值对关系中，key到value中间还存在着一个映射值，这个映射值就是数组的下标index，key正是通过映射到数组对应的下标index而访问到value值的，通过一个映射函数f(key)映射到数组下标，这个函数我们称之为哈希函数
-Hash冲突...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-06-01</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/Java%E5%9F%BA%E7%A1%80/">Java基础</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/06/01/HashMap/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/06/01/HashMap%E8%A7%A3%E6%9E%90/">
-        HashMap解析
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        HashMap源码解析JDK1.8先看看hashMap在jdk      1.8的结构，用的是数组+链表+红黑树的结构，也叫哈希桶，在jdk 1.8之前都是数组+链表的结构，因为在链表的查询操作都是O(N)的时间复杂度，而且hashMap中查询操作也是占了很大比例的，如果当节点数量多，转换为红黑树结构，那么将会提高很大的效率，因为红黑树结构中，增删改查都是O(log n)。 
-哈希桶就是数组...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-06-01</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/Java%E5%9F%BA%E7%A1%80/">Java基础</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/06/01/HashMap%E8%A7%A3%E6%9E%90/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/06/01/GC%E6%9C%BA%E5%88%B6-%E4%B8%80/">
-        GC机制(一)
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        JVM中的垃圾回收对象怎么什么时候被回收？JVM判断对象回收有两种方式：
-引用记数引用记数比较简单，JVM为每个对象维护一个引用计数，假设A对象引用计数为零说明没有任务对象引用A对象，那A对象就可以被回收了，但是引用计数有个缺点就是无法解决循环引用**的问题。
-
-循环引用就是两个孤零零的对象互相引用，a对象引用b,b对象引用a ，他们的引用计数都不为零，故此处陷入死循环
-
-GC Roots(...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-06-01</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JVM/">JVM</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/06/01/GC%E6%9C%BA%E5%88%B6-%E4%B8%80/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
     
   </section>
   
@@ -1064,6 +1076,11 @@ GC Roots(...
       <ul class="entry navigation">
         
           <li><a class="flat-box"
+            title="/categories/Hexo/" href="/categories/Hexo/"
+            id="categoriesHexo"
+            ><div class='name'>Hexo</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
             title="/categories/Java/" href="/categories/Java/"
             id="categoriesJava"
             ><div class='name'>Java</div><div class='badge'>(13)</div></a></li>
@@ -1091,7 +1108,7 @@ GC Roots(...
           <li><a class="flat-box"
             title="/categories/MySQL/" href="/categories/MySQL/"
             id="categoriesMySQL"
-            ><div class='name'>MySQL</div><div class='badge'>(4)</div></a></li>
+            ><div class='name'>MySQL</div><div class='badge'>(5)</div></a></li>
         
           <li><a class="flat-box child"
             title="/categories/MySQL/SQL%E4%BC%98%E5%8C%96/" href="/categories/MySQL/SQL%E4%BC%98%E5%8C%96/"
@@ -1109,6 +1126,11 @@ GC Roots(...
             ><div class='name'>事务</div><div class='badge'>(1)</div></a></li>
         
           <li><a class="flat-box child"
+            title="/categories/MySQL/%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86/" href="/categories/MySQL/%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86/"
+            id="categoriesMySQLE794A8E688B7E7AEA1E79086"
+            ><div class='name'>用户管理</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child"
             title="/categories/MySQL/%E7%B4%A2%E5%BC%95/" href="/categories/MySQL/%E7%B4%A2%E5%BC%95/"
             id="categoriesMySQLE7B4A2E5BC95"
             ><div class='name'>索引</div><div class='badge'>(1)</div></a></li>
@@ -1122,6 +1144,11 @@ GC Roots(...
             title="/categories/%E5%B7%A5%E5%85%B7/%E5%9B%BE%E5%BA%8A/" href="/categories/%E5%B7%A5%E5%85%B7/%E5%9B%BE%E5%BA%8A/"
             id="categoriesE5B7A5E585B7E59BBEE5BA8A"
             ><div class='name'>图床</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/" href="/categories/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/"
+            id="categoriesE997AEE9A298E99A8FE7AC94"
+            ><div class='name'>问题随笔</div><div class='badge'>(4)</div></a></li>
         
       </ul>
     </div>
@@ -1145,7 +1172,7 @@ GC Roots(...
 
 
     <div class='content'>
-      <a href="/tags/GC/" style="font-size: 1px; color: #999">GC</a> <a href="/tags/JUC/" style="font-size: 24px; color: #555">JUC</a> <a href="/tags/JVM/" style="font-size: 6.75px; color: #888">JVM</a> <a href="/tags/Java/" style="font-size: 1px; color: #999">Java</a> <a href="/tags/JavaSE/" style="font-size: 12.5px; color: #777">JavaSE</a> <a href="/tags/MySQL/" style="font-size: 18.25px; color: #666">MySQL</a> <a href="/tags/Redis/" style="font-size: 6.75px; color: #888">Redis</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 1px; color: #999">工具</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 24px; color: #555">并发编程</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.25px; color: #666">数据库</a> <a href="/tags/%E7%BA%BF%E7%A8%8B/" style="font-size: 6.75px; color: #888">线程</a> <a href="/tags/%E9%94%81/" style="font-size: 6.75px; color: #888">锁</a> <a href="/tags/%E9%9B%86%E5%90%88/" style="font-size: 6.75px; color: #888">集合</a>
+      <a href="/tags/GC/" style="font-size: 1px; color: #999">GC</a> <a href="/tags/Hexo/" style="font-size: 1px; color: #999">Hexo</a> <a href="/tags/JUC/" style="font-size: 24px; color: #555">JUC</a> <a href="/tags/JVM/" style="font-size: 5.6px; color: #8b8b8b">JVM</a> <a href="/tags/Java/" style="font-size: 1px; color: #999">Java</a> <a href="/tags/JavaSE/" style="font-size: 10.2px; color: #7e7e7e">JavaSE</a> <a href="/tags/Linux/" style="font-size: 1px; color: #999">Linux</a> <a href="/tags/MySQL/" style="font-size: 19.4px; color: #636363">MySQL</a> <a href="/tags/Redis/" style="font-size: 5.6px; color: #8b8b8b">Redis</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 1px; color: #999">工具</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 24px; color: #555">并发编程</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 14.8px; color: #707070">数据库</a> <a href="/tags/%E7%BA%BF%E7%A8%8B/" style="font-size: 5.6px; color: #8b8b8b">线程</a> <a href="/tags/%E9%94%81/" style="font-size: 5.6px; color: #8b8b8b">锁</a> <a href="/tags/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/" style="font-size: 10.2px; color: #7e7e7e">问题随笔</a> <a href="/tags/%E9%9B%86%E5%90%88/" style="font-size: 5.6px; color: #8b8b8b">集合</a>
     </div>
   </section>
 
