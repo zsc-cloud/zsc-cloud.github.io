@@ -430,6 +430,8 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     
       
         
+      
+        
           <div class='post-wrapper'>
             <div class="post post-v3 white-box reveal shadow">
   
@@ -438,17 +440,17 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   
     
     <h2 class="article-title" >
-      <a href="/2021/06/02/Redis%E6%8C%81%E4%B9%85%E5%8C%96/">
-        Redis持久化
+      <a href="/2021/06/01/%E5%8F%8D%E5%B0%84/">
+        反射
       </a>
     </h2>
   
   <div class='md'>
     
       
-        redis持久化的意义redis的数据全部在内存中，如果突然宕机，数据就会全部丢失，因此必须有一种机制来保证redis的数据在遇到突发状况的时候不会丢失，或者只丢失少量，于是必须根据一些策略来把redis内存中的数据写到磁盘中，这样当redis服务重启中，就可以根据磁盘中的数据来恢复数据到内存中。
-redis持久化机制redis有两种持久化机制：AOF和RDB
-(1) RDBRDB是一次的全...
+        如何通过反射创建对象简单的说，反射机制就是在程序的运行过程中被允许对程序本身进行操作，比如自我检查，进行装载，还可以获取类本身，类的所有成员变量和方法，类的对象，还可以在运行过程中动态的创建类的实例，通过实例来调用类的方法，这就是反射机制一个比较重要的功能了。那么要通过程序来理解反射机制，首先要理解类的加载过程
+
+在Java程序执行的时候，要经历三个步骤：加载、连接和初始化。首先程序要加载到...
       
     
   </div>
@@ -456,15 +458,15 @@ redis持久化机制redis有两种持久化机制：AOF和RDB
     <div class='meta-v3' line_style='solid'>
       <div>
         
-        <time>2021-06-02</time>
+        <time>2021-06-01</time>
         
           <span class="dot"></span>
-          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/Redis/">Redis</a>
+          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/Java%E5%9F%BA%E7%A1%80/">Java基础</a>
         
       </div>
       
         <div>
-          <a class='readmore' href='/2021/06/02/Redis%E6%8C%81%E4%B9%85%E5%8C%96/'>
+          <a class='readmore' href='/2021/06/01/%E5%8F%8D%E5%B0%84/'>
             阅读全文
           </a>
         </div>
@@ -486,18 +488,17 @@ redis持久化机制redis有两种持久化机制：AOF和RDB
   
     
     <h2 class="article-title" >
-      <a href="/2021/06/02/Redis%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">
-        Redis基础知识
+      <a href="/2021/06/01/HashMap/">
+        HashMap
       </a>
     </h2>
   
   <div class='md'>
     
       
-        Redis概念Redis是一个使用C语言编写的，开源的高性能非关系型的数据库，键值对形式
-
-应用场景在日常的 Web 应用对数据库的访问中，读操作的次数远超写操作，比例大概在 1:9 到 3:7，所以需要读的可能性是比写的可能大得多的。当我们使用 SQL 语句去数据库进行读写操作时，数据库就会 去磁盘把对应的数据索引取回来，这是一个相对较慢的过程。
-如果我们把数据放在 Redis 中，也就是...
+        前置知识HashHash表Hash表也称散列表，直译为哈希表，hash表是一种根据关键字值（key-value）而直接进行访问的数据结构。
+在哈希表的键值对关系中，key到value中间还存在着一个映射值，这个映射值就是数组的下标index，key正是通过映射到数组对应的下标index而访问到value值的，通过一个映射函数f(key)映射到数组下标，这个函数我们称之为哈希函数
+Hash冲突...
       
     
   </div>
@@ -505,15 +506,15 @@ redis持久化机制redis有两种持久化机制：AOF和RDB
     <div class='meta-v3' line_style='solid'>
       <div>
         
-        <time>2021-06-02</time>
+        <time>2021-06-01</time>
         
           <span class="dot"></span>
-          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/Redis/">Redis</a>
+          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/Java%E5%9F%BA%E7%A1%80/">Java基础</a>
         
       </div>
       
         <div>
-          <a class='readmore' href='/2021/06/02/Redis%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/'>
+          <a class='readmore' href='/2021/06/01/HashMap/'>
             阅读全文
           </a>
         </div>
@@ -535,18 +536,16 @@ redis持久化机制redis有两种持久化机制：AOF和RDB
   
     
     <h2 class="article-title" >
-      <a href="/2021/06/02/SQL%E4%BC%98%E5%8C%96/">
-        SQL优化
+      <a href="/2021/06/01/HashMap%E8%A7%A3%E6%9E%90/">
+        HashMap解析
       </a>
     </h2>
   
   <div class='md'>
     
       
-        简单的SQL优化
-对查询优化，应尽量避免全表扫描，首先应考虑在where以及order by涉及到的列上建立索引.只返回有用的字段，不要全部返回(不要用select * from  返回的字段一点要有用，尽量实现覆盖索引，避免回表操作)
-
-应尽量避免在where子句中对字段进行null值判断，否则将导致放弃使用索引而进行全表扫描.（建议创建字段时设置一个默认值，避免null值,比如字符默认为...
+        HashMap源码解析JDK1.8先看看hashMap在jdk      1.8的结构，用的是数组+链表+红黑树的结构，也叫哈希桶，在jdk 1.8之前都是数组+链表的结构，因为在链表的查询操作都是O(N)的时间复杂度，而且hashMap中查询操作也是占了很大比例的，如果当节点数量多，转换为红黑树结构，那么将会提高很大的效率，因为红黑树结构中，增删改查都是O(log n)。 
+哈希桶就是数组...
       
     
   </div>
@@ -554,15 +553,15 @@ redis持久化机制redis有两种持久化机制：AOF和RDB
     <div class='meta-v3' line_style='solid'>
       <div>
         
-        <time>2021-06-02</time>
+        <time>2021-06-01</time>
         
           <span class="dot"></span>
-          <a class="category-link" href="/categories/MySQL/">MySQL</a><span class="sep"></span><a class="category-link" href="/categories/MySQL/SQL%E4%BC%98%E5%8C%96/">SQL优化</a>
+          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/Java%E5%9F%BA%E7%A1%80/">Java基础</a>
         
       </div>
       
         <div>
-          <a class='readmore' href='/2021/06/02/SQL%E4%BC%98%E5%8C%96/'>
+          <a class='readmore' href='/2021/06/01/HashMap%E8%A7%A3%E6%9E%90/'>
             阅读全文
           </a>
         </div>
@@ -584,15 +583,20 @@ redis持久化机制redis有两种持久化机制：AOF和RDB
   
     
     <h2 class="article-title" >
-      <a href="/2021/06/02/SQL%E8%AF%AD%E5%8F%A5/">
-        SQL语句
+      <a href="/2021/06/01/GC%E6%9C%BA%E5%88%B6-%E4%B8%80/">
+        GC机制(一)
       </a>
     </h2>
   
   <div class='md'>
     
       
-        1234567891011121314151617181920212223242526# 直接将查询结果导入或复制到新创建的表CREATE TABLE n SELECT * FROM m;# 删除一个存在表DROP TABLE IF EXISTS m;# 更改存在表的名称ALTER TABLE n RENAME m;# 添加列ALTER  TABLE  table_name  ADD  列名...
+        JVM中的垃圾回收对象怎么什么时候被回收？JVM判断对象回收有两种方式：
+引用记数引用记数比较简单，JVM为每个对象维护一个引用计数，假设A对象引用计数为零说明没有任务对象引用A对象，那A对象就可以被回收了，但是引用计数有个缺点就是无法解决循环引用**的问题。
+
+循环引用就是两个孤零零的对象互相引用，a对象引用b,b对象引用a ，他们的引用计数都不为零，故此处陷入死循环
+
+GC Roots(...
       
     
   </div>
@@ -600,15 +604,15 @@ redis持久化机制redis有两种持久化机制：AOF和RDB
     <div class='meta-v3' line_style='solid'>
       <div>
         
-        <time>2021-06-02</time>
+        <time>2021-06-01</time>
         
           <span class="dot"></span>
-          <a class="category-link" href="/categories/MySQL/">MySQL</a><span class="sep"></span><a class="category-link" href="/categories/MySQL/SQL%E8%AF%AD%E5%8F%A5/">SQL语句</a>
+          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JVM/">JVM</a>
         
       </div>
       
         <div>
-          <a class='readmore' href='/2021/06/02/SQL%E8%AF%AD%E5%8F%A5/'>
+          <a class='readmore' href='/2021/06/01/GC%E6%9C%BA%E5%88%B6-%E4%B8%80/'>
             阅读全文
           </a>
         </div>
@@ -619,8 +623,6 @@ redis持久化机制redis有两种持久化机制：AOF和RDB
 </div>
 
           </div>
-        
-      
         
       
     

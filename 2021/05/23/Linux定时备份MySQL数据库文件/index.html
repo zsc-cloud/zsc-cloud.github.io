@@ -5,8 +5,6 @@
   <!-- SEO相关 -->
   
     
-      <meta name="robots" content="noindex,follow">
-    
   
   <!-- 渲染优化 -->
   <meta http-equiv='x-dns-prefetch-control' content='on' />
@@ -24,7 +22,9 @@
 
   <!-- 页面元数据 -->
   
-  <title>归档：2021/6 - Never Meet Blog</title>
+  <title>Linux定时备份MySQL数据库文件 - Never Meet Blog</title>
+  
+    <meta name="keywords" content="Linux">
   
 
   
@@ -106,7 +106,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   <body>
     
 
-<header id="l_header" class="l_header auto shadow blur " style='opacity: 0' >
+<header id="l_header" class="l_header auto shadow blur show" style='opacity: 0' >
   <div class='container'>
   <div id='wrapper'>
     <div class='nav-sub'>
@@ -345,7 +345,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
       <div id="l_cover">
   
     
-        <div id="half" class='cover-wrapper  search' style="display: ;">
+        <div id="full" class='cover-wrapper post search' style="display: none;">
           
             <div id='cover-backstretch'></div>
           
@@ -422,83 +422,290 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
           
 
 <div class='l_main'>
-	
-		
-  <section class="post-list">
+  <article class="article post white-box reveal md shadow article-type-post" id="post" itemscope itemprop="blogPost">
+  
+
+
+  
+  <div class="article-meta" id="top">
     
     
-      
+    
+      <h1 class="title">
+        Linux定时备份MySQL数据库文件
+      </h1>
+      <div class='new-meta-box'>
         
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/06/01/Lock/">
-        Lock
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        LOCKlock锁是什么Lock是JDK中的一个接口，两个直接实现类 ReentrantLock（重入锁）, ReentrantReadWriteLock（读写锁）。
-Lock锁，使用时手动获取锁和释放锁，比synchronized更加灵活；可中断的获取锁；超时获取锁。
-12345678   //默认情况下 锁是不公平的; 公平锁(参数true)表示等待时间长优先获取到锁  private ...
-      
-    
+          
+            
+<div class='new-meta-item author'>
+  <a class='author' href="/" rel="nofollow">
+    <img no-lazy src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210603111048.png">
+    <p>By：赵树超</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  <div class='new-meta-item category'>
+    <a class='notlink'>
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <a class="category-link" href="/categories/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/">问题随笔</a>
+    </a>
   </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
+
+
+          
         
-        <time>2021-06-01</time>
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2021年5月23日</p>
+  </a>
+</div>
+
+          
         
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JUC/">JUC</a>
+          
+            
+  <div class="new-meta-item browse leancloud">
+    <a class='notlink'>
+      
+      <div id="lc-pv" data-title="Linux定时备份MySQL数据库文件" data-path="/2021/05/23/Linux%E5%AE%9A%E6%97%B6%E5%A4%87%E4%BB%BDMySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E6%96%87%E4%BB%B6/">
+        <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+        <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+        次浏览
+      </div>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>字数：636字</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>时长：2分钟</p>
+    </a>
+  </div>
+
+
+          
         
       </div>
+    
+  </div>
+
+
+  
+  
+  <blockquote>
+<p><strong>记录一下定时备份数据库的方法</strong></p>
+<p>Linux里有一个 <strong>crontab</strong> 命令被用来提交和管理用户的需要周期性执行的任务，就像Windows里的定时任务一样，用这个就可以设置定时任务去执行相应的操作。</p>
+<p>所以，我们通过创建一个shell文件，把执行的命令放在里面，然后再用crontab去定时执行就可以达到我们想要的效果了。</p>
+</blockquote>
+<h5 id="创建一个文件夹存放备份文件"><a href="#创建一个文件夹存放备份文件" class="headerlink" title="创建一个文件夹存放备份文件"></a>创建一个文件夹存放备份文件</h5><p>这里我是放在/home/deployer路径下</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /home/deployer</span><br><span class="line">mkdir backup</span><br></pre></td></tr></table></figure>
+
+<h5 id="创建备份的shell文件"><a href="#创建备份的shell文件" class="headerlink" title="创建备份的shell文件"></a>创建备份的shell文件</h5><p><code>touch back_sql.sh</code></p>
+<p>编辑这个脚本：<code>vim back_mysql.sh</code></p>
+<p>如果没有vim在安装一下：<code>yum -y install vim*</code></p>
+<p><strong>脚本内容格式如下：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line">/usr/local/mysql/bin/mysqldump(这个路径是你mysqldump所在路径) -u用户名 -p密码 数据库名 &gt; /home/backup/数据库名_$(date +%Y%m%d_%H%M%S).sql</span><br></pre></td></tr></table></figure>
+
+<p>如果你要备份成<strong>压缩文件</strong>的话，可以写成下面这个命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line"></span><br><span class="line">/usr/local/mysql/bin/mysqldump -u用户名 -p密码 数据库名 | gzip &gt; /home/backup/数据库名_$(date +%Y%m%d_%H%M%S).sql.gz</span><br></pre></td></tr></table></figure>
+
+<p>这个是我的sh</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line"></span><br><span class="line">/home/server/mysql/bin/mysqldump -uroot -p123456 xh_wx &gt; /home/deployer/backup/xh_wx_$(date +%Y%m%d).sql</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p> 添加好后记得保存</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">:wq          -保存文件，退出 vim</span><br><span class="line">:wq!        -强制保存文件，退出 vim</span><br><span class="line">:q            -不保存文件，退出 vim</span><br><span class="line">:q!          -不保存文件，强制退出 vim</span><br></pre></td></tr></table></figure>
+
+<h5 id="修改脚本权限"><a href="#修改脚本权限" class="headerlink" title="修改脚本权限"></a>修改脚本权限</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">chmod 777 back_sql.sh</span><br><span class="line">或者</span><br><span class="line">chmod u+x back_sql.sh</span><br></pre></td></tr></table></figure>
+
+<h5 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h5><p>测试一下这个shell是否能执行，输入文件名即可直接执行<code> ./back_mysql.sh</code></p>
+<p>执行后去backup文件夹里看看，是否有导出来的文件</p>
+<h5 id="在crontab中设置定时任务"><a href="#在crontab中设置定时任务" class="headerlink" title="在crontab中设置定时任务"></a>在crontab中设置定时任务</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">先检查一下是否安装：如果已安装则请略过</span><br><span class="line">安装命令</span><br><span class="line">yum -y install vixie-cron</span><br><span class="line">yum -y install crontabs</span><br><span class="line"></span><br><span class="line">在CentOS系统中加入开机自动启动: </span><br><span class="line">chkconfig --level 345 crond on</span><br></pre></td></tr></table></figure>
+
+<p>输入命令进入crontab任务设置 : <code>crontab -e</code></p>
+<p>在里面添加以下命令:  <code>00 02 * * * /home/deployer/backup/back_sql.sh</code> </p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210605175725.png" alt="image-20210605175724982"></p>
+<p>然后保存退出</p>
+<blockquote>
+<p>  “ 00 02 * * * ”是crontab的时间规则，即<strong>执行周期</strong>，我写的这句解析后就是<strong>每天的 02:00</strong> 执行一次该目录下的那个bk_mysql.sh文件.      执行周期可以按照自己的需求来设定</p>
+<p>  crontab的格式很灵活，每天每小时，具体哪一天都可以设置。在这里就不展开说明了</p>
+</blockquote>
+<p>运行一段时间的效果，这是我服务器上的备份文件</p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210605180027.png" alt="image-20210605180027697"></p>
+
+  
+  
+    
+    <div class='footer'>
       
-        <div>
-          <a class='readmore' href='/2021/06/01/Lock/'>
-            阅读全文
-          </a>
+      
+      
+        <div class='copyright'>
+          <blockquote>
+            
+              
+                <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+              
+            
+              
+                <p>本文永久链接是：<a href=https://zhaoshuchao.top/2021/05/23/Linux%E5%AE%9A%E6%97%B6%E5%A4%87%E4%BB%BDMySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E6%96%87%E4%BB%B6/>https://zhaoshuchao.top/2021/05/23/Linux%E5%AE%9A%E6%97%B6%E5%A4%87%E4%BB%BDMySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E6%96%87%E4%BB%B6/</a></p>
+              
+            
+          </blockquote>
         </div>
+      
       
     </div>
   
+  
+    
 
-</div>
 
-          </div>
+  <div class='article-meta' id="bottom">
+    <div class='new-meta-box'>
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Linux/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Linux</p></a></div>
+
+
         
       
-    
-  </section>
-  
-    
-      <br>
-      <div class="prev-next">
         
-          <a class="prev" rel="prev" href="/archives/2021/06/page/2/">
-            <section class="post prev white-box shadow" >
-              <i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;上一页&nbsp;
-            </section>
-          </a>
-        
-        <p class="current">
-          3 / 3
-        </p>
-        
-      </div>
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
     
-  
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zhaoshuchao.top/2021/05/23/Linux%E5%AE%9A%E6%97%B6%E5%A4%87%E4%BB%BDMySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E6%96%87%E4%BB%B6/&title=Linux定时备份MySQL数据库文件 - Never Meet Blog&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://zhaoshuchao.top/2021/05/23/Linux%E5%AE%9A%E6%97%B6%E5%A4%87%E4%BB%BDMySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E6%96%87%E4%BB%B6/&title=Linux定时备份MySQL数据库文件 - Never Meet Blog&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://service.weibo.com/share/share.php?url=https://zhaoshuchao.top/2021/05/23/Linux%E5%AE%9A%E6%97%B6%E5%A4%87%E4%BB%BDMySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E6%96%87%E4%BB%B6/&title=Linux定时备份MySQL数据库文件 - Never Meet Blog&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
 
 
-	
+
+        
+      
+        
+          
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>字数：636字</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>时长：2分钟</p>
+    </a>
+  </div>
+
+
+        
+      
+    </div>
+  </div>
+
+
+  
+  
+
+  
+    <div class="prev-next">
+      
+        <a class='prev' href='/2021/06/01/Lock/'>
+          <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Lock</p>
+          <p class='content'>LOCKlock锁是什么Lock是JDK中的一个接口，两个直接实现类 ReentrantLock（重入锁）, ReentrantReadWriteLock（读写锁）。
+Lock锁，使用时手动获取...</p>
+        </a>
+      
+      
+        <a class='next' href='/2021/05/05/%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93%E5%92%8C%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E5%90%88%E5%B9%B6/'>
+          <p class='title'>本地仓库和远程仓库合并<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+          <p class='content'>
+Git :fatal: refusing to merge unrelated histories解决
+
+本地创建了一个仓库，把本地仓库和Gitee上关联以后发现git pull/git pu...</p>
+        </a>
+      
+    </div>
+  
+</article>
+
+
+  
+
+  <article class="post white-box reveal shadow" id="comments">
+    <p ct><i class='fas fa-comments'></i> 评论</p>
+    
+    <div id="valine_container" class="valine_thread">
+  <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+</div>
+
+  </article>
+
+
+
+
+
+
 </div>
 <aside class='l_side'>
   
@@ -506,68 +713,22 @@ Lock锁，使用时手动获取锁和释放锁，比synchronized更加灵活；�
     
     
 
-<section class="widget blogger shadow desktop mobile">
-  <div class='content'>
-    
-      
-        <a class='avatar flat-box rectangle' href='/about/'>
-          <img no-lazy src='https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602101337.png'/>
-        </a>
-      
-    
-    
-      <div class='text'>
-        
-        
-          <p>须知少时凌云志，曾许人间第一流.</p>
 
-        
-        
-      </div>
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
     
+  <header>
     
-      <div class="social-wrapper">
-        
-          
-            <a href="https://blog.csdn.net/qq_44161695"
-              class="social fas fa-rss flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="mailto:me@xxx.com"
-              class="social fas fa-envelope flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="https://gitee.com/zhao_shu_chao"
-              class="social fab fa-github flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="https://music.163.com/"
-              class="social fas fa-headphones-alt flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-      </div>
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
     
-  </div>
-</section>
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%87%E4%BB%B6%E5%A4%B9%E5%AD%98%E6%94%BE%E5%A4%87%E4%BB%BD%E6%96%87%E4%BB%B6"><span class="toc-text">创建一个文件夹存放备份文件</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%A4%87%E4%BB%BD%E7%9A%84shell%E6%96%87%E4%BB%B6"><span class="toc-text">创建备份的shell文件</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E8%84%9A%E6%9C%AC%E6%9D%83%E9%99%90"><span class="toc-text">修改脚本权限</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95"><span class="toc-text">测试</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9C%A8crontab%E4%B8%AD%E8%AE%BE%E7%BD%AE%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1"><span class="toc-text">在crontab中设置定时任务</span></a></li></ol>
+    </div>
+  </section>
+
 
   
 
@@ -692,10 +853,9 @@ Lock锁，使用时手动获取锁和释放锁，比synchronized更加灵活；�
 
   
 
-  
-
 
 </aside>
+
 
 
 		  
@@ -704,21 +864,21 @@ Lock锁，使用时手动获取锁和释放锁，比synchronized更加灵活；�
 
 <script>
   window.pdata={}
-  pdata.ispage=false;
-  pdata.postTitle="";
+  pdata.ispage=true;
+  pdata.postTitle="Linux定时备份MySQL数据库文件";
   pdata.commentPath="";
   pdata.commentPlaceholder="";
   // header 这里无论是否开启pjax都需要
   var l_header=document.getElementById("l_header");
   
-  l_header.classList.remove("show");
+  l_header.classList.add("show");
   
   
     // cover
     var cover_wrapper=document.querySelector('.cover-wrapper');
     
-    cover_wrapper.id="half";
-    cover_wrapper.style.display="";
+    cover_wrapper.id="none";
+    cover_wrapper.style.display="none";
     
   
 </script>
