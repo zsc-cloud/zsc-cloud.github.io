@@ -430,55 +430,6 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     
       
         
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/04/24/%E7%BA%BF%E7%A8%8B%E9%80%9A%E8%AE%AF/">
-        线程通讯
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        概述 线程与线程之间不是相互独立的个体，它们彼此之间需要相互通信和协作。
-最典型的例子就是生产者-消费者问题：当队列满时，生产者需要等待队列有空间才能继续往里面放入商品，而在等待的期间内，生产者必须释放对临界资源（即队列）的占用权。因为生产者如果不释放对临界资源的占用权，那么消费者就无法消费队列中的商品，就不会让队列有空间，那么生产者就会一直无限等待下去。因此一般情况下，当队列满时，会让生产...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-04-24</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JUC/">JUC</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/04/24/%E7%BA%BF%E7%A8%8B%E9%80%9A%E8%AE%AF/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
           <div class='post-wrapper'>
             <div class="post post-v3 white-box reveal shadow">
   
@@ -574,6 +525,59 @@ Java类的加载是动态的，它并不会一次性将所有类全部加载后�
 </div>
 
           </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
+      <a href="/2021/04/02/Hexo%E4%BD%BF%E7%94%A8Volantis%E4%B8%BB%E9%A2%98/">
+        Hexo使用Volantis主题
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        更换主题这里采用的是Volantis5主题和 Hexo 5.0.2，不用复制什么主题到theme文件夹下，直接使用npm安装即可
+
+在 blog/_config.yml 文件中找到并修改：
+1theme: volantis
+下载主题
+123456# 安装npm i hexo-theme-volantis# 安装 Hexo 搜索的依赖包npm i hexo-generator-search h...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-04-02</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/Hexo/">Hexo</a>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/04/02/Hexo%E4%BD%BF%E7%94%A8Volantis%E4%B8%BB%E9%A2%98/'>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
         
       
         
