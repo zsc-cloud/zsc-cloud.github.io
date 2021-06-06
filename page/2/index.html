@@ -438,18 +438,16 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   
     
     <h2 class="article-title" >
-      <a href="/2021/06/02/SQL%E4%BC%98%E5%8C%96/">
-        SQL优化
+      <a href="/2021/05/12/Java%E5%AE%9E%E7%8E%B0%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E8%8E%B7%E5%8F%96unionID/">
+        Java实现微信小程序获取unionID
       </a>
     </h2>
   
   <div class='md'>
     
       
-        简单的SQL优化
-对查询优化，应尽量避免全表扫描，首先应考虑在where以及order by涉及到的列上建立索引.只返回有用的字段，不要全部返回(不要用select * from  返回的字段一点要有用，尽量实现覆盖索引，避免回表操作)
-
-应尽量避免在where子句中对字段进行null值判断，否则将导致放弃使用索引而进行全表扫描.（建议创建字段时设置一个默认值，避免null值,比如字符默认为...
+        
+前言：微信开发平台为开发者提供openId用来区分用户的唯一性，但是openId只是在独立的应用内是唯一的，如果开发者拥有多个移动应用、网站应用、和公众帐号（包括小程序），可通过 UnionID 来区分用户的唯一性，因为只要是同一个微信开放平台帐号下所有应用，用户的 UnionID 是唯一的。换句话说，同一用户，对同一个微信开放平台下的不同应用，UnionID是相同的。微信官方文档：官方文...
       
     
   </div>
@@ -457,15 +455,15 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     <div class='meta-v3' line_style='solid'>
       <div>
         
-        <time>2021-06-02</time>
+        <time>2021-05-12</time>
         
           <span class="dot"></span>
-          <a class="category-link" href="/categories/MySQL/">MySQL</a><span class="sep"></span><a class="category-link" href="/categories/MySQL/SQL%E4%BC%98%E5%8C%96/">SQL优化</a>
+          <a class="category-link" href="/categories/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/">问题随笔</a>
         
       </div>
       
         <div>
-          <a class='readmore' href='/2021/06/02/SQL%E4%BC%98%E5%8C%96/'>
+          <a class='readmore' href='/2021/05/12/Java%E5%AE%9E%E7%8E%B0%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E8%8E%B7%E5%8F%96unionID/'>
             阅读全文
           </a>
         </div>
@@ -487,15 +485,18 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   
     
     <h2 class="article-title" >
-      <a href="/2021/06/02/SQL%E8%AF%AD%E5%8F%A5/">
-        SQL语句
+      <a href="/2021/05/07/Redis%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">
+        Redis基础知识
       </a>
     </h2>
   
   <div class='md'>
     
       
-        1234567891011121314151617181920212223242526# 直接将查询结果导入或复制到新创建的表CREATE TABLE n SELECT * FROM m;# 删除一个存在表DROP TABLE IF EXISTS m;# 更改存在表的名称ALTER TABLE n RENAME m;# 添加列ALTER  TABLE  table_name  ADD  列名...
+        Redis概念Redis是一个使用C语言编写的，开源的高性能非关系型的数据库，键值对形式
+
+应用场景在日常的 Web 应用对数据库的访问中，读操作的次数远超写操作，比例大概在 1:9 到 3:7，所以需要读的可能性是比写的可能大得多的。当我们使用 SQL 语句去数据库进行读写操作时，数据库就会 去磁盘把对应的数据索引取回来，这是一个相对较慢的过程。
+如果我们把数据放在 Redis 中，也就是...
       
     
   </div>
@@ -503,65 +504,15 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     <div class='meta-v3' line_style='solid'>
       <div>
         
-        <time>2021-06-02</time>
+        <time>2021-05-07</time>
         
           <span class="dot"></span>
-          <a class="category-link" href="/categories/MySQL/">MySQL</a><span class="sep"></span><a class="category-link" href="/categories/MySQL/SQL%E8%AF%AD%E5%8F%A5/">SQL语句</a>
+          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/Redis/">Redis</a>
         
       </div>
       
         <div>
-          <a class='readmore' href='/2021/06/02/SQL%E8%AF%AD%E5%8F%A5/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/06/01/%E5%8F%8D%E5%B0%84/">
-        反射
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        如何通过反射创建对象简单的说，反射机制就是在程序的运行过程中被允许对程序本身进行操作，比如自我检查，进行装载，还可以获取类本身，类的所有成员变量和方法，类的对象，还可以在运行过程中动态的创建类的实例，通过实例来调用类的方法，这就是反射机制一个比较重要的功能了。那么要通过程序来理解反射机制，首先要理解类的加载过程
-
-在Java程序执行的时候，要经历三个步骤：加载、连接和初始化。首先程序要加载到...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-06-01</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/Java%E5%9F%BA%E7%A1%80/">Java基础</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/06/01/%E5%8F%8D%E5%B0%84/'>
+          <a class='readmore' href='/2021/05/07/Redis%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/'>
             阅读全文
           </a>
         </div>
@@ -583,17 +534,17 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   
     
     <h2 class="article-title" >
-      <a href="/2021/06/01/HashMap/">
-        HashMap
+      <a href="/2021/05/02/Lock/">
+        Lock
       </a>
     </h2>
   
   <div class='md'>
     
       
-        前置知识HashHash表Hash表也称散列表，直译为哈希表，hash表是一种根据关键字值（key-value）而直接进行访问的数据结构。
-在哈希表的键值对关系中，key到value中间还存在着一个映射值，这个映射值就是数组的下标index，key正是通过映射到数组对应的下标index而访问到value值的，通过一个映射函数f(key)映射到数组下标，这个函数我们称之为哈希函数
-Hash冲突...
+        LOCKlock锁是什么Lock是JDK中的一个接口，两个直接实现类 ReentrantLock（重入锁）, ReentrantReadWriteLock（读写锁）。
+Lock锁，使用时手动获取锁和释放锁，比synchronized更加灵活；可中断的获取锁；超时获取锁。
+12345678   //默认情况下 锁是不公平的; 公平锁(参数true)表示等待时间长优先获取到锁  private ...
       
     
   </div>
@@ -601,15 +552,116 @@ Hash冲突...
     <div class='meta-v3' line_style='solid'>
       <div>
         
-        <time>2021-06-01</time>
+        <time>2021-05-02</time>
         
           <span class="dot"></span>
-          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/Java%E5%9F%BA%E7%A1%80/">Java基础</a>
+          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JUC/">JUC</a>
         
       </div>
       
         <div>
-          <a class='readmore' href='/2021/06/01/HashMap/'>
+          <a class='readmore' href='/2021/05/02/Lock/'>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
+      <a href="/2021/04/30/GC%E6%9C%BA%E5%88%B6-%E4%B8%80/">
+        GC机制(一)
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        JVM中的垃圾回收对象怎么什么时候被回收？JVM判断对象回收有两种方式：
+引用记数引用记数比较简单，JVM为每个对象维护一个引用计数，假设A对象引用计数为零说明没有任务对象引用A对象，那A对象就可以被回收了，但是引用计数有个缺点就是无法解决循环引用**的问题。
+
+循环引用就是两个孤零零的对象互相引用，a对象引用b,b对象引用a ，他们的引用计数都不为零，故此处陷入死循环
+
+GC Roots(...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-04-30</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JVM/">JVM</a>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/04/30/GC%E6%9C%BA%E5%88%B6-%E4%B8%80/'>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
+      <a href="/2021/04/29/JVM%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/">
+        JVM内存结构
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        
+本文都是基于JDK1.8讨论
+
+类加载器什么是类加载器Java中的所有类，都需要由类加载器装载到JVM中才能运行。类加载器本身也是一个类，而它的工作就是把class文件从硬盘读取到内存中。在写程序的时候，我们几乎不需要关心类的加载，因为这些都是隐式装载的，除非我们有特殊的用法，像是反射，就需要显式的加载所需要的类。
+Java类的加载是动态的，它并不会一次性将所有类全部加载后再运行，而是保证...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-04-29</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JVM/">JVM</a>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/04/29/JVM%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/'>
             阅读全文
           </a>
         </div>

@@ -439,19 +439,16 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   
     
     <h2 class="article-title" >
-      <a href="/2021/04/23/JVM%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/">
-        JVM内存结构
+      <a href="/2021/04/05/HashMap%E8%A7%A3%E6%9E%90/">
+        HashMap解析
       </a>
     </h2>
   
   <div class='md'>
     
       
-        
-本文都是基于JDK1.8讨论
-
-类加载器什么是类加载器Java中的所有类，都需要由类加载器装载到JVM中才能运行。类加载器本身也是一个类，而它的工作就是把class文件从硬盘读取到内存中。在写程序的时候，我们几乎不需要关心类的加载，因为这些都是隐式装载的，除非我们有特殊的用法，像是反射，就需要显式的加载所需要的类。
-Java类的加载是动态的，它并不会一次性将所有类全部加载后再运行，而是保证...
+        HashMap源码解析JDK1.8先看看hashMap在jdk      1.8的结构，用的是数组+链表+红黑树的结构，也叫哈希桶，在jdk 1.8之前都是数组+链表的结构，因为在链表的查询操作都是O(N)的时间复杂度，而且hashMap中查询操作也是占了很大比例的，如果当节点数量多，转换为红黑树结构，那么将会提高很大的效率，因为红黑树结构中，增删改查都是O(log n)。 
+哈希桶就是数组...
       
     
   </div>
@@ -459,15 +456,15 @@ Java类的加载是动态的，它并不会一次性将所有类全部加载后�
     <div class='meta-v3' line_style='solid'>
       <div>
         
-        <time>2021-04-23</time>
+        <time>2021-04-05</time>
         
           <span class="dot"></span>
-          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JVM/">JVM</a>
+          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/Java%E5%9F%BA%E7%A1%80/">Java基础</a>
         
       </div>
       
         <div>
-          <a class='readmore' href='/2021/04/23/JVM%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/'>
+          <a class='readmore' href='/2021/04/05/HashMap%E8%A7%A3%E6%9E%90/'>
             阅读全文
           </a>
         </div>
@@ -489,17 +486,17 @@ Java类的加载是动态的，它并不会一次性将所有类全部加载后�
   
     
     <h2 class="article-title" >
-      <a href="/2021/04/15/Synchronized/">
-        Synchronized
+      <a href="/2021/04/02/HashMap/">
+        HashMap
       </a>
     </h2>
   
   <div class='md'>
     
       
-        
-
-前言：造成线程安全问题的主要诱因有两点: 一是存在共享数据(也称临界资源)，二是存在多条线程共同操作共享数据。因此为了解决这个问题，我们可能需要这样一个方案，当存在多个线程操作共享数据时，需要保证同一时刻有且只有一个线程在操作共享数据，其他线程必须等到该线程处理完数据后再进行，这种方式有个高尚的名称叫互斥锁，即能达到互斥访问目的的锁，也就是说当一个共享数据被当前正在访问的线程加上互斥锁后...
+        前置知识HashHash表Hash表也称散列表，直译为哈希表，hash表是一种根据关键字值（key-value）而直接进行访问的数据结构。
+在哈希表的键值对关系中，key到value中间还存在着一个映射值，这个映射值就是数组的下标index，key正是通过映射到数组对应的下标index而访问到value值的，通过一个映射函数f(key)映射到数组下标，这个函数我们称之为哈希函数
+Hash冲突...
       
     
   </div>
@@ -507,15 +504,15 @@ Java类的加载是动态的，它并不会一次性将所有类全部加载后�
     <div class='meta-v3' line_style='solid'>
       <div>
         
-        <time>2021-04-15</time>
+        <time>2021-04-02</time>
         
           <span class="dot"></span>
-          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JUC/">JUC</a>
+          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/Java%E5%9F%BA%E7%A1%80/">Java基础</a>
         
       </div>
       
         <div>
-          <a class='readmore' href='/2021/04/15/Synchronized/'>
+          <a class='readmore' href='/2021/04/02/HashMap/'>
             阅读全文
           </a>
         </div>
@@ -537,19 +534,17 @@ Java类的加载是动态的，它并不会一次性将所有类全部加载后�
   
     
     <h2 class="article-title" >
-      <a href="/2021/03/01/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
-        线程池
+      <a href="/2021/04/01/%E5%8F%8D%E5%B0%84/">
+        反射
       </a>
     </h2>
   
   <div class='md'>
     
       
-        线程池的优势总体来说，线程池有如下的优势：
-（1）降低资源消耗。通过重复利用已创建的线程降低线程创建和销毁造成的消耗。
-（2）提高响应速度。当任务到达时，任务可以不需要等到线程创建就能立即执行。
-（3）提高线程的可管理性。线程是稀缺资源，如果无限制的创建，不仅会消耗系统资源，还会降低系统的稳定性，使用线程池可以进行统一的分配，调优和监控。
-线程池的使用四种构造方法线程池的真正实现类是 Thr...
+        如何通过反射创建对象简单的说，反射机制就是在程序的运行过程中被允许对程序本身进行操作，比如自我检查，进行装载，还可以获取类本身，类的所有成员变量和方法，类的对象，还可以在运行过程中动态的创建类的实例，通过实例来调用类的方法，这就是反射机制一个比较重要的功能了。那么要通过程序来理解反射机制，首先要理解类的加载过程
+
+在Java程序执行的时候，要经历三个步骤：加载、连接和初始化。首先程序要加载到...
       
     
   </div>
@@ -557,15 +552,15 @@ Java类的加载是动态的，它并不会一次性将所有类全部加载后�
     <div class='meta-v3' line_style='solid'>
       <div>
         
-        <time>2021-03-01</time>
+        <time>2021-04-01</time>
         
           <span class="dot"></span>
-          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JUC/">JUC</a>
+          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/Java%E5%9F%BA%E7%A1%80/">Java基础</a>
         
       </div>
       
         <div>
-          <a class='readmore' href='/2021/03/01/%E7%BA%BF%E7%A8%8B%E6%B1%A0/'>
+          <a class='readmore' href='/2021/04/01/%E5%8F%8D%E5%B0%84/'>
             阅读全文
           </a>
         </div>

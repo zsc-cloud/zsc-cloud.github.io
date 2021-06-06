@@ -438,8 +438,8 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   
     
     <h2 class="article-title" >
-      <a href="/2021/04/23/JVM%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/">
-        JVM内存结构
+      <a href="/2021/04/05/%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93%E5%92%8C%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E5%90%88%E5%B9%B6/">
+        本地仓库和远程仓库合并
       </a>
     </h2>
   
@@ -447,10 +447,12 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     
       
         
-本文都是基于JDK1.8讨论
+Git :fatal: refusing to merge unrelated histories解决
 
-类加载器什么是类加载器Java中的所有类，都需要由类加载器装载到JVM中才能运行。类加载器本身也是一个类，而它的工作就是把class文件从硬盘读取到内存中。在写程序的时候，我们几乎不需要关心类的加载，因为这些都是隐式装载的，除非我们有特殊的用法，像是反射，就需要显式的加载所需要的类。
-Java类的加载是动态的，它并不会一次性将所有类全部加载后再运行，而是保证...
+本地创建了一个仓库，把本地仓库和Gitee上关联以后发现git pull/git push，git feach提醒fatal: refusing to merge unrelated histories
+原因是两个分支是两个不同的版本，具有不同的提交历史
+拉取远程代码的时候执行
+1$g...
       
     
   </div>
@@ -458,15 +460,15 @@ Java类的加载是动态的，它并不会一次性将所有类全部加载后�
     <div class='meta-v3' line_style='solid'>
       <div>
         
-        <time>2021-04-23</time>
+        <time>2021-04-05</time>
         
           <span class="dot"></span>
-          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JVM/">JVM</a>
+          <a class="category-link" href="/categories/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/">问题随笔</a>
         
       </div>
       
         <div>
-          <a class='readmore' href='/2021/04/23/JVM%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/'>
+          <a class='readmore' href='/2021/04/05/%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93%E5%92%8C%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E5%90%88%E5%B9%B6/'>
             阅读全文
           </a>
         </div>
@@ -488,68 +490,17 @@ Java类的加载是动态的，它并不会一次性将所有类全部加载后�
   
     
     <h2 class="article-title" >
-      <a href="/2021/04/15/Synchronized/">
-        Synchronized
+      <a href="/2021/04/02/HashMap/">
+        HashMap
       </a>
     </h2>
   
   <div class='md'>
     
       
-        
-
-前言：造成线程安全问题的主要诱因有两点: 一是存在共享数据(也称临界资源)，二是存在多条线程共同操作共享数据。因此为了解决这个问题，我们可能需要这样一个方案，当存在多个线程操作共享数据时，需要保证同一时刻有且只有一个线程在操作共享数据，其他线程必须等到该线程处理完数据后再进行，这种方式有个高尚的名称叫互斥锁，即能达到互斥访问目的的锁，也就是说当一个共享数据被当前正在访问的线程加上互斥锁后...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-04-15</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JUC/">JUC</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/04/15/Synchronized/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/04/02/Hexo%E4%BD%BF%E7%94%A8Volantis%E4%B8%BB%E9%A2%98/">
-        Hexo使用Volantis主题
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        更换主题这里采用的是Volantis5主题和 Hexo 5.0.2，不用复制什么主题到theme文件夹下，直接使用npm安装即可
-
-在 blog/_config.yml 文件中找到并修改：
-1theme: volantis
-下载主题
-123456# 安装npm i hexo-theme-volantis# 安装 Hexo 搜索的依赖包npm i hexo-generator-search h...
+        前置知识HashHash表Hash表也称散列表，直译为哈希表，hash表是一种根据关键字值（key-value）而直接进行访问的数据结构。
+在哈希表的键值对关系中，key到value中间还存在着一个映射值，这个映射值就是数组的下标index，key正是通过映射到数组对应的下标index而访问到value值的，通过一个映射函数f(key)映射到数组下标，这个函数我们称之为哈希函数
+Hash冲突...
       
     
   </div>
@@ -560,12 +511,12 @@ Java类的加载是动态的，它并不会一次性将所有类全部加载后�
         <time>2021-04-02</time>
         
           <span class="dot"></span>
-          <a class="category-link" href="/categories/Hexo/">Hexo</a>
+          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/Java%E5%9F%BA%E7%A1%80/">Java基础</a>
         
       </div>
       
         <div>
-          <a class='readmore' href='/2021/04/02/Hexo%E4%BD%BF%E7%94%A8Volantis%E4%B8%BB%E9%A2%98/'>
+          <a class='readmore' href='/2021/04/02/HashMap/'>
             阅读全文
           </a>
         </div>
@@ -579,6 +530,52 @@ Java类的加载是动态的，它并不会一次性将所有类全部加载后�
         
       
         
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
+      <a href="/2021/04/01/%E5%8F%8D%E5%B0%84/">
+        反射
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        如何通过反射创建对象简单的说，反射机制就是在程序的运行过程中被允许对程序本身进行操作，比如自我检查，进行装载，还可以获取类本身，类的所有成员变量和方法，类的对象，还可以在运行过程中动态的创建类的实例，通过实例来调用类的方法，这就是反射机制一个比较重要的功能了。那么要通过程序来理解反射机制，首先要理解类的加载过程
+
+在Java程序执行的时候，要经历三个步骤：加载、连接和初始化。首先程序要加载到...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-04-01</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/Java%E5%9F%BA%E7%A1%80/">Java基础</a>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/04/01/%E5%8F%8D%E5%B0%84/'>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
       
         
           <div class='post-wrapper'>
@@ -589,8 +586,8 @@ Java类的加载是动态的，它并不会一次性将所有类全部加载后�
   
     
     <h2 class="article-title" >
-      <a href="/2021/03/05/%E7%AB%AF%E5%8F%A3%E5%8F%B7%E8%A2%AB%E5%8D%A0%E7%94%A8/">
-        端口号被占用
+      <a href="/2021/03/30/MySQL%E4%B8%ADshow-profile%E8%AF%A6%E8%A7%A3/">
+        MySQL中show profile详解
       </a>
     </h2>
   
@@ -598,13 +595,11 @@ Java类的加载是动态的，它并不会一次性将所有类全部加载后�
     
       
         
-我们在启动本地项目的时候，经常出现项目端口被占用的情况。如下所示：
+当我们在优化sql的时候可以使用explain来查看执行计划，可当根据执行计划优化完毕之后我们的sql的运行时间还是比较长，这时我们可以使用show profile更细粒度的分析，show-profile，可以提高用来分析当前会话中语句执行的资源消耗情况,可以用于sql调优的测量.
+Show Profile官方文档地址
 
-
-这个时候我们需要在本地结束这个端口占用的进程。
-过程如下：
-第一步：运行windows的cmd.   查看端口被谁占用，占用者的进程号
-cmd输入 netstat  -ano|findstr  11006回车，这里的11006指的是被占用端口，如果你的是其他比如8080，就把11006换成8080回车。我这里查询到是1...
+1.  基本语法：
+查看是否开启：show variables li...
       
     
   </div>
@@ -612,15 +607,65 @@ cmd输入 netstat  -ano|findstr  11006回车，这里的11006指的是被占用�
     <div class='meta-v3' line_style='solid'>
       <div>
         
-        <time>2021-03-05</time>
+        <time>2021-03-30</time>
         
           <span class="dot"></span>
-          <a class="category-link" href="/categories/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/">问题随笔</a>
+          <a class="category-link" href="/categories/MySQL/">MySQL</a><span class="sep"></span><a class="category-link" href="/categories/MySQL/SQL%E4%BC%98%E5%8C%96/">SQL优化</a>
         
       </div>
       
         <div>
-          <a class='readmore' href='/2021/03/05/%E7%AB%AF%E5%8F%A3%E5%8F%B7%E8%A2%AB%E5%8D%A0%E7%94%A8/'>
+          <a class='readmore' href='/2021/03/30/MySQL%E4%B8%ADshow-profile%E8%AF%A6%E8%A7%A3/'>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
+      <a href="/2021/03/20/%E9%80%9A%E8%BF%87Query-Profiler%E6%9F%A5%E7%9C%8BMySQL%E8%AF%AD%E5%8F%A5%E8%BF%90%E8%A1%8C%E6%97%B6%E9%97%B4/">
+        通过Query Profiler查看MySQL语句运行时间
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        前言
+Query Profiler是MYSQL自带的一种query诊断分析工具，通过它可以分析出一条SQL语句的性能瓶颈在什么地方。通常我们是使用的explain,以及slow query log都无法做到精确分析，
+
+ 但是Query Profiler却可以定位出一条SQL语句执行的各种资源消耗情况，比如CPU，IO等，以及该SQL执行所耗费的时间等。
+Show profiles是5.0....
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-03-20</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/MySQL/">MySQL</a><span class="sep"></span><a class="category-link" href="/categories/MySQL/SQL%E4%BC%98%E5%8C%96/">SQL优化</a>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/03/20/%E9%80%9A%E8%BF%87Query-Profiler%E6%9F%A5%E7%9C%8BMySQL%E8%AF%AD%E5%8F%A5%E8%BF%90%E8%A1%8C%E6%97%B6%E9%97%B4/'>
             阅读全文
           </a>
         </div>

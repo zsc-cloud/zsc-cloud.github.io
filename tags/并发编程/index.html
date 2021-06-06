@@ -455,56 +455,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   
     
     <h2 class="article-title" >
-      <a href="/2021/06/01/AQS%E8%BE%85%E5%8A%A9%E7%B1%BB/">
-        AQS辅助类
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        倒计数器 CountDownLatch一个同步辅助类，在完成一组正在其他线程中执行的操作之前，它允许一个或多个线程一直等待。
-CountDownLatch是一个辅助同步器类，用来作计数使用，
-它的作用有点类似于生活中的倒数计数器，先设定一个计数初始值，当计数降到0时，将会触发一些事件，如火箭的倒数计时。
-初始计数值在构造CountDownLatch对象时传入，每调用一次 countDown(...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-06-01</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JUC/">JUC</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/06/01/AQS%E8%BE%85%E5%8A%A9%E7%B1%BB/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/06/01/Lock/">
+      <a href="/2021/05/02/Lock/">
         Lock
       </a>
     </h2>
@@ -522,7 +473,7 @@ Lock锁，使用时手动获取锁和释放锁，比synchronized更加灵活；�
     <div class='meta-v3' line_style='solid'>
       <div>
         
-        <time>2021-06-01</time>
+        <time>2021-05-02</time>
         
           <span class="dot"></span>
           <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JUC/">JUC</a>
@@ -530,55 +481,7 @@ Lock锁，使用时手动获取锁和释放锁，比synchronized更加灵活；�
       </div>
       
         <div>
-          <a class='readmore' href='/2021/06/01/Lock/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/05/04/JMM%E5%8F%8AVolatile%E5%85%B3%E9%94%AE%E5%AD%97/">
-        JMM及Volatile关键字
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        JMM（JavaMemoryModel）理解Java内存区域与Java内存模型Java内存区域
-Java虚拟机在运行程序时会把其自动管理的内存划分为以上几个区域，每个区域都有的用途以及创建销毁的时机，其中蓝色部分代表的是所有线程共享的数据区域，而绿色部分代表的是每个线程的私有数据区域。
-方法区（Method Area）方法区属于线程共享的内存区域，又称Non-Heap（非堆），主要用于存储已...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-05-04</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JUC/">JUC</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/05/04/JMM%E5%8F%8AVolatile%E5%85%B3%E9%94%AE%E5%AD%97/'>
+          <a class='readmore' href='/2021/05/02/Lock/'>
             阅读全文
           </a>
         </div>
@@ -647,6 +550,153 @@ Java虚拟机在运行程序时会把其自动管理的内存划分为以上几�
   
     
     <h2 class="article-title" >
+      <a href="/2021/04/22/JMM%E5%8F%8AVolatile%E5%85%B3%E9%94%AE%E5%AD%97/">
+        JMM及Volatile关键字
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        JMM（JavaMemoryModel）理解Java内存区域与Java内存模型Java内存区域
+Java虚拟机在运行程序时会把其自动管理的内存划分为以上几个区域，每个区域都有的用途以及创建销毁的时机，其中蓝色部分代表的是所有线程共享的数据区域，而绿色部分代表的是每个线程的私有数据区域。
+方法区（Method Area）方法区属于线程共享的内存区域，又称Non-Heap（非堆），主要用于存储已...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-04-22</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JUC/">JUC</a>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/04/22/JMM%E5%8F%8AVolatile%E5%85%B3%E9%94%AE%E5%AD%97/'>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
+      <a href="/2021/04/20/AQS%E8%BE%85%E5%8A%A9%E7%B1%BB/">
+        AQS辅助类
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        倒计数器 CountDownLatch一个同步辅助类，在完成一组正在其他线程中执行的操作之前，它允许一个或多个线程一直等待。
+CountDownLatch是一个辅助同步器类，用来作计数使用，
+它的作用有点类似于生活中的倒数计数器，先设定一个计数初始值，当计数降到0时，将会触发一些事件，如火箭的倒数计时。
+初始计数值在构造CountDownLatch对象时传入，每调用一次 countDown(...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-04-20</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JUC/">JUC</a>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/04/20/AQS%E8%BE%85%E5%8A%A9%E7%B1%BB/'>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
+      <a href="/2021/04/15/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
+        线程池
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        线程池的优势总体来说，线程池有如下的优势：
+（1）降低资源消耗。通过重复利用已创建的线程降低线程创建和销毁造成的消耗。
+（2）提高响应速度。当任务到达时，任务可以不需要等到线程创建就能立即执行。
+（3）提高线程的可管理性。线程是稀缺资源，如果无限制的创建，不仅会消耗系统资源，还会降低系统的稳定性，使用线程池可以进行统一的分配，调优和监控。
+线程池的使用四种构造方法线程池的真正实现类是 Thr...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-04-15</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JUC/">JUC</a>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/04/15/%E7%BA%BF%E7%A8%8B%E6%B1%A0/'>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
       <a href="/2021/04/15/Synchronized/">
         Synchronized
       </a>
@@ -674,56 +724,6 @@ Java虚拟机在运行程序时会把其自动管理的内存划分为以上几�
       
         <div>
           <a class='readmore' href='/2021/04/15/Synchronized/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/03/01/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
-        线程池
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        线程池的优势总体来说，线程池有如下的优势：
-（1）降低资源消耗。通过重复利用已创建的线程降低线程创建和销毁造成的消耗。
-（2）提高响应速度。当任务到达时，任务可以不需要等到线程创建就能立即执行。
-（3）提高线程的可管理性。线程是稀缺资源，如果无限制的创建，不仅会消耗系统资源，还会降低系统的稳定性，使用线程池可以进行统一的分配，调优和监控。
-线程池的使用四种构造方法线程池的真正实现类是 Thr...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-03-01</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JUC/">JUC</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/03/01/%E7%BA%BF%E7%A8%8B%E6%B1%A0/'>
             阅读全文
           </a>
         </div>

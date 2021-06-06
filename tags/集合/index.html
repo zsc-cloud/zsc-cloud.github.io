@@ -447,17 +447,16 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   
     
     <h2 class="article-title" >
-      <a href="/2021/06/01/HashMap/">
-        HashMap
+      <a href="/2021/04/05/HashMap%E8%A7%A3%E6%9E%90/">
+        HashMap解析
       </a>
     </h2>
   
   <div class='md'>
     
       
-        前置知识HashHash表Hash表也称散列表，直译为哈希表，hash表是一种根据关键字值（key-value）而直接进行访问的数据结构。
-在哈希表的键值对关系中，key到value中间还存在着一个映射值，这个映射值就是数组的下标index，key正是通过映射到数组对应的下标index而访问到value值的，通过一个映射函数f(key)映射到数组下标，这个函数我们称之为哈希函数
-Hash冲突...
+        HashMap源码解析JDK1.8先看看hashMap在jdk      1.8的结构，用的是数组+链表+红黑树的结构，也叫哈希桶，在jdk 1.8之前都是数组+链表的结构，因为在链表的查询操作都是O(N)的时间复杂度，而且hashMap中查询操作也是占了很大比例的，如果当节点数量多，转换为红黑树结构，那么将会提高很大的效率，因为红黑树结构中，增删改查都是O(log n)。 
+哈希桶就是数组...
       
     
   </div>
@@ -465,7 +464,7 @@ Hash冲突...
     <div class='meta-v3' line_style='solid'>
       <div>
         
-        <time>2021-06-01</time>
+        <time>2021-04-05</time>
         
           <span class="dot"></span>
           <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/Java%E5%9F%BA%E7%A1%80/">Java基础</a>
@@ -473,7 +472,7 @@ Hash冲突...
       </div>
       
         <div>
-          <a class='readmore' href='/2021/06/01/HashMap/'>
+          <a class='readmore' href='/2021/04/05/HashMap%E8%A7%A3%E6%9E%90/'>
             阅读全文
           </a>
         </div>
@@ -495,16 +494,17 @@ Hash冲突...
   
     
     <h2 class="article-title" >
-      <a href="/2021/06/01/HashMap%E8%A7%A3%E6%9E%90/">
-        HashMap解析
+      <a href="/2021/04/02/HashMap/">
+        HashMap
       </a>
     </h2>
   
   <div class='md'>
     
       
-        HashMap源码解析JDK1.8先看看hashMap在jdk      1.8的结构，用的是数组+链表+红黑树的结构，也叫哈希桶，在jdk 1.8之前都是数组+链表的结构，因为在链表的查询操作都是O(N)的时间复杂度，而且hashMap中查询操作也是占了很大比例的，如果当节点数量多，转换为红黑树结构，那么将会提高很大的效率，因为红黑树结构中，增删改查都是O(log n)。 
-哈希桶就是数组...
+        前置知识HashHash表Hash表也称散列表，直译为哈希表，hash表是一种根据关键字值（key-value）而直接进行访问的数据结构。
+在哈希表的键值对关系中，key到value中间还存在着一个映射值，这个映射值就是数组的下标index，key正是通过映射到数组对应的下标index而访问到value值的，通过一个映射函数f(key)映射到数组下标，这个函数我们称之为哈希函数
+Hash冲突...
       
     
   </div>
@@ -512,7 +512,7 @@ Hash冲突...
     <div class='meta-v3' line_style='solid'>
       <div>
         
-        <time>2021-06-01</time>
+        <time>2021-04-02</time>
         
           <span class="dot"></span>
           <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/Java%E5%9F%BA%E7%A1%80/">Java基础</a>
@@ -520,7 +520,7 @@ Hash冲突...
       </div>
       
         <div>
-          <a class='readmore' href='/2021/06/01/HashMap%E8%A7%A3%E6%9E%90/'>
+          <a class='readmore' href='/2021/04/02/HashMap/'>
             阅读全文
           </a>
         </div>
