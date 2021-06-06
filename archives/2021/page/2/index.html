@@ -429,6 +429,150 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     
       
         
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
+      <a href="/2021/06/02/Redis%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">
+        Redis基础知识
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        Redis概念Redis是一个使用C语言编写的，开源的高性能非关系型的数据库，键值对形式
+
+应用场景在日常的 Web 应用对数据库的访问中，读操作的次数远超写操作，比例大概在 1:9 到 3:7，所以需要读的可能性是比写的可能大得多的。当我们使用 SQL 语句去数据库进行读写操作时，数据库就会 去磁盘把对应的数据索引取回来，这是一个相对较慢的过程。
+如果我们把数据放在 Redis 中，也就是...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-06-02</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/Redis/">Redis</a>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/06/02/Redis%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/'>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
+      <a href="/2021/06/02/SQL%E4%BC%98%E5%8C%96/">
+        SQL优化
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        简单的SQL优化
+对查询优化，应尽量避免全表扫描，首先应考虑在where以及order by涉及到的列上建立索引.只返回有用的字段，不要全部返回(不要用select * from  返回的字段一点要有用，尽量实现覆盖索引，避免回表操作)
+
+应尽量避免在where子句中对字段进行null值判断，否则将导致放弃使用索引而进行全表扫描.（建议创建字段时设置一个默认值，避免null值,比如字符默认为...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-06-02</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/MySQL/">MySQL</a><span class="sep"></span><a class="category-link" href="/categories/MySQL/SQL%E4%BC%98%E5%8C%96/">SQL优化</a>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/06/02/SQL%E4%BC%98%E5%8C%96/'>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
+      <a href="/2021/06/02/SQL%E8%AF%AD%E5%8F%A5/">
+        SQL语句
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        1234567891011121314151617181920212223242526# 直接将查询结果导入或复制到新创建的表CREATE TABLE n SELECT * FROM m;# 删除一个存在表DROP TABLE IF EXISTS m;# 更改存在表的名称ALTER TABLE n RENAME m;# 添加列ALTER  TABLE  table_name  ADD  列名...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-06-02</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/MySQL/">MySQL</a><span class="sep"></span><a class="category-link" href="/categories/MySQL/SQL%E8%AF%AD%E5%8F%A5/">SQL语句</a>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/06/02/SQL%E8%AF%AD%E5%8F%A5/'>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
       
         
           <div class='post-wrapper'>
@@ -721,103 +865,6 @@ Lock锁，使用时手动获取锁和释放锁，比synchronized更加灵活；�
           </div>
         
       
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/05/04/JMM%E5%8F%8AVolatile%E5%85%B3%E9%94%AE%E5%AD%97/">
-        JMM及Volatile关键字
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        JMM（JavaMemoryModel）理解Java内存区域与Java内存模型Java内存区域
-Java虚拟机在运行程序时会把其自动管理的内存划分为以上几个区域，每个区域都有的用途以及创建销毁的时机，其中蓝色部分代表的是所有线程共享的数据区域，而绿色部分代表的是每个线程的私有数据区域。
-方法区（Method Area）方法区属于线程共享的内存区域，又称Non-Heap（非堆），主要用于存储已...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-05-04</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JUC/">JUC</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/05/04/JMM%E5%8F%8AVolatile%E5%85%B3%E9%94%AE%E5%AD%97/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/04/24/%E7%BA%BF%E7%A8%8B%E9%80%9A%E8%AE%AF/">
-        线程通讯
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        概述 线程与线程之间不是相互独立的个体，它们彼此之间需要相互通信和协作。
-最典型的例子就是生产者-消费者问题：当队列满时，生产者需要等待队列有空间才能继续往里面放入商品，而在等待的期间内，生产者必须释放对临界资源（即队列）的占用权。因为生产者如果不释放对临界资源的占用权，那么消费者就无法消费队列中的商品，就不会让队列有空间，那么生产者就会一直无限等待下去。因此一般情况下，当队列满时，会让生产...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-04-24</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JUC/">JUC</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/04/24/%E7%BA%BF%E7%A8%8B%E9%80%9A%E8%AE%AF/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
     
   </section>
   
@@ -969,12 +1016,12 @@ Java虚拟机在运行程序时会把其自动管理的内存划分为以上几�
           <li><a class="flat-box"
             title="/categories/MySQL/" href="/categories/MySQL/"
             id="categoriesMySQL"
-            ><div class='name'>MySQL</div><div class='badge'>(5)</div></a></li>
+            ><div class='name'>MySQL</div><div class='badge'>(7)</div></a></li>
         
           <li><a class="flat-box child"
             title="/categories/MySQL/SQL%E4%BC%98%E5%8C%96/" href="/categories/MySQL/SQL%E4%BC%98%E5%8C%96/"
             id="categoriesMySQLSQLE4BC98E58C96"
-            ><div class='name'>SQL优化</div><div class='badge'>(1)</div></a></li>
+            ><div class='name'>SQL优化</div><div class='badge'>(3)</div></a></li>
         
           <li><a class="flat-box child"
             title="/categories/MySQL/SQL%E8%AF%AD%E5%8F%A5/" href="/categories/MySQL/SQL%E8%AF%AD%E5%8F%A5/"
@@ -1009,7 +1056,7 @@ Java虚拟机在运行程序时会把其自动管理的内存划分为以上几�
           <li><a class="flat-box"
             title="/categories/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/" href="/categories/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/"
             id="categoriesE997AEE9A298E99A8FE7AC94"
-            ><div class='name'>问题随笔</div><div class='badge'>(4)</div></a></li>
+            ><div class='name'>问题随笔</div><div class='badge'>(5)</div></a></li>
         
       </ul>
     </div>
@@ -1033,7 +1080,7 @@ Java虚拟机在运行程序时会把其自动管理的内存划分为以上几�
 
 
     <div class='content'>
-      <a href="/tags/GC/" style="font-size: 1px; color: #999">GC</a> <a href="/tags/Hexo/" style="font-size: 1px; color: #999">Hexo</a> <a href="/tags/JUC/" style="font-size: 24px; color: #555">JUC</a> <a href="/tags/JVM/" style="font-size: 5.6px; color: #8b8b8b">JVM</a> <a href="/tags/Java/" style="font-size: 1px; color: #999">Java</a> <a href="/tags/JavaSE/" style="font-size: 10.2px; color: #7e7e7e">JavaSE</a> <a href="/tags/Linux/" style="font-size: 1px; color: #999">Linux</a> <a href="/tags/MySQL/" style="font-size: 19.4px; color: #636363">MySQL</a> <a href="/tags/Redis/" style="font-size: 5.6px; color: #8b8b8b">Redis</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 1px; color: #999">工具</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 24px; color: #555">并发编程</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 14.8px; color: #707070">数据库</a> <a href="/tags/%E7%BA%BF%E7%A8%8B/" style="font-size: 5.6px; color: #8b8b8b">线程</a> <a href="/tags/%E9%94%81/" style="font-size: 5.6px; color: #8b8b8b">锁</a> <a href="/tags/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/" style="font-size: 10.2px; color: #7e7e7e">问题随笔</a> <a href="/tags/%E9%9B%86%E5%90%88/" style="font-size: 5.6px; color: #8b8b8b">集合</a>
+      <a href="/tags/GC/" style="font-size: 1px; color: #999">GC</a> <a href="/tags/Hexo/" style="font-size: 1px; color: #999">Hexo</a> <a href="/tags/JUC/" style="font-size: 19.4px; color: #636363">JUC</a> <a href="/tags/JVM/" style="font-size: 5.6px; color: #8b8b8b">JVM</a> <a href="/tags/Java/" style="font-size: 1px; color: #999">Java</a> <a href="/tags/JavaSE/" style="font-size: 10.2px; color: #7e7e7e">JavaSE</a> <a href="/tags/Linux/" style="font-size: 1px; color: #999">Linux</a> <a href="/tags/MySQL/" style="font-size: 24px; color: #555">MySQL</a> <a href="/tags/Redis/" style="font-size: 5.6px; color: #8b8b8b">Redis</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 1px; color: #999">工具</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 19.4px; color: #636363">并发编程</a> <a href="/tags/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 1px; color: #999">微信小程序</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 14.8px; color: #707070">数据库</a> <a href="/tags/%E7%BA%BF%E7%A8%8B/" style="font-size: 5.6px; color: #8b8b8b">线程</a> <a href="/tags/%E9%94%81/" style="font-size: 5.6px; color: #8b8b8b">锁</a> <a href="/tags/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/" style="font-size: 10.2px; color: #7e7e7e">问题随笔</a> <a href="/tags/%E9%9B%86%E5%90%88/" style="font-size: 5.6px; color: #8b8b8b">集合</a>
     </div>
   </section>
 

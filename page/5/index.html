@@ -438,6 +438,103 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   
     
     <h2 class="article-title" >
+      <a href="/2021/05/04/JMM%E5%8F%8AVolatile%E5%85%B3%E9%94%AE%E5%AD%97/">
+        JMM及Volatile关键字
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        JMM（JavaMemoryModel）理解Java内存区域与Java内存模型Java内存区域
+Java虚拟机在运行程序时会把其自动管理的内存划分为以上几个区域，每个区域都有的用途以及创建销毁的时机，其中蓝色部分代表的是所有线程共享的数据区域，而绿色部分代表的是每个线程的私有数据区域。
+方法区（Method Area）方法区属于线程共享的内存区域，又称Non-Heap（非堆），主要用于存储已...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-05-04</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JUC/">JUC</a>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/05/04/JMM%E5%8F%8AVolatile%E5%85%B3%E9%94%AE%E5%AD%97/'>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
+      <a href="/2021/04/24/%E7%BA%BF%E7%A8%8B%E9%80%9A%E8%AE%AF/">
+        线程通讯
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        概述 线程与线程之间不是相互独立的个体，它们彼此之间需要相互通信和协作。
+最典型的例子就是生产者-消费者问题：当队列满时，生产者需要等待队列有空间才能继续往里面放入商品，而在等待的期间内，生产者必须释放对临界资源（即队列）的占用权。因为生产者如果不释放对临界资源的占用权，那么消费者就无法消费队列中的商品，就不会让队列有空间，那么生产者就会一直无限等待下去。因此一般情况下，当队列满时，会让生产...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-04-24</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JUC/">JUC</a>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/04/24/%E7%BA%BF%E7%A8%8B%E9%80%9A%E8%AE%AF/'>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
       <a href="/2021/04/23/JVM%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/">
         JVM内存结构
       </a>
@@ -527,109 +624,6 @@ Java类的加载是动态的，它并不会一次性将所有类全部加载后�
           </div>
         
       
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/03/05/%E7%AB%AF%E5%8F%A3%E5%8F%B7%E8%A2%AB%E5%8D%A0%E7%94%A8/">
-        端口号被占用
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        
-我们在启动本地项目的时候，经常出现项目端口被占用的情况。如下所示：
-
-
-这个时候我们需要在本地结束这个端口占用的进程。
-过程如下：
-第一步：运行windows的cmd.   查看端口被谁占用，占用者的进程号
-cmd输入 netstat  -ano|findstr  11006回车，这里的11006指的是被占用端口，如果你的是其他比如8080，就把11006换成8080回车。我这里查询到是1...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-03-05</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/">问题随笔</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/03/05/%E7%AB%AF%E5%8F%A3%E5%8F%B7%E8%A2%AB%E5%8D%A0%E7%94%A8/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/03/01/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
-        线程池
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        线程池的优势总体来说，线程池有如下的优势：
-（1）降低资源消耗。通过重复利用已创建的线程降低线程创建和销毁造成的消耗。
-（2）提高响应速度。当任务到达时，任务可以不需要等到线程创建就能立即执行。
-（3）提高线程的可管理性。线程是稀缺资源，如果无限制的创建，不仅会消耗系统资源，还会降低系统的稳定性，使用线程池可以进行统一的分配，调优和监控。
-线程池的使用四种构造方法线程池的真正实现类是 Thr...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-03-01</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JUC/">JUC</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/03/01/%E7%BA%BF%E7%A8%8B%E6%B1%A0/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
     
   </section>
   
@@ -644,8 +638,14 @@ cmd输入 netstat  -ano|findstr  11006回车，这里的11006指的是被占用�
           </a>
         
         <p class="current">
-          5 / 5
+          5 / 6
         </p>
+        
+          <a class="next" rel="next" href="/page/6/">
+            <section class="post next white-box shadow">
+              &nbsp;下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i>
+            </section>
+          </a>
         
       </div>
     
@@ -774,12 +774,12 @@ cmd输入 netstat  -ano|findstr  11006回车，这里的11006指的是被占用�
           <li><a class="flat-box"
             title="/categories/MySQL/" href="/categories/MySQL/"
             id="categoriesMySQL"
-            ><div class='name'>MySQL</div><div class='badge'>(5)</div></a></li>
+            ><div class='name'>MySQL</div><div class='badge'>(7)</div></a></li>
         
           <li><a class="flat-box child"
             title="/categories/MySQL/SQL%E4%BC%98%E5%8C%96/" href="/categories/MySQL/SQL%E4%BC%98%E5%8C%96/"
             id="categoriesMySQLSQLE4BC98E58C96"
-            ><div class='name'>SQL优化</div><div class='badge'>(1)</div></a></li>
+            ><div class='name'>SQL优化</div><div class='badge'>(3)</div></a></li>
         
           <li><a class="flat-box child"
             title="/categories/MySQL/SQL%E8%AF%AD%E5%8F%A5/" href="/categories/MySQL/SQL%E8%AF%AD%E5%8F%A5/"
@@ -814,7 +814,7 @@ cmd输入 netstat  -ano|findstr  11006回车，这里的11006指的是被占用�
           <li><a class="flat-box"
             title="/categories/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/" href="/categories/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/"
             id="categoriesE997AEE9A298E99A8FE7AC94"
-            ><div class='name'>问题随笔</div><div class='badge'>(4)</div></a></li>
+            ><div class='name'>问题随笔</div><div class='badge'>(5)</div></a></li>
         
       </ul>
     </div>
@@ -838,7 +838,7 @@ cmd输入 netstat  -ano|findstr  11006回车，这里的11006指的是被占用�
 
 
     <div class='content'>
-      <a href="/tags/GC/" style="font-size: 1px; color: #999">GC</a> <a href="/tags/Hexo/" style="font-size: 1px; color: #999">Hexo</a> <a href="/tags/JUC/" style="font-size: 24px; color: #555">JUC</a> <a href="/tags/JVM/" style="font-size: 5.6px; color: #8b8b8b">JVM</a> <a href="/tags/Java/" style="font-size: 1px; color: #999">Java</a> <a href="/tags/JavaSE/" style="font-size: 10.2px; color: #7e7e7e">JavaSE</a> <a href="/tags/Linux/" style="font-size: 1px; color: #999">Linux</a> <a href="/tags/MySQL/" style="font-size: 19.4px; color: #636363">MySQL</a> <a href="/tags/Redis/" style="font-size: 5.6px; color: #8b8b8b">Redis</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 1px; color: #999">工具</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 24px; color: #555">并发编程</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 14.8px; color: #707070">数据库</a> <a href="/tags/%E7%BA%BF%E7%A8%8B/" style="font-size: 5.6px; color: #8b8b8b">线程</a> <a href="/tags/%E9%94%81/" style="font-size: 5.6px; color: #8b8b8b">锁</a> <a href="/tags/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/" style="font-size: 10.2px; color: #7e7e7e">问题随笔</a> <a href="/tags/%E9%9B%86%E5%90%88/" style="font-size: 5.6px; color: #8b8b8b">集合</a>
+      <a href="/tags/GC/" style="font-size: 1px; color: #999">GC</a> <a href="/tags/Hexo/" style="font-size: 1px; color: #999">Hexo</a> <a href="/tags/JUC/" style="font-size: 19.4px; color: #636363">JUC</a> <a href="/tags/JVM/" style="font-size: 5.6px; color: #8b8b8b">JVM</a> <a href="/tags/Java/" style="font-size: 1px; color: #999">Java</a> <a href="/tags/JavaSE/" style="font-size: 10.2px; color: #7e7e7e">JavaSE</a> <a href="/tags/Linux/" style="font-size: 1px; color: #999">Linux</a> <a href="/tags/MySQL/" style="font-size: 24px; color: #555">MySQL</a> <a href="/tags/Redis/" style="font-size: 5.6px; color: #8b8b8b">Redis</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 1px; color: #999">工具</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 19.4px; color: #636363">并发编程</a> <a href="/tags/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 1px; color: #999">微信小程序</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 14.8px; color: #707070">数据库</a> <a href="/tags/%E7%BA%BF%E7%A8%8B/" style="font-size: 5.6px; color: #8b8b8b">线程</a> <a href="/tags/%E9%94%81/" style="font-size: 5.6px; color: #8b8b8b">锁</a> <a href="/tags/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/" style="font-size: 10.2px; color: #7e7e7e">问题随笔</a> <a href="/tags/%E9%9B%86%E5%90%88/" style="font-size: 5.6px; color: #8b8b8b">集合</a>
     </div>
   </section>
 

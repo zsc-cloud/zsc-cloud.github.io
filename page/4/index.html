@@ -438,6 +438,152 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   
     
     <h2 class="article-title" >
+      <a href="/2021/06/01/HashMap/">
+        HashMap
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        前置知识HashHash表Hash表也称散列表，直译为哈希表，hash表是一种根据关键字值（key-value）而直接进行访问的数据结构。
+在哈希表的键值对关系中，key到value中间还存在着一个映射值，这个映射值就是数组的下标index，key正是通过映射到数组对应的下标index而访问到value值的，通过一个映射函数f(key)映射到数组下标，这个函数我们称之为哈希函数
+Hash冲突...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-06-01</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/Java%E5%9F%BA%E7%A1%80/">Java基础</a>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/06/01/HashMap/'>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
+      <a href="/2021/06/01/HashMap%E8%A7%A3%E6%9E%90/">
+        HashMap解析
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        HashMap源码解析JDK1.8先看看hashMap在jdk      1.8的结构，用的是数组+链表+红黑树的结构，也叫哈希桶，在jdk 1.8之前都是数组+链表的结构，因为在链表的查询操作都是O(N)的时间复杂度，而且hashMap中查询操作也是占了很大比例的，如果当节点数量多，转换为红黑树结构，那么将会提高很大的效率，因为红黑树结构中，增删改查都是O(log n)。 
+哈希桶就是数组...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-06-01</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/Java%E5%9F%BA%E7%A1%80/">Java基础</a>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/06/01/HashMap%E8%A7%A3%E6%9E%90/'>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
+      <a href="/2021/06/01/GC%E6%9C%BA%E5%88%B6-%E4%B8%80/">
+        GC机制(一)
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        JVM中的垃圾回收对象怎么什么时候被回收？JVM判断对象回收有两种方式：
+引用记数引用记数比较简单，JVM为每个对象维护一个引用计数，假设A对象引用计数为零说明没有任务对象引用A对象，那A对象就可以被回收了，但是引用计数有个缺点就是无法解决循环引用**的问题。
+
+循环引用就是两个孤零零的对象互相引用，a对象引用b,b对象引用a ，他们的引用计数都不为零，故此处陷入死循环
+
+GC Roots(...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-06-01</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JVM/">JVM</a>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/06/01/GC%E6%9C%BA%E5%88%B6-%E4%B8%80/'>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
       <a href="/2021/06/01/AQS%E8%BE%85%E5%8A%A9%E7%B1%BB/">
         AQS辅助类
       </a>
@@ -526,103 +672,6 @@ Lock锁，使用时手动获取锁和释放锁，比synchronized更加灵活；�
           </div>
         
       
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/05/04/JMM%E5%8F%8AVolatile%E5%85%B3%E9%94%AE%E5%AD%97/">
-        JMM及Volatile关键字
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        JMM（JavaMemoryModel）理解Java内存区域与Java内存模型Java内存区域
-Java虚拟机在运行程序时会把其自动管理的内存划分为以上几个区域，每个区域都有的用途以及创建销毁的时机，其中蓝色部分代表的是所有线程共享的数据区域，而绿色部分代表的是每个线程的私有数据区域。
-方法区（Method Area）方法区属于线程共享的内存区域，又称Non-Heap（非堆），主要用于存储已...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-05-04</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JUC/">JUC</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/05/04/JMM%E5%8F%8AVolatile%E5%85%B3%E9%94%AE%E5%AD%97/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/04/24/%E7%BA%BF%E7%A8%8B%E9%80%9A%E8%AE%AF/">
-        线程通讯
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        概述 线程与线程之间不是相互独立的个体，它们彼此之间需要相互通信和协作。
-最典型的例子就是生产者-消费者问题：当队列满时，生产者需要等待队列有空间才能继续往里面放入商品，而在等待的期间内，生产者必须释放对临界资源（即队列）的占用权。因为生产者如果不释放对临界资源的占用权，那么消费者就无法消费队列中的商品，就不会让队列有空间，那么生产者就会一直无限等待下去。因此一般情况下，当队列满时，会让生产...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-04-24</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JUC/">JUC</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/04/24/%E7%BA%BF%E7%A8%8B%E9%80%9A%E8%AE%AF/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
     
   </section>
   
@@ -637,7 +686,7 @@ Java虚拟机在运行程序时会把其自动管理的内存划分为以上几�
           </a>
         
         <p class="current">
-          4 / 5
+          4 / 6
         </p>
         
           <a class="next" rel="next" href="/page/5/">
@@ -773,12 +822,12 @@ Java虚拟机在运行程序时会把其自动管理的内存划分为以上几�
           <li><a class="flat-box"
             title="/categories/MySQL/" href="/categories/MySQL/"
             id="categoriesMySQL"
-            ><div class='name'>MySQL</div><div class='badge'>(5)</div></a></li>
+            ><div class='name'>MySQL</div><div class='badge'>(7)</div></a></li>
         
           <li><a class="flat-box child"
             title="/categories/MySQL/SQL%E4%BC%98%E5%8C%96/" href="/categories/MySQL/SQL%E4%BC%98%E5%8C%96/"
             id="categoriesMySQLSQLE4BC98E58C96"
-            ><div class='name'>SQL优化</div><div class='badge'>(1)</div></a></li>
+            ><div class='name'>SQL优化</div><div class='badge'>(3)</div></a></li>
         
           <li><a class="flat-box child"
             title="/categories/MySQL/SQL%E8%AF%AD%E5%8F%A5/" href="/categories/MySQL/SQL%E8%AF%AD%E5%8F%A5/"
@@ -813,7 +862,7 @@ Java虚拟机在运行程序时会把其自动管理的内存划分为以上几�
           <li><a class="flat-box"
             title="/categories/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/" href="/categories/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/"
             id="categoriesE997AEE9A298E99A8FE7AC94"
-            ><div class='name'>问题随笔</div><div class='badge'>(4)</div></a></li>
+            ><div class='name'>问题随笔</div><div class='badge'>(5)</div></a></li>
         
       </ul>
     </div>
@@ -837,7 +886,7 @@ Java虚拟机在运行程序时会把其自动管理的内存划分为以上几�
 
 
     <div class='content'>
-      <a href="/tags/GC/" style="font-size: 1px; color: #999">GC</a> <a href="/tags/Hexo/" style="font-size: 1px; color: #999">Hexo</a> <a href="/tags/JUC/" style="font-size: 24px; color: #555">JUC</a> <a href="/tags/JVM/" style="font-size: 5.6px; color: #8b8b8b">JVM</a> <a href="/tags/Java/" style="font-size: 1px; color: #999">Java</a> <a href="/tags/JavaSE/" style="font-size: 10.2px; color: #7e7e7e">JavaSE</a> <a href="/tags/Linux/" style="font-size: 1px; color: #999">Linux</a> <a href="/tags/MySQL/" style="font-size: 19.4px; color: #636363">MySQL</a> <a href="/tags/Redis/" style="font-size: 5.6px; color: #8b8b8b">Redis</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 1px; color: #999">工具</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 24px; color: #555">并发编程</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 14.8px; color: #707070">数据库</a> <a href="/tags/%E7%BA%BF%E7%A8%8B/" style="font-size: 5.6px; color: #8b8b8b">线程</a> <a href="/tags/%E9%94%81/" style="font-size: 5.6px; color: #8b8b8b">锁</a> <a href="/tags/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/" style="font-size: 10.2px; color: #7e7e7e">问题随笔</a> <a href="/tags/%E9%9B%86%E5%90%88/" style="font-size: 5.6px; color: #8b8b8b">集合</a>
+      <a href="/tags/GC/" style="font-size: 1px; color: #999">GC</a> <a href="/tags/Hexo/" style="font-size: 1px; color: #999">Hexo</a> <a href="/tags/JUC/" style="font-size: 19.4px; color: #636363">JUC</a> <a href="/tags/JVM/" style="font-size: 5.6px; color: #8b8b8b">JVM</a> <a href="/tags/Java/" style="font-size: 1px; color: #999">Java</a> <a href="/tags/JavaSE/" style="font-size: 10.2px; color: #7e7e7e">JavaSE</a> <a href="/tags/Linux/" style="font-size: 1px; color: #999">Linux</a> <a href="/tags/MySQL/" style="font-size: 24px; color: #555">MySQL</a> <a href="/tags/Redis/" style="font-size: 5.6px; color: #8b8b8b">Redis</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 1px; color: #999">工具</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 19.4px; color: #636363">并发编程</a> <a href="/tags/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 1px; color: #999">微信小程序</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 14.8px; color: #707070">数据库</a> <a href="/tags/%E7%BA%BF%E7%A8%8B/" style="font-size: 5.6px; color: #8b8b8b">线程</a> <a href="/tags/%E9%94%81/" style="font-size: 5.6px; color: #8b8b8b">锁</a> <a href="/tags/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/" style="font-size: 10.2px; color: #7e7e7e">问题随笔</a> <a href="/tags/%E9%9B%86%E5%90%88/" style="font-size: 5.6px; color: #8b8b8b">集合</a>
     </div>
   </section>
 
