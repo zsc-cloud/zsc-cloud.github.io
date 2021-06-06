@@ -438,6 +438,57 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   
     
     <h2 class="article-title" >
+      <a href="/2021/06/05/MySQL%E5%88%9B%E5%BB%BA%E7%94%A8%E6%88%B7/">
+        MySQL创建用户
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        
+MySQL创建可读用户和指定数据库用户
+必须在Root用户下创建
+
+MySQL 赋予用户权限命令的简单格式可概括为：grant 权限 on 数据库对象 to 用户
+创建数据库仅可读用户123# reader是用户名,xxxxxx为密码；GRANT后面跟的是用户权限，用户名@后面跟的是可连接的ip地址，%表示任意ip都可登陆GRANT Select ON *.* TO reader@&quo...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-06-05</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/MySQL/">MySQL</a><span class="sep"></span><a class="category-link" href="/categories/MySQL/%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86/">用户管理</a>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/06/05/MySQL%E5%88%9B%E5%BB%BA%E7%94%A8%E6%88%B7/'>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
       <a href="/2021/06/05/jaxb%E4%BB%8Exml%E8%AF%BB%E5%8F%96%E7%89%B9%E6%AE%8A%E6%97%A5%E6%9C%9F%E6%A0%BC%E5%BC%8F%E4%B8%BAnull/">
         jaxb从xml读取特殊日期格式为null
       </a>
@@ -586,54 +637,6 @@ Gitee创建图床仓库注册登录码云账户，并创建一个仓库
           </div>
         
       
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/06/02/Redis%E6%8C%81%E4%B9%85%E5%8C%96/">
-        Redis持久化
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        redis持久化的意义redis的数据全部在内存中，如果突然宕机，数据就会全部丢失，因此必须有一种机制来保证redis的数据在遇到突发状况的时候不会丢失，或者只丢失少量，于是必须根据一些策略来把redis内存中的数据写到磁盘中，这样当redis服务重启中，就可以根据磁盘中的数据来恢复数据到内存中。
-redis持久化机制redis有两种持久化机制：AOF和RDB
-(1) RDBRDB是一次的全...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-06-02</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/Redis/">Redis</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/06/02/Redis%E6%8C%81%E4%B9%85%E5%8C%96/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
     
   </section>
   
@@ -754,7 +757,7 @@ redis持久化机制redis有两种持久化机制：AOF和RDB
           <li><a class="flat-box"
             title="/categories/Hexo/" href="/categories/Hexo/"
             id="categoriesHexo"
-            ><div class='name'>Hexo</div><div class='badge'>(1)</div></a></li>
+            ><div class='name'>Hexo</div><div class='badge'>(2)</div></a></li>
         
           <li><a class="flat-box"
             title="/categories/Java/" href="/categories/Java/"
@@ -848,7 +851,7 @@ redis持久化机制redis有两种持久化机制：AOF和RDB
 
 
     <div class='content'>
-      <a href="/tags/GC/" style="font-size: 1px; color: #999">GC</a> <a href="/tags/Hexo/" style="font-size: 1px; color: #999">Hexo</a> <a href="/tags/JUC/" style="font-size: 19.4px; color: #636363">JUC</a> <a href="/tags/JVM/" style="font-size: 5.6px; color: #8b8b8b">JVM</a> <a href="/tags/Java/" style="font-size: 1px; color: #999">Java</a> <a href="/tags/JavaSE/" style="font-size: 10.2px; color: #7e7e7e">JavaSE</a> <a href="/tags/Linux/" style="font-size: 1px; color: #999">Linux</a> <a href="/tags/MySQL/" style="font-size: 24px; color: #555">MySQL</a> <a href="/tags/Redis/" style="font-size: 5.6px; color: #8b8b8b">Redis</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 1px; color: #999">工具</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 19.4px; color: #636363">并发编程</a> <a href="/tags/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 1px; color: #999">微信小程序</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 14.8px; color: #707070">数据库</a> <a href="/tags/%E7%BA%BF%E7%A8%8B/" style="font-size: 5.6px; color: #8b8b8b">线程</a> <a href="/tags/%E9%94%81/" style="font-size: 5.6px; color: #8b8b8b">锁</a> <a href="/tags/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/" style="font-size: 10.2px; color: #7e7e7e">问题随笔</a> <a href="/tags/%E9%9B%86%E5%90%88/" style="font-size: 5.6px; color: #8b8b8b">集合</a>
+      <a href="/tags/GC/" style="font-size: 1px; color: #999">GC</a> <a href="/tags/Hexo/" style="font-size: 5.6px; color: #8b8b8b">Hexo</a> <a href="/tags/JUC/" style="font-size: 19.4px; color: #636363">JUC</a> <a href="/tags/JVM/" style="font-size: 5.6px; color: #8b8b8b">JVM</a> <a href="/tags/Java/" style="font-size: 1px; color: #999">Java</a> <a href="/tags/JavaSE/" style="font-size: 10.2px; color: #7e7e7e">JavaSE</a> <a href="/tags/Linux/" style="font-size: 1px; color: #999">Linux</a> <a href="/tags/MySQL/" style="font-size: 24px; color: #555">MySQL</a> <a href="/tags/Redis/" style="font-size: 5.6px; color: #8b8b8b">Redis</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 1px; color: #999">工具</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 19.4px; color: #636363">并发编程</a> <a href="/tags/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 1px; color: #999">微信小程序</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 14.8px; color: #707070">数据库</a> <a href="/tags/%E7%BA%BF%E7%A8%8B/" style="font-size: 5.6px; color: #8b8b8b">线程</a> <a href="/tags/%E9%94%81/" style="font-size: 5.6px; color: #8b8b8b">锁</a> <a href="/tags/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/" style="font-size: 10.2px; color: #7e7e7e">问题随笔</a> <a href="/tags/%E9%9B%86%E5%90%88/" style="font-size: 5.6px; color: #8b8b8b">集合</a>
     </div>
   </section>
 
