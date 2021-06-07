@@ -22,9 +22,7 @@
 
   <!-- 页面元数据 -->
   
-  <title>MySQL中的索引 - Never Meet Blog</title>
-  
-    <meta name="keywords" content="MySQL,数据库">
+  <title>Never Meet Blog</title>
   
 
   
@@ -431,80 +429,6 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     
     
     
-      <h1 class="title">
-        MySQL中的索引
-      </h1>
-      <div class='new-meta-box'>
-        
-          
-            
-<div class='new-meta-item author'>
-  <a class='author' href="/" rel="nofollow">
-    <img no-lazy src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210603111048.png">
-    <p>By：赵树超</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  <div class='new-meta-item category'>
-    <a class='notlink'>
-      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <a class="category-link" href="/categories/MySQL/">MySQL</a><span class="sep"></span><a class="category-link" href="/categories/MySQL/%E7%B4%A2%E5%BC%95/">索引</a>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：2021年5月19日</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  <div class="new-meta-item browse leancloud">
-    <a class='notlink'>
-      
-      <div id="lc-pv" data-title="MySQL中的索引" data-path="/2021/05/19/MySQL%E4%B8%AD%E7%9A%84%E7%B4%A2%E5%BC%95/">
-        <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
-        <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
-        次浏览
-      </div>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-  <div class="new-meta-item wordcount">
-    <a class='notlink'>
-      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>字数：7.5k字</p>
-    </a>
-  </div>
-  <div class="new-meta-item readtime">
-    <a class='notlink'>
-      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>时长：26分钟</p>
-    </a>
-  </div>
-
-
-          
-        
-      </div>
-    
   </div>
 
 
@@ -575,7 +499,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 </ul>
 <h4 id="B树：改造二叉树"><a href="#B树：改造二叉树" class="headerlink" title="B树：改造二叉树"></a>B树：改造二叉树</h4><p>MySQL的数据是存储在磁盘文件中的，查询处理数据时，需要先把磁盘中的数据加载到内存中，磁盘IO 操作非常耗时，所以我们优化的重点就是尽量减少磁盘 IO 操作。访问二叉树的每个节点就会发生一次IO，如果想要减少磁盘IO操作，就需要尽量降低树的高度。那如何降低树的高度呢？</p>
 <p>假如key为bigint=8字节，每个节点有两个指针，每个指针为4个字节，一个节点占用的空间16个字节（8+4*2=16）。</p>
-<p>因为在MySQL的InnoDB存储引擎一次IO会读取的一页（默认一页16K）的数据量，而二叉树一次IO有效数据量只有16字节，空间利用率极低。为了最大化利用一次IO空间，一个简单的想法是在每个节点存储多个元素，在每个节点尽可能多的存储数据。每个节点可以存储1000个索引（16k/16=1000），这样就将二叉树改造成了多叉树，通过增加树的叉树，将树从高瘦变为矮胖。构建1百万条数据，树的高度只需要2层就可以（1000*1000=1百万），也就是说只需要2次磁盘IO就可以查询到数据。磁盘IO次数变少了，查询数据的效率也就提高了</p>
+<p>因为在MySQL的InnoDB存储引擎一次IO会读取的一页（<strong>默认一页16K</strong>）的数据量，而二叉树一次IO有效数据量只有16字节，空间利用率极低。为了最大化利用一次IO空间，一个简单的想法是在每个节点存储多个元素，在每个节点尽可能多的存储数据。每个节点可以存储1000个索引（16k/16=1000），这样就将二叉树改造成了多叉树，通过增加树的叉树，将树从高瘦变为矮胖。构建1百万条数据，树的高度只需要2层就可以（1000*1000=1百万），也就是说只需要2次磁盘IO就可以查询到数据。磁盘IO次数变少了，查询数据的效率也就提高了</p>
 <p>这种数据结构我们称为B树，B树是一种多叉平衡查找树，如下图主要特点：</p>
 <ul>
 <li><p>B树的节点中存储着多个元素，每个内节点有多个分叉。</p>
@@ -637,7 +561,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <li><p>Mysql选用B+树这种数据结构作为索引，可以提高查询索引时的磁盘IO效率，并且可以提高范围查询的效率，并且B+树里的元素也是有序的。</p>
 </li>
 </ul>
-<h2 id="InnoDB索引的实现"><a href="#InnoDB索引的实现" class="headerlink" title="InnoDB索引的实现"></a>InnoDB索引的实现</h2><h4 id="主键索引（聚簇索引）"><a href="#主键索引（聚簇索引）" class="headerlink" title="主键索引（聚簇索引）"></a>主键索引（聚簇索引）</h4><p>每个InnoDB表都有一个聚簇索引 ，聚簇索引使用B+树构建，叶子节点存储的数据是整行记录。一般情况下，聚簇索引等同于主键索引，当一个表没有创建主键索引时，InnoDB会自动创建一个ROWID字段来构建聚簇索引。InnoDB创建索引的具体规则如下：</p>
+<h3 id="InnoDB索引的实现"><a href="#InnoDB索引的实现" class="headerlink" title="InnoDB索引的实现"></a>InnoDB索引的实现</h3><h4 id="主键索引（聚簇索引）"><a href="#主键索引（聚簇索引）" class="headerlink" title="主键索引（聚簇索引）"></a>主键索引（聚簇索引）</h4><p>每个InnoDB表都有一个聚簇索引 ，聚簇索引使用B+树构建，叶子节点存储的数据是整行记录。一般情况下，聚簇索引等同于主键索引，当一个表没有创建主键索引时，InnoDB会自动创建一个ROWID字段来构建聚簇索引。InnoDB创建索引的具体规则如下：</p>
 <blockquote>
 <ul>
 <li>在表上定义主键PRIMARY KEY，InnoDB将主键索引用作聚簇索引。</li>
@@ -715,7 +639,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 </li>
 </ol>
 </blockquote>
-<h2 id="B-树索引"><a href="#B-树索引" class="headerlink" title="B+树索引"></a>B+树索引</h2><h4 id="一个B-树的节点中到底存多少个元素最合适？"><a href="#一个B-树的节点中到底存多少个元素最合适？" class="headerlink" title="一个B+树的节点中到底存多少个元素最合适？"></a>一个B+树的节点中到底存多少个元素最合适？</h4><p><strong>B+树中一个节点为一页或页的倍数最为合适</strong>。</p>
+<h3 id="B-树索引"><a href="#B-树索引" class="headerlink" title="B+树索引"></a>B+树索引</h3><h4 id="一个B-树的节点中到底存多少个元素最合适？"><a href="#一个B-树的节点中到底存多少个元素最合适？" class="headerlink" title="一个B+树的节点中到底存多少个元素最合适？"></a>一个B+树的节点中到底存多少个元素最合适？</h4><p><strong>B+树中一个节点为一页或页的倍数最为合适</strong>。</p>
 <p>因为如果一个节点的大小小于1页，那么读取这个节点的时候其实也会读出1页，造成资源的浪费。</p>
 <p>如果一个节点的大小大于1页，比如1.2页，那么读取这个节点的时候会读出2页，也会造成资源的浪费。</p>
 <p>所以为了不造成浪费，所以最后把一个节点的大小控制在1页、2页、3页、4页等倍数页大小最为合适。</p>
@@ -726,8 +650,6 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 
 
 <img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210527160640.jpeg" style="zoom:67%;" />
-
-
 
 <ul>
 <li><strong>各个数据页可以组成一个双向链表</strong></li>
@@ -766,8 +688,8 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 </li>
 </ol>
 <h4 id="聚簇索引和非聚簇索引"><a href="#聚簇索引和非聚簇索引" class="headerlink" title="聚簇索引和非聚簇索引"></a><strong>聚簇索引和非聚簇索引</strong></h4><h5 id="聚簇索引"><a href="#聚簇索引" class="headerlink" title="聚簇索引"></a>聚簇索引</h5><blockquote>
-<p><strong>聚簇索引并不是一种单独的索引类型，而是一种数据存储方式。</strong></p>
-<p><strong>简单来说就是绑定数据的索引叫聚簇索引，而其他绑定主键id的叫非聚簇索引</strong></p>
+<p>聚簇索引并不是一种单独的索引类型，而是一种数据存储方式。具体细节依赖于其实现方式。</p>
+<p>简单来说就是<strong>跟数据行绑定的索引就叫聚簇索引</strong>，而其他跟绑定的数据为主键的为非聚簇索引</p>
 </blockquote>
 <ul>
 <li>聚簇索引就是按照每张表的主键构造一颗B+树，同时叶子节点中存放的就是整张表的行记录数据，也将聚集索引的叶子节点称为数据页。这个特性决定了索引组织表中数据也是索引的一部分，每张表只能拥有一个聚簇索引。</li>
@@ -793,7 +715,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>　　Innodb辅助索引的叶子节点并<strong>不包含行记录的全部数据</strong>，叶子节点除了包含键值外，还包含了相应行数据的聚簇索引键。</p>
 <p>　　辅助索引的存在不影响数据在聚簇索引中的组织，所以一张表可以有多个辅助索引。在innodb中有时也称辅助索引为二级索引。</p>
 <p><strong>非聚簇索引查询可以通过覆盖索引的方式提高查询速度，避免回表操作</strong></p>
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a><strong>总结</strong></h4><p>同时要创建出好的索引要顾及到很多的方面：</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>同时要创建出好的索引要顾及到很多的方面：</p>
 <ul>
 <li>最左前缀匹配原则。这是非常重要、非常重要、非常重要（重要的事情说三遍）的原则，MySQL会一直向右匹配直到遇到范围查询 （&gt;,&lt;,BETWEEN,LIKE）就停止匹配。</li>
 <li>对字符串进行索引，应该定制一个前缀长度，可以节省大量的索引空间。</li>
@@ -802,8 +724,9 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <li>索引列不能参与计算，尽量保持列“干净”。比如， FROM_UNIXTIME(create_time)=’2016-06-06’ 就不能使用索引，原因很简单，B+树中存储的都是数据表中的字段值，但是进行检索时，需要把所有元素都应用函数才能比较，显然这样的代价太大。所以语句要写成 ： create_time=UNIX_TIMESTAMP(‘2016-06-06’)。</li>
 <li>尽可能的扩展索引，不要新建立索引。比如表中已经有了a的索引，现在要加（a,b）的索引，那么只需要修改原来的索引即可。</li>
 <li>单个多列组合索引和多个单列索引的检索查询效果不同，因为在执行SQL时，<del>MySQL只能使用一个索引，会从多个单列索引中选择一个限制最为严格的索引</del>(经指正，在MySQL5.0以后的版本中，有“合并索引”的策略，翻看了《高性能MySQL 第三版》，书作者认为：<strong>还是应该建立起比较好的索引，而不应该依赖于“合并索引”</strong>这么一个策略)。</li>
-<li>“合并索引”策略简单来讲，就是使用多个单列索引，然后将这些结果用“union或者and”来合并起来                                                                                                                                                                                                        </li>
+<li>“合并索引”策略简单来讲，就是使用多个单列索引，然后将这些结果用“union或者and”来合并起来</li>
 </ul>
+<p>​                                                                                                                                                                                                        </p>
 
   
   
@@ -821,7 +744,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
               
             
               
-                <p>本文永久链接是：<a href=https://zhaoshuchao.top/2021/05/19/MySQL%E4%B8%AD%E7%9A%84%E7%B4%A2%E5%BC%95/>https://zhaoshuchao.top/2021/05/19/MySQL%E4%B8%AD%E7%9A%84%E7%B4%A2%E5%BC%95/</a></p>
+                <p>本文永久链接是：<a href=https://zhaoshuchao.top/2021/06/01/MySQL%E4%B8%AD%E7%9A%84%E7%B4%A2%E5%BC%95/>https://zhaoshuchao.top/2021/06/01/MySQL%E4%B8%AD%E7%9A%84%E7%B4%A2%E5%BC%95/</a></p>
               
             
           </blockquote>
@@ -839,9 +762,6 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
       
         
           
-  
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/MySQL/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>MySQL</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>数据库</p></a></div>
-
 
         
       
@@ -853,7 +773,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zhaoshuchao.top/2021/05/19/MySQL%E4%B8%AD%E7%9A%84%E7%B4%A2%E5%BC%95/&title=MySQL中的索引 - Never Meet Blog&summary="
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zhaoshuchao.top/2021/06/01/MySQL%E4%B8%AD%E7%9A%84%E7%B4%A2%E5%BC%95/&title= - Never Meet Blog&summary="
           
           >
           
@@ -865,7 +785,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://zhaoshuchao.top/2021/05/19/MySQL%E4%B8%AD%E7%9A%84%E7%B4%A2%E5%BC%95/&title=MySQL中的索引 - Never Meet Blog&summary="
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://zhaoshuchao.top/2021/06/01/MySQL%E4%B8%AD%E7%9A%84%E7%B4%A2%E5%BC%95/&title= - Never Meet Blog&summary="
           
           >
           
@@ -877,7 +797,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://service.weibo.com/share/share.php?url=https://zhaoshuchao.top/2021/05/19/MySQL%E4%B8%AD%E7%9A%84%E7%B4%A2%E5%BC%95/&title=MySQL中的索引 - Never Meet Blog&summary="
+          target="_blank" href="http://service.weibo.com/share/share.php?url=https://zhaoshuchao.top/2021/06/01/MySQL%E4%B8%AD%E7%9A%84%E7%B4%A2%E5%BC%95/&title= - Never Meet Blog&summary="
           
           >
           
@@ -925,17 +845,10 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   
     <div class="prev-next">
       
-        <a class='prev' href='/2021/05/23/Linux%E5%AE%9A%E6%97%B6%E5%A4%87%E4%BB%BDMySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E6%96%87%E4%BB%B6/'>
-          <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Linux定时备份MySQL数据库文件</p>
-          <p class='content'>
-记录一下定时备份数据库的方法
-Linux里有一个 crontab 命令被用来提交和管理用户的需要周期性执行的任务，就像Windows里的定时任务一样，用这个就可以设置定时任务去执行相应的操作。...</p>
-        </a>
       
-      
-        <a class='next' href='/2021/05/14/Redis%E6%8C%81%E4%B9%85%E5%8C%96/'>
-          <p class='title'>Redis持久化<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-          <p class='content'>redis持久化的意义redis的数据全部在内存中，如果突然宕机，数据就会全部丢失，因此必须有一种机制来保证redis的数据在遇到突发状况的时候不会丢失，或者只丢失少量，于是必须根据一些策略来把...</p>
+        <a class='next' href='/2021/06/01/SQL%E8%AF%AD%E5%8F%A5/'>
+          <p class='title'>SQL语句<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+          <p class='content'>1234567891011121314151617181920212223242526# 直接将查询结果导入或复制到新创建的表CREATE TABLE n SELECT * FROM m;# 删...</p>
         </a>
       
     </div>
@@ -978,7 +891,7 @@ Linux里有一个 crontab 命令被用来提交和管理用户的需要周期性
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E7%B4%A2%E5%BC%95"><span class="toc-text">什么是索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E7%9A%84%E4%BC%98%E5%8A%BF%E5%92%8C%E5%8A%A3%E5%8A%BF"><span class="toc-text">索引的优势和劣势</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%98%E5%8A%BF"><span class="toc-text">优势</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8A%A3%E5%8A%BF"><span class="toc-text">劣势</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E7%B1%BB%E5%9E%8B"><span class="toc-text">索引类型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BB%E9%94%AE%E7%B4%A2%E5%BC%95"><span class="toc-text">主键索引</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%99%AE%E9%80%9A%E7%B4%A2%E5%BC%95%EF%BC%88NORMAL%EF%BC%89"><span class="toc-text">普通索引（NORMAL）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%94%AF%E4%B8%80%E7%B4%A2%E5%BC%95%EF%BC%88UNIQUE%EF%BC%89"><span class="toc-text">唯一索引（UNIQUE）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%A8%E6%96%87%E7%B4%A2%E5%BC%95%EF%BC%88FULLTEXT%EF%BC%89"><span class="toc-text">全文索引（FULLTEXT）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A9%BA%E9%97%B4%E7%B4%A2%E5%BC%95%EF%BC%88SPATIAL%EF%BC%89"><span class="toc-text">空间索引（SPATIAL）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%89%8D%E7%BC%80%E7%B4%A2%E5%BC%95"><span class="toc-text">前缀索引</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%EF%BC%88%E6%8C%89%E7%85%A7%E7%B4%A2%E5%BC%95%E5%88%97%E6%95%B0%E9%87%8F%E5%88%86%E7%B1%BB%EF%BC%89"><span class="toc-text">其他（按照索引列数量分类）</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8D%95%E5%88%97%E7%B4%A2%E5%BC%95"><span class="toc-text">单列索引</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BB%84%E5%90%88%E7%B4%A2%E5%BC%95"><span class="toc-text">组合索引</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-text">索引的数据结构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Hash"><span class="toc-text">Hash</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="toc-text">二叉树</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="toc-text">平衡二叉树</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#B%E6%A0%91%EF%BC%9A%E6%94%B9%E9%80%A0%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="toc-text">B树：改造二叉树</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#B-%E6%A0%91%EF%BC%9A%E6%94%B9%E9%80%A0B%E6%A0%91"><span class="toc-text">B+树：改造B树</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%EF%BC%9A"><span class="toc-text">总结：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#InnoDB%E7%B4%A2%E5%BC%95%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-text">InnoDB索引的实现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BB%E9%94%AE%E7%B4%A2%E5%BC%95%EF%BC%88%E8%81%9A%E7%B0%87%E7%B4%A2%E5%BC%95%EF%BC%89"><span class="toc-text">主键索引（聚簇索引）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BE%85%E5%8A%A9%E7%B4%A2%E5%BC%95"><span class="toc-text">辅助索引</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%84%E5%90%88%E7%B4%A2%E5%BC%95-1"><span class="toc-text">组合索引</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9C%80%E5%B7%A6%E5%8C%B9%E9%85%8D%E5%8E%9F%E5%88%99%EF%BC%9A"><span class="toc-text">最左匹配原则：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A6%86%E7%9B%96%E7%B4%A2%E5%BC%95"><span class="toc-text">覆盖索引</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%81%BF%E5%85%8D%E5%9B%9E%E8%A1%A8"><span class="toc-text">避免回表</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%81%94%E5%90%88%E7%B4%A2%E5%BC%95%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-text">联合索引的使用</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#B-%E6%A0%91%E7%B4%A2%E5%BC%95"><span class="toc-text">B+树索引</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80%E4%B8%AAB-%E6%A0%91%E7%9A%84%E8%8A%82%E7%82%B9%E4%B8%AD%E5%88%B0%E5%BA%95%E5%AD%98%E5%A4%9A%E5%B0%91%E4%B8%AA%E5%85%83%E7%B4%A0%E6%9C%80%E5%90%88%E9%80%82%EF%BC%9F"><span class="toc-text">一个B+树的节点中到底存多少个元素最合适？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A1%B5%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="toc-text">页的概念</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%81%9A%E7%B0%87%E7%B4%A2%E5%BC%95%E5%92%8C%E9%9D%9E%E8%81%9A%E7%B0%87%E7%B4%A2%E5%BC%95"><span class="toc-text">聚簇索引和非聚簇索引</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%81%9A%E7%B0%87%E7%B4%A2%E5%BC%95"><span class="toc-text">聚簇索引</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%9D%9E%E8%81%9A%E7%B0%87%E7%B4%A2%E5%BC%95"><span class="toc-text">非聚簇索引</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E7%B4%A2%E5%BC%95"><span class="toc-text">什么是索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E7%9A%84%E4%BC%98%E5%8A%BF%E5%92%8C%E5%8A%A3%E5%8A%BF"><span class="toc-text">索引的优势和劣势</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%98%E5%8A%BF"><span class="toc-text">优势</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8A%A3%E5%8A%BF"><span class="toc-text">劣势</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E7%B1%BB%E5%9E%8B"><span class="toc-text">索引类型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BB%E9%94%AE%E7%B4%A2%E5%BC%95"><span class="toc-text">主键索引</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%99%AE%E9%80%9A%E7%B4%A2%E5%BC%95%EF%BC%88NORMAL%EF%BC%89"><span class="toc-text">普通索引（NORMAL）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%94%AF%E4%B8%80%E7%B4%A2%E5%BC%95%EF%BC%88UNIQUE%EF%BC%89"><span class="toc-text">唯一索引（UNIQUE）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%A8%E6%96%87%E7%B4%A2%E5%BC%95%EF%BC%88FULLTEXT%EF%BC%89"><span class="toc-text">全文索引（FULLTEXT）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A9%BA%E9%97%B4%E7%B4%A2%E5%BC%95%EF%BC%88SPATIAL%EF%BC%89"><span class="toc-text">空间索引（SPATIAL）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%89%8D%E7%BC%80%E7%B4%A2%E5%BC%95"><span class="toc-text">前缀索引</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%EF%BC%88%E6%8C%89%E7%85%A7%E7%B4%A2%E5%BC%95%E5%88%97%E6%95%B0%E9%87%8F%E5%88%86%E7%B1%BB%EF%BC%89"><span class="toc-text">其他（按照索引列数量分类）</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8D%95%E5%88%97%E7%B4%A2%E5%BC%95"><span class="toc-text">单列索引</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BB%84%E5%90%88%E7%B4%A2%E5%BC%95"><span class="toc-text">组合索引</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-text">索引的数据结构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Hash"><span class="toc-text">Hash</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="toc-text">二叉树</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="toc-text">平衡二叉树</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#B%E6%A0%91%EF%BC%9A%E6%94%B9%E9%80%A0%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="toc-text">B树：改造二叉树</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#B-%E6%A0%91%EF%BC%9A%E6%94%B9%E9%80%A0B%E6%A0%91"><span class="toc-text">B+树：改造B树</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%EF%BC%9A"><span class="toc-text">总结：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#InnoDB%E7%B4%A2%E5%BC%95%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-text">InnoDB索引的实现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BB%E9%94%AE%E7%B4%A2%E5%BC%95%EF%BC%88%E8%81%9A%E7%B0%87%E7%B4%A2%E5%BC%95%EF%BC%89"><span class="toc-text">主键索引（聚簇索引）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BE%85%E5%8A%A9%E7%B4%A2%E5%BC%95"><span class="toc-text">辅助索引</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%84%E5%90%88%E7%B4%A2%E5%BC%95-1"><span class="toc-text">组合索引</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9C%80%E5%B7%A6%E5%8C%B9%E9%85%8D%E5%8E%9F%E5%88%99%EF%BC%9A"><span class="toc-text">最左匹配原则：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A6%86%E7%9B%96%E7%B4%A2%E5%BC%95"><span class="toc-text">覆盖索引</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%81%BF%E5%85%8D%E5%9B%9E%E8%A1%A8"><span class="toc-text">避免回表</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%81%94%E5%90%88%E7%B4%A2%E5%BC%95%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-text">联合索引的使用</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B-%E6%A0%91%E7%B4%A2%E5%BC%95"><span class="toc-text">B+树索引</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80%E4%B8%AAB-%E6%A0%91%E7%9A%84%E8%8A%82%E7%82%B9%E4%B8%AD%E5%88%B0%E5%BA%95%E5%AD%98%E5%A4%9A%E5%B0%91%E4%B8%AA%E5%85%83%E7%B4%A0%E6%9C%80%E5%90%88%E9%80%82%EF%BC%9F"><span class="toc-text">一个B+树的节点中到底存多少个元素最合适？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A1%B5%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="toc-text">页的概念</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%81%9A%E7%B0%87%E7%B4%A2%E5%BC%95%E5%92%8C%E9%9D%9E%E8%81%9A%E7%B0%87%E7%B4%A2%E5%BC%95"><span class="toc-text">聚簇索引和非聚簇索引</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%81%9A%E7%B0%87%E7%B4%A2%E5%BC%95"><span class="toc-text">聚簇索引</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%9D%9E%E8%81%9A%E7%B0%87%E7%B4%A2%E5%BC%95"><span class="toc-text">非聚簇索引</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol>
     </div>
   </section>
 
@@ -1035,7 +948,7 @@ Linux里有一个 crontab 命令被用来提交和管理用户的需要周期性
           <li><a class="flat-box"
             title="/categories/MySQL/" href="/categories/MySQL/"
             id="categoriesMySQL"
-            ><div class='name'>MySQL</div><div class='badge'>(7)</div></a></li>
+            ><div class='name'>MySQL</div><div class='badge'>(6)</div></a></li>
         
           <li><a class="flat-box child"
             title="/categories/MySQL/SQL%E4%BC%98%E5%8C%96/" href="/categories/MySQL/SQL%E4%BC%98%E5%8C%96/"
@@ -1056,11 +969,6 @@ Linux里有一个 crontab 命令被用来提交和管理用户的需要周期性
             title="/categories/MySQL/%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86/" href="/categories/MySQL/%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86/"
             id="categoriesMySQLE794A8E688B7E7AEA1E79086"
             ><div class='name'>用户管理</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/MySQL/%E7%B4%A2%E5%BC%95/" href="/categories/MySQL/%E7%B4%A2%E5%BC%95/"
-            id="categoriesMySQLE7B4A2E5BC95"
-            ><div class='name'>索引</div><div class='badge'>(1)</div></a></li>
         
           <li><a class="flat-box"
             title="/categories/%E5%B7%A5%E5%85%B7/" href="/categories/%E5%B7%A5%E5%85%B7/"
@@ -1099,7 +1007,7 @@ Linux里有一个 crontab 命令被用来提交和管理用户的需要周期性
 
 
     <div class='content'>
-      <a href="/tags/GC/" style="font-size: 1px; color: #999">GC</a> <a href="/tags/Hexo/" style="font-size: 5.6px; color: #8b8b8b">Hexo</a> <a href="/tags/JUC/" style="font-size: 19.4px; color: #636363">JUC</a> <a href="/tags/JVM/" style="font-size: 5.6px; color: #8b8b8b">JVM</a> <a href="/tags/Java/" style="font-size: 1px; color: #999">Java</a> <a href="/tags/JavaSE/" style="font-size: 10.2px; color: #7e7e7e">JavaSE</a> <a href="/tags/Linux/" style="font-size: 1px; color: #999">Linux</a> <a href="/tags/MySQL/" style="font-size: 24px; color: #555">MySQL</a> <a href="/tags/Redis/" style="font-size: 5.6px; color: #8b8b8b">Redis</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 1px; color: #999">工具</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 19.4px; color: #636363">并发编程</a> <a href="/tags/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 1px; color: #999">微信小程序</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 14.8px; color: #707070">数据库</a> <a href="/tags/%E7%BA%BF%E7%A8%8B/" style="font-size: 5.6px; color: #8b8b8b">线程</a> <a href="/tags/%E9%94%81/" style="font-size: 5.6px; color: #8b8b8b">锁</a> <a href="/tags/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/" style="font-size: 10.2px; color: #7e7e7e">问题随笔</a> <a href="/tags/%E9%9B%86%E5%90%88/" style="font-size: 5.6px; color: #8b8b8b">集合</a>
+      <a href="/tags/GC/" style="font-size: 1px; color: #999">GC</a> <a href="/tags/Hexo/" style="font-size: 8.67px; color: #828282">Hexo</a> <a href="/tags/JUC/" style="font-size: 24px; color: #555">JUC</a> <a href="/tags/JVM/" style="font-size: 8.67px; color: #828282">JVM</a> <a href="/tags/Java/" style="font-size: 1px; color: #999">Java</a> <a href="/tags/JavaSE/" style="font-size: 16.33px; color: #6c6c6c">JavaSE</a> <a href="/tags/Linux/" style="font-size: 1px; color: #999">Linux</a> <a href="/tags/MySQL/" style="font-size: 24px; color: #555">MySQL</a> <a href="/tags/Redis/" style="font-size: 8.67px; color: #828282">Redis</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 1px; color: #999">工具</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 24px; color: #555">并发编程</a> <a href="/tags/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 1px; color: #999">微信小程序</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 16.33px; color: #6c6c6c">数据库</a> <a href="/tags/%E7%BA%BF%E7%A8%8B/" style="font-size: 8.67px; color: #828282">线程</a> <a href="/tags/%E9%94%81/" style="font-size: 8.67px; color: #828282">锁</a> <a href="/tags/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/" style="font-size: 16.33px; color: #6c6c6c">问题随笔</a> <a href="/tags/%E9%9B%86%E5%90%88/" style="font-size: 8.67px; color: #828282">集合</a>
     </div>
   </section>
 
@@ -1117,8 +1025,8 @@ Linux里有一个 crontab 命令被用来提交和管理用户的需要周期性
 
 <script>
   window.pdata={}
-  pdata.ispage=true;
-  pdata.postTitle="MySQL中的索引";
+  pdata.ispage=false;
+  pdata.postTitle="";
   pdata.commentPath="";
   pdata.commentPlaceholder="";
   // header 这里无论是否开启pjax都需要
