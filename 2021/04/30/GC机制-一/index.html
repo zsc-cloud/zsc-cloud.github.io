@@ -490,7 +490,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>字数：4.1k字</p>
+      <p>字数：4.2k字</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
@@ -522,10 +522,11 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 </blockquote>
 <p>在Java中，可以作为GC Roots的对象包括下面几种：</p>
 <ol>
-<li>虚拟机栈中引用的对象；</li>
-<li>方法区中类静态属性引用的对象；</li>
-<li>方法区中的常量引用的对象；</li>
-<li>本地方法栈中引用的对象（Native对象）</li>
+<li><strong>虚拟机栈中引用的对象</strong>（正在运行的方法使用到的变量、参数等）</li>
+<li><strong>方法区中类静态属性引用的对象</strong>（static关键字声明的字段）</li>
+<li><strong>方法区中常量引用的对象</strong>，(也就是final关键字声明的字段)</li>
+<li><strong>本地方法栈中引用的对象</strong>（native方法）</li>
+<li><strong>Java虚拟机内部的引用。</strong>（系统内部的东西当然能作为根了）</li>
 </ol>
 <p><strong>例如：</strong></p>
 <p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210524141415.webp"></p>
@@ -774,7 +775,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>字数：4.1k字</p>
+      <p>字数：4.2k字</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
