@@ -751,7 +751,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <h3 id="Other"><a href="#Other" class="headerlink" title="Other"></a>Other</h3><h4 id="Redis-为什么早期版本选择单线程？"><a href="#Redis-为什么早期版本选择单线程？" class="headerlink" title="Redis 为什么早期版本选择单线程？"></a>Redis 为什么早期版本选择单线程？</h4><h5 id="官方解释"><a href="#官方解释" class="headerlink" title="官方解释"></a>官方解释</h5><p>因为 Redis 是基于内存的操作，<strong>CPU 不是 Redis 的瓶颈</strong>，Redis 的瓶颈最有可能是 <strong>机器内存的大小</strong> 或者 <strong>网络带宽</strong>。既然单线程容易实现，而且 CPU 不会成为瓶颈，那就顺理成章地采用单线程的方案了。</p>
 <h5 id="简单总结一下"><a href="#简单总结一下" class="headerlink" title="简单总结一下"></a>简单总结一下</h5><ol>
 <li>使用单线程模型能带来更好的 <strong>可维护性</strong>，方便开发和调试；</li>
-<li>使用单线程模型也能 <strong>并发</strong> 的处理客户端的请求；*(I/O 多路复用机制)*</li>
+<li>使用单线程模型也能 <strong>并发</strong> 的处理客户端的请求；(I/O 多路复用机制)</li>
 <li>Redis 服务中运行的绝大多数操作的 <strong>性能瓶颈都不是 CPU</strong>；</li>
 </ol>
 <h4 id="Redis-为什么这么快？"><a href="#Redis-为什么这么快？" class="headerlink" title="Redis 为什么这么快？"></a>Redis 为什么这么快？</h4><ol>
