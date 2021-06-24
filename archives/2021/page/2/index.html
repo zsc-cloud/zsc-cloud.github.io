@@ -437,6 +437,155 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   
     
     <h2 class="article-title" >
+      <a href="/2021/05/02/Lock/">
+        Lock
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        Locklock锁是什么Lock是JDK中的一个接口，两个直接实现类 ReentrantLock（重入锁）, ReentrantReadWriteLock（读写锁）。
+Lock锁，使用时手动获取锁和释放锁，比synchronized更加灵活；可中断的获取锁；超时获取锁。
+12345678   //默认情况下 锁是不公平的; 公平锁(参数true)表示等待时间长优先获取到锁  private ...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-05-02</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JUC/">JUC</a>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/05/02/Lock/'>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
+      <a href="/2021/04/30/GC%E6%9C%BA%E5%88%B6-%E4%B8%80/">
+        GC机制(一)
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        对象怎么什么时候被回收？JVM判断对象回收有两种方式：
+引用记数引用记数比较简单，JVM为每个对象维护一个引用计数，假设A对象引用计数为零说明没有任务对象引用A对象，那A对象就可以被回收了，但是引用计数有个缺点就是无法解决循环引用**的问题。
+
+循环引用就是两个孤零零的对象互相引用，a对象引用b,b对象引用a ，他们的引用计数都不为零，故此处陷入死循环
+
+GC Roots(标记)可达性分析算...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-04-30</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JVM/">JVM</a>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/04/30/GC%E6%9C%BA%E5%88%B6-%E4%B8%80/'>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
+      <a href="/2021/04/29/JVM%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/">
+        JVM内存结构
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        
+本文都是基于JDK1.8讨论
+
+类加载器什么是类加载器Java中的所有类，都需要由类加载器装载到JVM中才能运行。类加载器本身也是一个类，而它的工作就是把class文件从硬盘读取到内存中。在写程序的时候，我们几乎不需要关心类的加载，因为这些都是隐式装载的，除非我们有特殊的用法，像是反射，就需要显式的加载所需要的类。
+Java类的加载是动态的，它并不会一次性将所有类全部加载后再运行，而是保证...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-04-29</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JVM/">JVM</a>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/04/29/JVM%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/'>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
       <a href="/2021/04/24/%E7%BA%BF%E7%A8%8B%E9%80%9A%E8%AE%AF/">
         线程通讯
       </a>
@@ -768,157 +917,6 @@ CountDownLatch是一个辅助同步器类，用来作计数使用，
           </div>
         
       
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/04/12/MySQL%E5%88%9B%E5%BB%BA%E7%94%A8%E6%88%B7/">
-        MySQL创建用户
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        
-MySQL创建可读用户和指定数据库用户
-必须在Root用户下创建
-
-MySQL 赋予用户权限命令的简单格式可概括为：grant 权限 on 数据库对象 to 用户
-创建数据库仅可读用户123# reader是用户名,xxxxxx为密码；GRANT后面跟的是用户权限，用户名@后面跟的是可连接的ip地址，%表示任意ip都可登陆GRANT Select ON *.* TO reader@&quo...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-04-12</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/MySQL/">MySQL</a><span class="sep"></span><a class="category-link" href="/categories/MySQL/%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86/">用户管理</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/04/12/MySQL%E5%88%9B%E5%BB%BA%E7%94%A8%E6%88%B7/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/04/10/%E7%AB%AF%E5%8F%A3%E5%8F%B7%E8%A2%AB%E5%8D%A0%E7%94%A8/">
-        端口号被占用
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        
-我们在启动本地项目的时候，经常出现项目端口被占用的情况。如下所示：
-
-
-这个时候我们需要在本地结束这个端口占用的进程。
-过程如下：
-第一步：运行windows的cmd.   查看端口被谁占用，占用者的进程号
-cmd输入 netstat  -ano|findstr  11006回车，这里的11006指的是被占用端口，如果你的是其他比如8080，就把11006换成8080回车。我这里查询到是1...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-04-10</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/">问题随笔</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/04/10/%E7%AB%AF%E5%8F%A3%E5%8F%B7%E8%A2%AB%E5%8D%A0%E7%94%A8/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/04/05/HashMap%E8%A7%A3%E6%9E%90/">
-        HashMap解析
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        HashMap源码解析JDK1.8先看看hashMap在jdk      1.8的结构，用的是数组+链表+红黑树的结构，也叫哈希桶，在jdk 1.8之前都是数组+链表的结构，因为在链表的查询操作都是O(N)的时间复杂度，而且hashMap中查询操作也是占了很大比例的，如果当节点数量多，转换为红黑树结构，那么将会提高很大的效率，因为红黑树结构中，增删改查都是O(log n)。 
-哈希桶就是数组...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-04-05</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/Java%E5%9F%BA%E7%A1%80/">Java基础</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/04/05/HashMap%E8%A7%A3%E6%9E%90/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
     
   </section>
   
@@ -933,7 +931,7 @@ cmd输入 netstat  -ano|findstr  11006回车，这里的11006指的是被占用�
           </a>
         
         <p class="current">
-          2 / 3
+          2 / 4
         </p>
         
           <a class="next" rel="next" href="/archives/2021/page/3/">
@@ -1108,6 +1106,11 @@ cmd输入 netstat  -ano|findstr  11006回车，这里的11006指的是被占用�
             ><div class='name'>图床</div><div class='badge'>(1)</div></a></li>
         
           <li><a class="flat-box"
+            title="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"
+            id="categoriesE8AEA1E7AE97E69CBAE7BD91E7BB9C"
+            ><div class='name'>计算机网络</div><div class='badge'>(3)</div></a></li>
+        
+          <li><a class="flat-box"
             title="/categories/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/" href="/categories/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/"
             id="categoriesE997AEE9A298E99A8FE7AC94"
             ><div class='name'>问题随笔</div><div class='badge'>(5)</div></a></li>
@@ -1134,7 +1137,7 @@ cmd输入 netstat  -ano|findstr  11006回车，这里的11006指的是被占用�
 
 
     <div class='content'>
-      <a href="/tags/GC/" style="font-size: 1px; color: #999">GC</a> <a href="/tags/Hexo/" style="font-size: 6.75px; color: #888">Hexo</a> <a href="/tags/JUC/" style="font-size: 18.25px; color: #666">JUC</a> <a href="/tags/JVM/" style="font-size: 6.75px; color: #888">JVM</a> <a href="/tags/Java/" style="font-size: 1px; color: #999">Java</a> <a href="/tags/JavaSE/" style="font-size: 12.5px; color: #777">JavaSE</a> <a href="/tags/Linux/" style="font-size: 1px; color: #999">Linux</a> <a href="/tags/MySQL/" style="font-size: 24px; color: #555">MySQL</a> <a href="/tags/Redis/" style="font-size: 6.75px; color: #888">Redis</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 1px; color: #999">工具</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 18.25px; color: #666">并发编程</a> <a href="/tags/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 1px; color: #999">微信小程序</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 12.5px; color: #777">数据库</a> <a href="/tags/%E7%B4%A2%E5%BC%95/" style="font-size: 1px; color: #999">索引</a> <a href="/tags/%E7%BA%BF%E7%A8%8B/" style="font-size: 6.75px; color: #888">线程</a> <a href="/tags/%E9%94%81/" style="font-size: 6.75px; color: #888">锁</a> <a href="/tags/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/" style="font-size: 12.5px; color: #777">问题随笔</a> <a href="/tags/%E9%9B%86%E5%90%88/" style="font-size: 6.75px; color: #888">集合</a>
+      <a href="/tags/GC/" style="font-size: 1px; color: #999">GC</a> <a href="/tags/Hexo/" style="font-size: 6.75px; color: #888">Hexo</a> <a href="/tags/JUC/" style="font-size: 18.25px; color: #666">JUC</a> <a href="/tags/JVM/" style="font-size: 6.75px; color: #888">JVM</a> <a href="/tags/Java/" style="font-size: 1px; color: #999">Java</a> <a href="/tags/JavaSE/" style="font-size: 12.5px; color: #777">JavaSE</a> <a href="/tags/Linux/" style="font-size: 1px; color: #999">Linux</a> <a href="/tags/MySQL/" style="font-size: 24px; color: #555">MySQL</a> <a href="/tags/Redis/" style="font-size: 6.75px; color: #888">Redis</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 1px; color: #999">工具</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 18.25px; color: #666">并发编程</a> <a href="/tags/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 1px; color: #999">微信小程序</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 12.5px; color: #777">数据库</a> <a href="/tags/%E7%B4%A2%E5%BC%95/" style="font-size: 1px; color: #999">索引</a> <a href="/tags/%E7%BA%BF%E7%A8%8B/" style="font-size: 6.75px; color: #888">线程</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 12.5px; color: #777">计算机网络</a> <a href="/tags/%E9%94%81/" style="font-size: 6.75px; color: #888">锁</a> <a href="/tags/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/" style="font-size: 12.5px; color: #777">问题随笔</a> <a href="/tags/%E9%9B%86%E5%90%88/" style="font-size: 6.75px; color: #888">集合</a>
     </div>
   </section>
 
