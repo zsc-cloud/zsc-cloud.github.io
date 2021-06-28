@@ -438,17 +438,17 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   
     
     <h2 class="article-title" >
-      <a href="/2021/05/14/Redis%E6%8C%81%E4%B9%85%E5%8C%96/">
-        Redis持久化
+      <a href="/2021/06/24/TCP%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/">
+        TCP四次挥手
       </a>
     </h2>
   
   <div class='md'>
     
       
-        redis持久化的意义redis的数据全部在内存中，如果突然宕机，数据就会全部丢失，因此必须有一种机制来保证redis的数据在遇到突发状况的时候不会丢失，或者只丢失少量，于是必须根据一些策略来把redis内存中的数据写到磁盘中，这样当redis服务重启中，就可以根据磁盘中的数据来恢复数据到内存中。
-redis持久化机制redis有两种持久化机制：AOF和RDB
-(1) RDBRDB是一次的全...
+        四次挥手过程刚开始双方都处于 establised 状态，假如是客户端先发起关闭请求，则：
+1、第一次挥手：客户端发送一个 FIN 报文，报文中会指定一个序列号。此时客户端处于FIN_WAIT1状态。
+2、第二次握手：服务端收到 FIN 之后，会发送 ACK 报文，且把客户端的序列号值 + 1 作为 ACK 报文的序列号值，表明已经收到客户端的报文了，此时服务端处于 CLOSE_WAIT状态...
       
     
   </div>
@@ -456,66 +456,15 @@ redis持久化机制redis有两种持久化机制：AOF和RDB
     <div class='meta-v3' line_style='solid'>
       <div>
         
-        <time>2021-05-14</time>
+        <time>2021-06-24</time>
         
           <span class="dot"></span>
-          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/Redis/">Redis</a>
+          <a class="category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
         
       </div>
       
         <div>
-          <a class='readmore' href='/2021/05/14/Redis%E6%8C%81%E4%B9%85%E5%8C%96/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-      
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/05/12/Java%E5%AE%9E%E7%8E%B0%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E8%8E%B7%E5%8F%96unionID/">
-        Java实现微信小程序获取unionID
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        
-前言：微信开发平台为开发者提供openId用来区分用户的唯一性，但是openId只是在独立的应用内是唯一的，如果开发者拥有多个移动应用、网站应用、和公众帐号（包括小程序），可通过 UnionID 来区分用户的唯一性，因为只要是同一个微信开放平台帐号下所有应用，用户的 UnionID 是唯一的。换句话说，同一用户，对同一个微信开放平台下的不同应用，UnionID是相同的。微信官方文档：官方文...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-05-12</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/">问题随笔</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/05/12/Java%E5%AE%9E%E7%8E%B0%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E8%8E%B7%E5%8F%96unionID/'>
+          <a class='readmore' href='/2021/06/24/TCP%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/'>
             阅读全文
           </a>
         </div>
@@ -537,18 +486,20 @@ redis持久化机制redis有两种持久化机制：AOF和RDB
   
     
     <h2 class="article-title" >
-      <a href="/2021/05/07/Redis%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">
-        Redis基础知识
+      <a href="/2021/06/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%94%E5%B1%82%E6%A8%A1%E5%9E%8B/">
+        网络五层模型
       </a>
     </h2>
   
   <div class='md'>
     
       
-        Redis概念Redis是一个使用C语言编写的，开源的高性能非关系型的数据库，键值对形式
+        前言
+ 天各一方的两台计算机是如何通信的呢？在成千上万的计算机中，为什么一台计算机能够准确的寻找到另外一台计算机，并且把数据发送给它呢？
+可能很多人都听说过网络通信的 5 层模型，但是可能并不是很清楚为什么需要五层模型，五层模型负责的任务也有可能经常混淆。下面是网络通信的五层模型
 
-应用场景在日常的 Web 应用对数据库的访问中，读操作的次数远超写操作，比例大概在 1:9 到 3:7，所以需要读的可能性是比写的可能大得多的。当我们使用 SQL 语句去数据库进行读写操作时，数据库就会 去磁盘把对应的数据索引取回来，这是一个相对较慢的过程。
-如果我们把数据放在 Redis 中，也就是...
+
+1. 物理层一台计算机与另一台计算机要进行通信，第一件要做的事是什么？当然是把这台计算机与另外的其他计算机连...
       
     
   </div>
@@ -556,15 +507,162 @@ redis持久化机制redis有两种持久化机制：AOF和RDB
     <div class='meta-v3' line_style='solid'>
       <div>
         
-        <time>2021-05-07</time>
+        <time>2021-06-24</time>
         
           <span class="dot"></span>
-          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/Redis/">Redis</a>
+          <a class="category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
         
       </div>
       
         <div>
-          <a class='readmore' href='/2021/05/07/Redis%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/'>
+          <a class='readmore' href='/2021/06/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BA%94%E5%B1%82%E6%A8%A1%E5%9E%8B/'>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
+      <a href="/2021/06/23/MyCat(%E4%BA%94)---%E6%80%A7%E8%83%BD%E7%9B%91%E6%8E%A7/">
+        MyCat(五)---性能监控
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        MyCat 性能监控MyCat-web简介Mycat-web 是 Mycat 可视化运维的管理和监控平台，弥补了 Mycat 在监控上的空白。帮 Mycat 分担统计任务和配置管理任务。Mycat-web 引入了 ZooKeeper 作为配置中心，可以管理多个节点。Mycat-web 主要管理和监控 Mycat 的流量、连接、活动线程和内存等，具备 IP 白名单、邮件告警等模块，还可以统计 ...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-06-23</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/MySQL/">MySQL</a><span class="sep"></span><a class="category-link" href="/categories/MySQL/MyCat/">MyCat</a>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/06/23/MyCat(%E4%BA%94)---%E6%80%A7%E8%83%BD%E7%9B%91%E6%8E%A7/'>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
+      <a href="/2021/06/22/MyCat(%E5%85%AD)---%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB/">
+        MyCat(六)---读写分离
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        MySQL主从复制原理复制是指将主数据库的DDL 和 DML 操作通过二进制日志传到从库服务器中，然后在从库上对这些日志重新执行（也叫重做），从而使得从库和主库的数据保持同步。
+MySQL支持一台主库同时向多台从库进行复制， 从库同时也可以作为其他从服务器的主库，实现链状复制。
+MySQL主从复制的原理如下 : 
+ 
+从上层来看，复制分成三步：
+
+Master 主库在事务提交时，会把数据变更...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-06-22</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/MySQL/">MySQL</a><span class="sep"></span><a class="category-link" href="/categories/MySQL/MyCat/">MyCat</a>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/06/22/MyCat(%E5%85%AD)---%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB/'>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
+      <a href="/2021/06/21/Mycat(%E4%B8%83)---%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/">
+        MyCat(七)---高可用集群搭建
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        MyCat高可用集群搭建MyCat实现读写分离架构在上面的章节, 我们已经讲解过了通过MyCat来实现MySQL的读写分离, 从而完成MySQL集群的负载均衡 , 如下面的结构图: 
+ 
+但是以上架构存在问题 , 由于MyCat中间件是单节点的服务, 前端客户端所有的压力过来都直接请求这一台MyCat , 存在单点故障。所以这个时候， 我们就需要考虑MyCat的集群 ；
+MyCat集群架构通...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-06-21</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/MySQL/">MySQL</a><span class="sep"></span><a class="category-link" href="/categories/MySQL/MyCat/">MyCat</a>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/06/21/Mycat(%E4%B8%83)---%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/'>
             阅读全文
           </a>
         </div>
@@ -591,7 +689,7 @@ redis持久化机制redis有两种持久化机制：AOF和RDB
           </a>
         
         <p class="current">
-          2 / 7
+          2 / 8
         </p>
         
           <a class="next" rel="next" href="/page/3/">
@@ -727,7 +825,12 @@ redis持久化机制redis有两种持久化机制：AOF和RDB
           <li><a class="flat-box"
             title="/categories/MySQL/" href="/categories/MySQL/"
             id="categoriesMySQL"
-            ><div class='name'>MySQL</div><div class='badge'>(7)</div></a></li>
+            ><div class='name'>MySQL</div><div class='badge'>(16)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/MySQL/MyCat/" href="/categories/MySQL/MyCat/"
+            id="categoriesMySQLMyCat"
+            ><div class='name'>MyCat</div><div class='badge'>(9)</div></a></li>
         
           <li><a class="flat-box child"
             title="/categories/MySQL/SQL%E4%BC%98%E5%8C%96/" href="/categories/MySQL/SQL%E4%BC%98%E5%8C%96/"
@@ -796,7 +899,7 @@ redis持久化机制redis有两种持久化机制：AOF和RDB
 
 
     <div class='content'>
-      <a href="/tags/GC/" style="font-size: 1px; color: #999">GC</a> <a href="/tags/Hexo/" style="font-size: 6.75px; color: #888">Hexo</a> <a href="/tags/JUC/" style="font-size: 18.25px; color: #666">JUC</a> <a href="/tags/JVM/" style="font-size: 6.75px; color: #888">JVM</a> <a href="/tags/Java/" style="font-size: 1px; color: #999">Java</a> <a href="/tags/JavaSE/" style="font-size: 12.5px; color: #777">JavaSE</a> <a href="/tags/Linux/" style="font-size: 1px; color: #999">Linux</a> <a href="/tags/MySQL/" style="font-size: 24px; color: #555">MySQL</a> <a href="/tags/Redis/" style="font-size: 6.75px; color: #888">Redis</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 1px; color: #999">工具</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 18.25px; color: #666">并发编程</a> <a href="/tags/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 1px; color: #999">微信小程序</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 12.5px; color: #777">数据库</a> <a href="/tags/%E7%B4%A2%E5%BC%95/" style="font-size: 1px; color: #999">索引</a> <a href="/tags/%E7%BA%BF%E7%A8%8B/" style="font-size: 6.75px; color: #888">线程</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 12.5px; color: #777">计算机网络</a> <a href="/tags/%E9%94%81/" style="font-size: 6.75px; color: #888">锁</a> <a href="/tags/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/" style="font-size: 12.5px; color: #777">问题随笔</a> <a href="/tags/%E9%9B%86%E5%90%88/" style="font-size: 6.75px; color: #888">集合</a>
+      <a href="/tags/GC/" style="font-size: 1px; color: #999">GC</a> <a href="/tags/Hexo/" style="font-size: 5.6px; color: #8b8b8b">Hexo</a> <a href="/tags/JUC/" style="font-size: 14.8px; color: #707070">JUC</a> <a href="/tags/JVM/" style="font-size: 5.6px; color: #8b8b8b">JVM</a> <a href="/tags/Java/" style="font-size: 1px; color: #999">Java</a> <a href="/tags/JavaSE/" style="font-size: 10.2px; color: #7e7e7e">JavaSE</a> <a href="/tags/Linux/" style="font-size: 1px; color: #999">Linux</a> <a href="/tags/MyCat/" style="font-size: 24px; color: #555">MyCat</a> <a href="/tags/MySQL/" style="font-size: 19.4px; color: #636363">MySQL</a> <a href="/tags/Redis/" style="font-size: 5.6px; color: #8b8b8b">Redis</a> <a href="/tags/%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8/" style="font-size: 24px; color: #555">分库分表</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 1px; color: #999">工具</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 14.8px; color: #707070">并发编程</a> <a href="/tags/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 1px; color: #999">微信小程序</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10.2px; color: #7e7e7e">数据库</a> <a href="/tags/%E7%B4%A2%E5%BC%95/" style="font-size: 1px; color: #999">索引</a> <a href="/tags/%E7%BA%BF%E7%A8%8B/" style="font-size: 5.6px; color: #8b8b8b">线程</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10.2px; color: #7e7e7e">计算机网络</a> <a href="/tags/%E9%94%81/" style="font-size: 5.6px; color: #8b8b8b">锁</a> <a href="/tags/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/" style="font-size: 10.2px; color: #7e7e7e">问题随笔</a> <a href="/tags/%E9%9B%86%E5%90%88/" style="font-size: 5.6px; color: #8b8b8b">集合</a>
     </div>
   </section>
 

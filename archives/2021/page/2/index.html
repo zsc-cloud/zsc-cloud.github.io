@@ -437,6 +437,315 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   
     
     <h2 class="article-title" >
+      <a href="/2021/06/20/MyCat(%E5%85%AB)---%E6%9E%B6%E6%9E%84%E8%A7%A3%E6%9E%90/">
+        MyCat(八)---架构解析
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        MyCat总体架构介绍源码下载及导入 
+导入Idea
+ 
+总体架构MyCat在逻辑上由几个模块组成: 通信协议、路由解析、结果集处理、数据库连接、监控等模块。如图所示： 
+ 
+1). 通信协议模块： 通信协议模块承担底层的收发数据、线程回调处理工作， MyCat通信协议默认采用Reactor模式，在协议层采用MySQL协议；
+2). 路由解析模块: 负责对传入的SQL语句进行语法解析, 解析...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-06-20</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/MySQL/">MySQL</a><span class="sep"></span><a class="category-link" href="/categories/MySQL/MyCat/">MyCat</a>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/06/20/MyCat(%E5%85%AB)---%E6%9E%B6%E6%9E%84%E8%A7%A3%E6%9E%90/'>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
+      <a href="/2021/06/19/MyCat(%E4%B9%9D)---%E6%A1%88%E4%BE%8B/">
+        MyCat(九)---案例
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        案例概述案例介绍本案例将模拟电商项目中的商品管理、订单管理、基础信息管理、日志管理模块，对整个系统中的数据表进行分片操作，将根据不同的业务需求，采用不同的分片方式 。
+系统架构 
+本案例涉及到的模块： 
+1). 商品微服务
+2). 订单微服务
+3). 日志微服务
+技术选型
+SpringBoot
+
+SpringCloud
+
+SpringMVC
+
+Mybatis
+
+SpringDataRedis...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-06-19</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/MySQL/">MySQL</a><span class="sep"></span><a class="category-link" href="/categories/MySQL/MyCat/">MyCat</a>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/06/19/MyCat(%E4%B9%9D)---%E6%A1%88%E4%BE%8B/'>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
+      <a href="/2021/06/01/SQL%E8%AF%AD%E5%8F%A5/">
+        SQL语句
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        1234567891011121314151617181920212223242526# 直接将查询结果导入或复制到新创建的表CREATE TABLE n SELECT * FROM m;# 删除一个存在表DROP TABLE IF EXISTS m;# 更改存在表的名称ALTER TABLE n RENAME m;# 添加列ALTER  TABLE  table_name  ADD  列名...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-06-01</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/MySQL/">MySQL</a><span class="sep"></span><a class="category-link" href="/categories/MySQL/SQL%E8%AF%AD%E5%8F%A5/">SQL语句</a>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/06/01/SQL%E8%AF%AD%E5%8F%A5/'>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
+      <a href="/2021/05/14/Redis%E6%8C%81%E4%B9%85%E5%8C%96/">
+        Redis持久化
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        redis持久化的意义redis的数据全部在内存中，如果突然宕机，数据就会全部丢失，因此必须有一种机制来保证redis的数据在遇到突发状况的时候不会丢失，或者只丢失少量，于是必须根据一些策略来把redis内存中的数据写到磁盘中，这样当redis服务重启中，就可以根据磁盘中的数据来恢复数据到内存中。
+redis持久化机制redis有两种持久化机制：AOF和RDB
+(1) RDBRDB是一次的全...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-05-14</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/Redis/">Redis</a>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/05/14/Redis%E6%8C%81%E4%B9%85%E5%8C%96/'>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+      
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
+      <a href="/2021/05/12/Java%E5%AE%9E%E7%8E%B0%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E8%8E%B7%E5%8F%96unionID/">
+        Java实现微信小程序获取unionID
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        
+前言：微信开发平台为开发者提供openId用来区分用户的唯一性，但是openId只是在独立的应用内是唯一的，如果开发者拥有多个移动应用、网站应用、和公众帐号（包括小程序），可通过 UnionID 来区分用户的唯一性，因为只要是同一个微信开放平台帐号下所有应用，用户的 UnionID 是唯一的。换句话说，同一用户，对同一个微信开放平台下的不同应用，UnionID是相同的。微信官方文档：官方文...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-05-12</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/">问题随笔</a>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/05/12/Java%E5%AE%9E%E7%8E%B0%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E8%8E%B7%E5%8F%96unionID/'>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
+      <a href="/2021/05/07/Redis%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">
+        Redis基础知识
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        Redis概念Redis是一个使用C语言编写的，开源的高性能非关系型的数据库，键值对形式
+
+应用场景在日常的 Web 应用对数据库的访问中，读操作的次数远超写操作，比例大概在 1:9 到 3:7，所以需要读的可能性是比写的可能大得多的。当我们使用 SQL 语句去数据库进行读写操作时，数据库就会 去磁盘把对应的数据索引取回来，这是一个相对较慢的过程。
+如果我们把数据放在 Redis 中，也就是...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-05-07</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/Redis/">Redis</a>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/05/07/Redis%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/'>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
       <a href="/2021/05/02/Lock/">
         Lock
       </a>
@@ -464,447 +773,6 @@ Lock锁，使用时手动获取锁和释放锁，比synchronized更加灵活；�
       
         <div>
           <a class='readmore' href='/2021/05/02/Lock/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/04/30/GC%E6%9C%BA%E5%88%B6-%E4%B8%80/">
-        GC机制(一)
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        对象怎么什么时候被回收？JVM判断对象回收有两种方式：
-引用记数引用记数比较简单，JVM为每个对象维护一个引用计数，假设A对象引用计数为零说明没有任务对象引用A对象，那A对象就可以被回收了，但是引用计数有个缺点就是无法解决循环引用**的问题。
-
-循环引用就是两个孤零零的对象互相引用，a对象引用b,b对象引用a ，他们的引用计数都不为零，故此处陷入死循环
-
-GC Roots(标记)可达性分析算...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-04-30</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JVM/">JVM</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/04/30/GC%E6%9C%BA%E5%88%B6-%E4%B8%80/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/04/29/JVM%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/">
-        JVM内存结构
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        
-本文都是基于JDK1.8讨论
-
-类加载器什么是类加载器Java中的所有类，都需要由类加载器装载到JVM中才能运行。类加载器本身也是一个类，而它的工作就是把class文件从硬盘读取到内存中。在写程序的时候，我们几乎不需要关心类的加载，因为这些都是隐式装载的，除非我们有特殊的用法，像是反射，就需要显式的加载所需要的类。
-Java类的加载是动态的，它并不会一次性将所有类全部加载后再运行，而是保证...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-04-29</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JVM/">JVM</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/04/29/JVM%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/04/24/%E7%BA%BF%E7%A8%8B%E9%80%9A%E8%AE%AF/">
-        线程通讯
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        概述 线程与线程之间不是相互独立的个体，它们彼此之间需要相互通信和协作。
-最典型的例子就是生产者-消费者问题：当队列满时，生产者需要等待队列有空间才能继续往里面放入商品，而在等待的期间内，生产者必须释放对临界资源（即队列）的占用权。因为生产者如果不释放对临界资源的占用权，那么消费者就无法消费队列中的商品，就不会让队列有空间，那么生产者就会一直无限等待下去。因此一般情况下，当队列满时，会让生产...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-04-24</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JUC/">JUC</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/04/24/%E7%BA%BF%E7%A8%8B%E9%80%9A%E8%AE%AF/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/04/22/JMM%E5%8F%8AVolatile%E5%85%B3%E9%94%AE%E5%AD%97/">
-        JMM及Volatile关键字
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        理解Java内存区域与Java内存模型Java内存区域
-Java虚拟机在运行程序时会把其自动管理的内存划分为以上几个区域，每个区域都有的用途以及创建销毁的时机，其中蓝色部分代表的是所有线程共享的数据区域，而绿色部分代表的是每个线程的私有数据区域。
-方法区（Method Area）方法区属于线程共享的内存区域，又称Non-Heap（非堆），主要用于存储已被虚拟机加载的类信息、常量、静态变量、即...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-04-22</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JUC/">JUC</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/04/22/JMM%E5%8F%8AVolatile%E5%85%B3%E9%94%AE%E5%AD%97/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/04/20/AQS%E8%BE%85%E5%8A%A9%E7%B1%BB/">
-        AQS辅助类
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        倒计数器 CountDownLatch一个同步辅助类，在完成一组正在其他线程中执行的操作之前，它允许一个或多个线程一直等待。
-CountDownLatch是一个辅助同步器类，用来作计数使用，
-它的作用有点类似于生活中的倒数计数器，先设定一个计数初始值，当计数降到0时，将会触发一些事件，如火箭的倒数计时。
-初始计数值在构造CountDownLatch对象时传入，每调用一次 countDown(...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-04-20</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JUC/">JUC</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/04/20/AQS%E8%BE%85%E5%8A%A9%E7%B1%BB/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/04/19/SQL%E4%BC%98%E5%8C%96/">
-        SQL优化
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        简单的SQL优化
-对查询优化，应尽量避免全表扫描，首先应考虑在where以及order by涉及到的列上建立索引.只返回有用的字段，不要全部返回(不要用select * from  返回的字段一点要有用，尽量实现覆盖索引，避免回表操作)
-
-应尽量避免在where子句中对字段进行null值判断，否则将导致放弃使用索引而进行全表扫描.（建议创建字段时设置一个默认值，避免null值,比如字符默认为...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-04-19</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/MySQL/">MySQL</a><span class="sep"></span><a class="category-link" href="/categories/MySQL/SQL%E4%BC%98%E5%8C%96/">SQL优化</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/04/19/SQL%E4%BC%98%E5%8C%96/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/04/15/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
-        线程池
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        线程池的优势总体来说，线程池有如下的优势：
-（1）降低资源消耗。通过重复利用已创建的线程降低线程创建和销毁造成的消耗。
-（2）提高响应速度。当任务到达时，任务可以不需要等到线程创建就能立即执行。
-（3）提高线程的可管理性。线程是稀缺资源，如果无限制的创建，不仅会消耗系统资源，还会降低系统的稳定性，使用线程池可以进行统一的分配，调优和监控。
-线程池的使用四种构造方法线程池的真正实现类是 Thr...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-04-15</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JUC/">JUC</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/04/15/%E7%BA%BF%E7%A8%8B%E6%B1%A0/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/04/15/Synchronized/">
-        Synchronized
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        
-
-前言：造成线程安全问题的主要诱因有两点: 一是存在共享数据(也称临界资源)，二是存在多条线程共同操作共享数据。因此为了解决这个问题，我们可能需要这样一个方案，当存在多个线程操作共享数据时，需要保证同一时刻有且只有一个线程在操作共享数据，其他线程必须等到该线程处理完数据后再进行，这种方式有个高尚的名称叫互斥锁，即能达到互斥访问目的的锁，也就是说当一个共享数据被当前正在访问的线程加上互斥锁后...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-04-15</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JUC/">JUC</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/04/15/Synchronized/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/04/15/jaxb%E4%BB%8Exml%E8%AF%BB%E5%8F%96%E7%89%B9%E6%AE%8A%E6%97%A5%E6%9C%9F%E6%A0%BC%E5%BC%8F%E4%B8%BAnull/">
-        jaxb从xml读取特殊日期格式为null
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        
-解决jaxb从xml文件读取 yyyy-MM-dd HH:mm:ss字段数据返回null 的问题
-
-编写DateAdapter类，处理日期格式1234567891011121314151617181920/** * @author zsc * @date 2020/9/30 * jaxb从xml文件读取特殊格式日期（解决读取 yyyy-MM-dd HH:mm:ss返回null 的问题） *...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-04-15</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/">问题随笔</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/04/15/jaxb%E4%BB%8Exml%E8%AF%BB%E5%8F%96%E7%89%B9%E6%AE%8A%E6%97%A5%E6%9C%9F%E6%A0%BC%E5%BC%8F%E4%B8%BAnull/'>
             阅读全文
           </a>
         </div>
@@ -1068,7 +936,12 @@ CountDownLatch是一个辅助同步器类，用来作计数使用，
           <li><a class="flat-box"
             title="/categories/MySQL/" href="/categories/MySQL/"
             id="categoriesMySQL"
-            ><div class='name'>MySQL</div><div class='badge'>(7)</div></a></li>
+            ><div class='name'>MySQL</div><div class='badge'>(16)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/MySQL/MyCat/" href="/categories/MySQL/MyCat/"
+            id="categoriesMySQLMyCat"
+            ><div class='name'>MyCat</div><div class='badge'>(9)</div></a></li>
         
           <li><a class="flat-box child"
             title="/categories/MySQL/SQL%E4%BC%98%E5%8C%96/" href="/categories/MySQL/SQL%E4%BC%98%E5%8C%96/"
@@ -1137,7 +1010,7 @@ CountDownLatch是一个辅助同步器类，用来作计数使用，
 
 
     <div class='content'>
-      <a href="/tags/GC/" style="font-size: 1px; color: #999">GC</a> <a href="/tags/Hexo/" style="font-size: 6.75px; color: #888">Hexo</a> <a href="/tags/JUC/" style="font-size: 18.25px; color: #666">JUC</a> <a href="/tags/JVM/" style="font-size: 6.75px; color: #888">JVM</a> <a href="/tags/Java/" style="font-size: 1px; color: #999">Java</a> <a href="/tags/JavaSE/" style="font-size: 12.5px; color: #777">JavaSE</a> <a href="/tags/Linux/" style="font-size: 1px; color: #999">Linux</a> <a href="/tags/MySQL/" style="font-size: 24px; color: #555">MySQL</a> <a href="/tags/Redis/" style="font-size: 6.75px; color: #888">Redis</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 1px; color: #999">工具</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 18.25px; color: #666">并发编程</a> <a href="/tags/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 1px; color: #999">微信小程序</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 12.5px; color: #777">数据库</a> <a href="/tags/%E7%B4%A2%E5%BC%95/" style="font-size: 1px; color: #999">索引</a> <a href="/tags/%E7%BA%BF%E7%A8%8B/" style="font-size: 6.75px; color: #888">线程</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 12.5px; color: #777">计算机网络</a> <a href="/tags/%E9%94%81/" style="font-size: 6.75px; color: #888">锁</a> <a href="/tags/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/" style="font-size: 12.5px; color: #777">问题随笔</a> <a href="/tags/%E9%9B%86%E5%90%88/" style="font-size: 6.75px; color: #888">集合</a>
+      <a href="/tags/GC/" style="font-size: 1px; color: #999">GC</a> <a href="/tags/Hexo/" style="font-size: 5.6px; color: #8b8b8b">Hexo</a> <a href="/tags/JUC/" style="font-size: 14.8px; color: #707070">JUC</a> <a href="/tags/JVM/" style="font-size: 5.6px; color: #8b8b8b">JVM</a> <a href="/tags/Java/" style="font-size: 1px; color: #999">Java</a> <a href="/tags/JavaSE/" style="font-size: 10.2px; color: #7e7e7e">JavaSE</a> <a href="/tags/Linux/" style="font-size: 1px; color: #999">Linux</a> <a href="/tags/MyCat/" style="font-size: 24px; color: #555">MyCat</a> <a href="/tags/MySQL/" style="font-size: 19.4px; color: #636363">MySQL</a> <a href="/tags/Redis/" style="font-size: 5.6px; color: #8b8b8b">Redis</a> <a href="/tags/%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8/" style="font-size: 24px; color: #555">分库分表</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 1px; color: #999">工具</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 14.8px; color: #707070">并发编程</a> <a href="/tags/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 1px; color: #999">微信小程序</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10.2px; color: #7e7e7e">数据库</a> <a href="/tags/%E7%B4%A2%E5%BC%95/" style="font-size: 1px; color: #999">索引</a> <a href="/tags/%E7%BA%BF%E7%A8%8B/" style="font-size: 5.6px; color: #8b8b8b">线程</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10.2px; color: #7e7e7e">计算机网络</a> <a href="/tags/%E9%94%81/" style="font-size: 5.6px; color: #8b8b8b">锁</a> <a href="/tags/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/" style="font-size: 10.2px; color: #7e7e7e">问题随笔</a> <a href="/tags/%E9%9B%86%E5%90%88/" style="font-size: 5.6px; color: #8b8b8b">集合</a>
     </div>
   </section>
 

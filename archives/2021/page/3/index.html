@@ -437,6 +437,447 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   
     
     <h2 class="article-title" >
+      <a href="/2021/04/30/GC%E6%9C%BA%E5%88%B6-%E4%B8%80/">
+        GC机制(一)
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        对象怎么什么时候被回收？JVM判断对象回收有两种方式：
+引用记数引用记数比较简单，JVM为每个对象维护一个引用计数，假设A对象引用计数为零说明没有任务对象引用A对象，那A对象就可以被回收了，但是引用计数有个缺点就是无法解决循环引用**的问题。
+
+循环引用就是两个孤零零的对象互相引用，a对象引用b,b对象引用a ，他们的引用计数都不为零，故此处陷入死循环
+
+GC Roots(标记)可达性分析算...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-04-30</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JVM/">JVM</a>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/04/30/GC%E6%9C%BA%E5%88%B6-%E4%B8%80/'>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
+      <a href="/2021/04/29/JVM%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/">
+        JVM内存结构
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        
+本文都是基于JDK1.8讨论
+
+类加载器什么是类加载器Java中的所有类，都需要由类加载器装载到JVM中才能运行。类加载器本身也是一个类，而它的工作就是把class文件从硬盘读取到内存中。在写程序的时候，我们几乎不需要关心类的加载，因为这些都是隐式装载的，除非我们有特殊的用法，像是反射，就需要显式的加载所需要的类。
+Java类的加载是动态的，它并不会一次性将所有类全部加载后再运行，而是保证...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-04-29</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JVM/">JVM</a>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/04/29/JVM%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84/'>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
+      <a href="/2021/04/24/%E7%BA%BF%E7%A8%8B%E9%80%9A%E8%AE%AF/">
+        线程通讯
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        概述 线程与线程之间不是相互独立的个体，它们彼此之间需要相互通信和协作。
+最典型的例子就是生产者-消费者问题：当队列满时，生产者需要等待队列有空间才能继续往里面放入商品，而在等待的期间内，生产者必须释放对临界资源（即队列）的占用权。因为生产者如果不释放对临界资源的占用权，那么消费者就无法消费队列中的商品，就不会让队列有空间，那么生产者就会一直无限等待下去。因此一般情况下，当队列满时，会让生产...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-04-24</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JUC/">JUC</a>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/04/24/%E7%BA%BF%E7%A8%8B%E9%80%9A%E8%AE%AF/'>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
+      <a href="/2021/04/22/JMM%E5%8F%8AVolatile%E5%85%B3%E9%94%AE%E5%AD%97/">
+        JMM及Volatile关键字
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        理解Java内存区域与Java内存模型Java内存区域
+Java虚拟机在运行程序时会把其自动管理的内存划分为以上几个区域，每个区域都有的用途以及创建销毁的时机，其中蓝色部分代表的是所有线程共享的数据区域，而绿色部分代表的是每个线程的私有数据区域。
+方法区（Method Area）方法区属于线程共享的内存区域，又称Non-Heap（非堆），主要用于存储已被虚拟机加载的类信息、常量、静态变量、即...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-04-22</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JUC/">JUC</a>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/04/22/JMM%E5%8F%8AVolatile%E5%85%B3%E9%94%AE%E5%AD%97/'>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
+      <a href="/2021/04/20/AQS%E8%BE%85%E5%8A%A9%E7%B1%BB/">
+        AQS辅助类
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        倒计数器 CountDownLatch一个同步辅助类，在完成一组正在其他线程中执行的操作之前，它允许一个或多个线程一直等待。
+CountDownLatch是一个辅助同步器类，用来作计数使用，
+它的作用有点类似于生活中的倒数计数器，先设定一个计数初始值，当计数降到0时，将会触发一些事件，如火箭的倒数计时。
+初始计数值在构造CountDownLatch对象时传入，每调用一次 countDown(...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-04-20</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JUC/">JUC</a>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/04/20/AQS%E8%BE%85%E5%8A%A9%E7%B1%BB/'>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
+      <a href="/2021/04/19/SQL%E4%BC%98%E5%8C%96/">
+        SQL优化
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        简单的SQL优化
+对查询优化，应尽量避免全表扫描，首先应考虑在where以及order by涉及到的列上建立索引.只返回有用的字段，不要全部返回(不要用select * from  返回的字段一点要有用，尽量实现覆盖索引，避免回表操作)
+
+应尽量避免在where子句中对字段进行null值判断，否则将导致放弃使用索引而进行全表扫描.（建议创建字段时设置一个默认值，避免null值,比如字符默认为...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-04-19</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/MySQL/">MySQL</a><span class="sep"></span><a class="category-link" href="/categories/MySQL/SQL%E4%BC%98%E5%8C%96/">SQL优化</a>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/04/19/SQL%E4%BC%98%E5%8C%96/'>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
+      <a href="/2021/04/15/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
+        线程池
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        线程池的优势总体来说，线程池有如下的优势：
+（1）降低资源消耗。通过重复利用已创建的线程降低线程创建和销毁造成的消耗。
+（2）提高响应速度。当任务到达时，任务可以不需要等到线程创建就能立即执行。
+（3）提高线程的可管理性。线程是稀缺资源，如果无限制的创建，不仅会消耗系统资源，还会降低系统的稳定性，使用线程池可以进行统一的分配，调优和监控。
+线程池的使用四种构造方法线程池的真正实现类是 Thr...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-04-15</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JUC/">JUC</a>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/04/15/%E7%BA%BF%E7%A8%8B%E6%B1%A0/'>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
+      <a href="/2021/04/15/Synchronized/">
+        Synchronized
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        
+
+前言：造成线程安全问题的主要诱因有两点: 一是存在共享数据(也称临界资源)，二是存在多条线程共同操作共享数据。因此为了解决这个问题，我们可能需要这样一个方案，当存在多个线程操作共享数据时，需要保证同一时刻有且只有一个线程在操作共享数据，其他线程必须等到该线程处理完数据后再进行，这种方式有个高尚的名称叫互斥锁，即能达到互斥访问目的的锁，也就是说当一个共享数据被当前正在访问的线程加上互斥锁后...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-04-15</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JUC/">JUC</a>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/04/15/Synchronized/'>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
+      <a href="/2021/04/15/jaxb%E4%BB%8Exml%E8%AF%BB%E5%8F%96%E7%89%B9%E6%AE%8A%E6%97%A5%E6%9C%9F%E6%A0%BC%E5%BC%8F%E4%B8%BAnull/">
+        jaxb从xml读取特殊日期格式为null
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        
+解决jaxb从xml文件读取 yyyy-MM-dd HH:mm:ss字段数据返回null 的问题
+
+编写DateAdapter类，处理日期格式1234567891011121314151617181920/** * @author zsc * @date 2020/9/30 * jaxb从xml文件读取特殊格式日期（解决读取 yyyy-MM-dd HH:mm:ss返回null 的问题） *...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-04-15</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/">问题随笔</a>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/04/15/jaxb%E4%BB%8Exml%E8%AF%BB%E5%8F%96%E7%89%B9%E6%AE%8A%E6%97%A5%E6%9C%9F%E6%A0%BC%E5%BC%8F%E4%B8%BAnull/'>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
       <a href="/2021/04/12/MySQL%E5%88%9B%E5%BB%BA%E7%94%A8%E6%88%B7/">
         MySQL创建用户
       </a>
@@ -467,460 +908,6 @@ MySQL 赋予用户权限命令的简单格式可概括为：grant 权限 on 数�
       
         <div>
           <a class='readmore' href='/2021/04/12/MySQL%E5%88%9B%E5%BB%BA%E7%94%A8%E6%88%B7/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/04/10/%E7%AB%AF%E5%8F%A3%E5%8F%B7%E8%A2%AB%E5%8D%A0%E7%94%A8/">
-        端口号被占用
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        
-我们在启动本地项目的时候，经常出现项目端口被占用的情况。如下所示：
-
-
-这个时候我们需要在本地结束这个端口占用的进程。
-过程如下：
-第一步：运行windows的cmd.   查看端口被谁占用，占用者的进程号
-cmd输入 netstat  -ano|findstr  11006回车，这里的11006指的是被占用端口，如果你的是其他比如8080，就把11006换成8080回车。我这里查询到是1...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-04-10</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/">问题随笔</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/04/10/%E7%AB%AF%E5%8F%A3%E5%8F%B7%E8%A2%AB%E5%8D%A0%E7%94%A8/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/04/05/HashMap%E8%A7%A3%E6%9E%90/">
-        HashMap解析
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        HashMap源码解析JDK1.8先看看hashMap在jdk      1.8的结构，用的是数组+链表+红黑树的结构，也叫哈希桶，在jdk 1.8之前都是数组+链表的结构，因为在链表的查询操作都是O(N)的时间复杂度，而且hashMap中查询操作也是占了很大比例的，如果当节点数量多，转换为红黑树结构，那么将会提高很大的效率，因为红黑树结构中，增删改查都是O(log n)。 
-哈希桶就是数组...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-04-05</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/Java%E5%9F%BA%E7%A1%80/">Java基础</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/04/05/HashMap%E8%A7%A3%E6%9E%90/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/04/05/%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93%E5%92%8C%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E5%90%88%E5%B9%B6/">
-        本地仓库和远程仓库合并
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        
-Git :fatal: refusing to merge unrelated histories解决
-
-本地创建了一个仓库，把本地仓库和Gitee上关联以后发现git pull/git push，git feach提醒fatal: refusing to merge unrelated histories
-原因是两个分支是两个不同的版本，具有不同的提交历史
-拉取远程代码的时候执行
-1$g...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-04-05</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/">问题随笔</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/04/05/%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93%E5%92%8C%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E5%90%88%E5%B9%B6/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/04/02/HashMap/">
-        HashMap
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        前置知识HashHash表Hash表也称散列表，直译为哈希表，hash表是一种根据关键字值（key-value）而直接进行访问的数据结构。
-在哈希表的键值对关系中，key到value中间还存在着一个映射值，这个映射值就是数组的下标index，key正是通过映射到数组对应的下标index而访问到value值的，通过一个映射函数f(key)映射到数组下标，这个函数我们称之为哈希函数
-Hash冲突...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-04-02</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/Java%E5%9F%BA%E7%A1%80/">Java基础</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/04/02/HashMap/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/04/01/%E5%8F%8D%E5%B0%84/">
-        反射
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        如何通过反射创建对象简单的说，反射机制就是在程序的运行过程中被允许对程序本身进行操作，比如自我检查，进行装载，还可以获取类本身，类的所有成员变量和方法，类的对象，还可以在运行过程中动态的创建类的实例，通过实例来调用类的方法，这就是反射机制一个比较重要的功能了。那么要通过程序来理解反射机制，首先要理解类的加载过程
-
-在Java程序执行的时候，要经历三个步骤：加载、连接和初始化。首先程序要加载到...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-04-01</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/Java%E5%9F%BA%E7%A1%80/">Java基础</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/04/01/%E5%8F%8D%E5%B0%84/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/03/30/MySQL%E4%B8%ADshow-profile%E8%AF%A6%E8%A7%A3/">
-        MySQL中show profile详解
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        
-当我们在优化sql的时候可以使用explain来查看执行计划，可当根据执行计划优化完毕之后我们的sql的运行时间还是比较长，这时我们可以使用show profile更细粒度的分析，show-profile，可以提高用来分析当前会话中语句执行的资源消耗情况,可以用于sql调优的测量.
-Show Profile官方文档地址
-
-1.  基本语法：
-查看是否开启：show variables li...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-03-30</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/MySQL/">MySQL</a><span class="sep"></span><a class="category-link" href="/categories/MySQL/SQL%E4%BC%98%E5%8C%96/">SQL优化</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/03/30/MySQL%E4%B8%ADshow-profile%E8%AF%A6%E8%A7%A3/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/03/20/%E9%80%9A%E8%BF%87Query-Profiler%E6%9F%A5%E7%9C%8BMySQL%E8%AF%AD%E5%8F%A5%E8%BF%90%E8%A1%8C%E6%97%B6%E9%97%B4/">
-        通过Query Profiler查看MySQL语句运行时间
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        前言
-Query Profiler是MYSQL自带的一种query诊断分析工具，通过它可以分析出一条SQL语句的性能瓶颈在什么地方。通常我们是使用的explain,以及slow query log都无法做到精确分析，
-
- 但是Query Profiler却可以定位出一条SQL语句执行的各种资源消耗情况，比如CPU，IO等，以及该SQL执行所耗费的时间等。
-Show profiles是5.0....
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-03-20</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/MySQL/">MySQL</a><span class="sep"></span><a class="category-link" href="/categories/MySQL/SQL%E4%BC%98%E5%8C%96/">SQL优化</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/03/20/%E9%80%9A%E8%BF%87Query-Profiler%E6%9F%A5%E7%9C%8BMySQL%E8%AF%AD%E5%8F%A5%E8%BF%90%E8%A1%8C%E6%97%B6%E9%97%B4/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/03/15/Gitee-PicGo-Typora%E5%AE%9E%E7%8E%B0%E9%AB%98%E9%80%9F%E5%9B%BE%E5%BA%8A/">
-        Gitee+PicGo+Typora实现高速图床
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        
-之前使用GitHub搭建床图，我们都知道GitHub在国内速度感人，图片经常刷不出来，而且上传巨慢，今天我们用国内Gitee搭建床图，实现秒级上传，而且配和Typora笔记集成实现自动上传
-
-Gitee创建图床仓库注册登录码云账户，并创建一个仓库
-
-
-注意这里一定要选择开源，否则最后生成的图片地址访问不到！
-
-获取仓库的私人令牌token这个token需要配置在PicGo中，用于自动上传使...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-03-15</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a><span class="sep"></span><a class="category-link" href="/categories/%E5%B7%A5%E5%85%B7/%E5%9B%BE%E5%BA%8A/">图床</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/03/15/Gitee-PicGo-Typora%E5%AE%9E%E7%8E%B0%E9%AB%98%E9%80%9F%E5%9B%BE%E5%BA%8A/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/03/03/Hexo%E4%BD%BF%E7%94%A8Volantis%E4%B8%BB%E9%A2%98/">
-        Hexo使用Volantis主题
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        更换主题这里采用的是Volantis5主题和 Hexo 5.0.2，不用复制什么主题到theme文件夹下，直接使用npm安装即可
-
-在 blog/_config.yml 文件中找到并修改：
-1theme: volantis
-下载主题
-123456# 安装npm i hexo-theme-volantis# 安装 Hexo 搜索的依赖包npm i hexo-generator-search h...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-03-03</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/Hexo/">Hexo</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/03/03/Hexo%E4%BD%BF%E7%94%A8Volantis%E4%B8%BB%E9%A2%98/'>
             阅读全文
           </a>
         </div>
@@ -1084,7 +1071,12 @@ Gitee创建图床仓库注册登录码云账户，并创建一个仓库
           <li><a class="flat-box"
             title="/categories/MySQL/" href="/categories/MySQL/"
             id="categoriesMySQL"
-            ><div class='name'>MySQL</div><div class='badge'>(7)</div></a></li>
+            ><div class='name'>MySQL</div><div class='badge'>(16)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/MySQL/MyCat/" href="/categories/MySQL/MyCat/"
+            id="categoriesMySQLMyCat"
+            ><div class='name'>MyCat</div><div class='badge'>(9)</div></a></li>
         
           <li><a class="flat-box child"
             title="/categories/MySQL/SQL%E4%BC%98%E5%8C%96/" href="/categories/MySQL/SQL%E4%BC%98%E5%8C%96/"
@@ -1153,7 +1145,7 @@ Gitee创建图床仓库注册登录码云账户，并创建一个仓库
 
 
     <div class='content'>
-      <a href="/tags/GC/" style="font-size: 1px; color: #999">GC</a> <a href="/tags/Hexo/" style="font-size: 6.75px; color: #888">Hexo</a> <a href="/tags/JUC/" style="font-size: 18.25px; color: #666">JUC</a> <a href="/tags/JVM/" style="font-size: 6.75px; color: #888">JVM</a> <a href="/tags/Java/" style="font-size: 1px; color: #999">Java</a> <a href="/tags/JavaSE/" style="font-size: 12.5px; color: #777">JavaSE</a> <a href="/tags/Linux/" style="font-size: 1px; color: #999">Linux</a> <a href="/tags/MySQL/" style="font-size: 24px; color: #555">MySQL</a> <a href="/tags/Redis/" style="font-size: 6.75px; color: #888">Redis</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 1px; color: #999">工具</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 18.25px; color: #666">并发编程</a> <a href="/tags/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 1px; color: #999">微信小程序</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 12.5px; color: #777">数据库</a> <a href="/tags/%E7%B4%A2%E5%BC%95/" style="font-size: 1px; color: #999">索引</a> <a href="/tags/%E7%BA%BF%E7%A8%8B/" style="font-size: 6.75px; color: #888">线程</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 12.5px; color: #777">计算机网络</a> <a href="/tags/%E9%94%81/" style="font-size: 6.75px; color: #888">锁</a> <a href="/tags/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/" style="font-size: 12.5px; color: #777">问题随笔</a> <a href="/tags/%E9%9B%86%E5%90%88/" style="font-size: 6.75px; color: #888">集合</a>
+      <a href="/tags/GC/" style="font-size: 1px; color: #999">GC</a> <a href="/tags/Hexo/" style="font-size: 5.6px; color: #8b8b8b">Hexo</a> <a href="/tags/JUC/" style="font-size: 14.8px; color: #707070">JUC</a> <a href="/tags/JVM/" style="font-size: 5.6px; color: #8b8b8b">JVM</a> <a href="/tags/Java/" style="font-size: 1px; color: #999">Java</a> <a href="/tags/JavaSE/" style="font-size: 10.2px; color: #7e7e7e">JavaSE</a> <a href="/tags/Linux/" style="font-size: 1px; color: #999">Linux</a> <a href="/tags/MyCat/" style="font-size: 24px; color: #555">MyCat</a> <a href="/tags/MySQL/" style="font-size: 19.4px; color: #636363">MySQL</a> <a href="/tags/Redis/" style="font-size: 5.6px; color: #8b8b8b">Redis</a> <a href="/tags/%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8/" style="font-size: 24px; color: #555">分库分表</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 1px; color: #999">工具</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 14.8px; color: #707070">并发编程</a> <a href="/tags/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 1px; color: #999">微信小程序</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10.2px; color: #7e7e7e">数据库</a> <a href="/tags/%E7%B4%A2%E5%BC%95/" style="font-size: 1px; color: #999">索引</a> <a href="/tags/%E7%BA%BF%E7%A8%8B/" style="font-size: 5.6px; color: #8b8b8b">线程</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10.2px; color: #7e7e7e">计算机网络</a> <a href="/tags/%E9%94%81/" style="font-size: 5.6px; color: #8b8b8b">锁</a> <a href="/tags/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/" style="font-size: 10.2px; color: #7e7e7e">问题随笔</a> <a href="/tags/%E9%9B%86%E5%90%88/" style="font-size: 5.6px; color: #8b8b8b">集合</a>
     </div>
   </section>
 

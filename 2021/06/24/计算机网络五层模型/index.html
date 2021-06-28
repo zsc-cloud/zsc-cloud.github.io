@@ -689,17 +689,16 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   
     <div class="prev-next">
       
-        <a class='prev' href='/2021/06/24/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/'>
-          <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>TCP三次握手</p>
-          <p class='content'>握手的过程1、第一次握手：客户端给服务器发送一个 SYN 报文。
-2、第二次握手：服务器收到 SYN 报文之后，会应答一个 SYN+ACK 报文。
-3、第三次握手：客户端收到 SYN+ACK 报...</p>
+        <a class='prev' href='/2021/06/24/TCP%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/'>
+          <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>TCP四次挥手</p>
+          <p class='content'>四次挥手过程刚开始双方都处于 establised 状态，假如是客户端先发起关闭请求，则：
+1、第一次挥手：客户端发送一个 FIN 报文，报文中会指定一个序列号。此时客户端处于FIN_WAIT1...</p>
         </a>
       
       
-        <a class='next' href='/2021/06/01/SQL%E8%AF%AD%E5%8F%A5/'>
-          <p class='title'>SQL语句<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-          <p class='content'>1234567891011121314151617181920212223242526# 直接将查询结果导入或复制到新创建的表CREATE TABLE n SELECT * FROM m;# 删...</p>
+        <a class='next' href='/2021/06/23/MyCat(%E4%BA%94)---%E6%80%A7%E8%83%BD%E7%9B%91%E6%8E%A7/'>
+          <p class='title'>MyCat(五)---性能监控<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+          <p class='content'>MyCat 性能监控MyCat-web简介Mycat-web 是 Mycat 可视化运维的管理和监控平台，弥补了 Mycat 在监控上的空白。帮 Mycat 分担统计任务和配置管理任务。Myca...</p>
         </a>
       
     </div>
@@ -799,7 +798,12 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
           <li><a class="flat-box"
             title="/categories/MySQL/" href="/categories/MySQL/"
             id="categoriesMySQL"
-            ><div class='name'>MySQL</div><div class='badge'>(7)</div></a></li>
+            ><div class='name'>MySQL</div><div class='badge'>(16)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/MySQL/MyCat/" href="/categories/MySQL/MyCat/"
+            id="categoriesMySQLMyCat"
+            ><div class='name'>MyCat</div><div class='badge'>(9)</div></a></li>
         
           <li><a class="flat-box child"
             title="/categories/MySQL/SQL%E4%BC%98%E5%8C%96/" href="/categories/MySQL/SQL%E4%BC%98%E5%8C%96/"
@@ -868,7 +872,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 
 
     <div class='content'>
-      <a href="/tags/GC/" style="font-size: 1px; color: #999">GC</a> <a href="/tags/Hexo/" style="font-size: 6.75px; color: #888">Hexo</a> <a href="/tags/JUC/" style="font-size: 18.25px; color: #666">JUC</a> <a href="/tags/JVM/" style="font-size: 6.75px; color: #888">JVM</a> <a href="/tags/Java/" style="font-size: 1px; color: #999">Java</a> <a href="/tags/JavaSE/" style="font-size: 12.5px; color: #777">JavaSE</a> <a href="/tags/Linux/" style="font-size: 1px; color: #999">Linux</a> <a href="/tags/MySQL/" style="font-size: 24px; color: #555">MySQL</a> <a href="/tags/Redis/" style="font-size: 6.75px; color: #888">Redis</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 1px; color: #999">工具</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 18.25px; color: #666">并发编程</a> <a href="/tags/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 1px; color: #999">微信小程序</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 12.5px; color: #777">数据库</a> <a href="/tags/%E7%B4%A2%E5%BC%95/" style="font-size: 1px; color: #999">索引</a> <a href="/tags/%E7%BA%BF%E7%A8%8B/" style="font-size: 6.75px; color: #888">线程</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 12.5px; color: #777">计算机网络</a> <a href="/tags/%E9%94%81/" style="font-size: 6.75px; color: #888">锁</a> <a href="/tags/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/" style="font-size: 12.5px; color: #777">问题随笔</a> <a href="/tags/%E9%9B%86%E5%90%88/" style="font-size: 6.75px; color: #888">集合</a>
+      <a href="/tags/GC/" style="font-size: 1px; color: #999">GC</a> <a href="/tags/Hexo/" style="font-size: 5.6px; color: #8b8b8b">Hexo</a> <a href="/tags/JUC/" style="font-size: 14.8px; color: #707070">JUC</a> <a href="/tags/JVM/" style="font-size: 5.6px; color: #8b8b8b">JVM</a> <a href="/tags/Java/" style="font-size: 1px; color: #999">Java</a> <a href="/tags/JavaSE/" style="font-size: 10.2px; color: #7e7e7e">JavaSE</a> <a href="/tags/Linux/" style="font-size: 1px; color: #999">Linux</a> <a href="/tags/MyCat/" style="font-size: 24px; color: #555">MyCat</a> <a href="/tags/MySQL/" style="font-size: 19.4px; color: #636363">MySQL</a> <a href="/tags/Redis/" style="font-size: 5.6px; color: #8b8b8b">Redis</a> <a href="/tags/%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8/" style="font-size: 24px; color: #555">分库分表</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 1px; color: #999">工具</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 14.8px; color: #707070">并发编程</a> <a href="/tags/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 1px; color: #999">微信小程序</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10.2px; color: #7e7e7e">数据库</a> <a href="/tags/%E7%B4%A2%E5%BC%95/" style="font-size: 1px; color: #999">索引</a> <a href="/tags/%E7%BA%BF%E7%A8%8B/" style="font-size: 5.6px; color: #8b8b8b">线程</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10.2px; color: #7e7e7e">计算机网络</a> <a href="/tags/%E9%94%81/" style="font-size: 5.6px; color: #8b8b8b">锁</a> <a href="/tags/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/" style="font-size: 10.2px; color: #7e7e7e">问题随笔</a> <a href="/tags/%E9%9B%86%E5%90%88/" style="font-size: 5.6px; color: #8b8b8b">集合</a>
     </div>
   </section>
 

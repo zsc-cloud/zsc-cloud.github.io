@@ -1,0 +1,2476 @@
+<!DOCTYPE html>
+<html lang="zh-CN,en,default">
+  <head hexo-theme='https://github.com/volantis-x/hexo-theme-volantis/tree/4.3.1'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://cdn.jsdelivr.net'>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <link rel="preload" href="/css/first.css" as="style">
+  
+
+  <!-- 页面元数据 -->
+  
+  <title>MyCat(四)---分片 - Never Meet Blog</title>
+  
+    <meta name="keywords" content="MyCat,分库分表">
+  
+
+  
+
+  <!-- feed -->
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  
+    <link rel="shortcut icon" type='image/x-icon' href="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210603105954.png">
+  
+
+  <!-- import link -->
+  
+
+  
+    
+<link rel="stylesheet" href="/css/first.css">
+
+  
+
+  
+  <link rel="stylesheet" href="/css/style.css" media="print" onload="this.media='all';this.onload=null">
+  <noscript><link rel="stylesheet" href="/css/style.css"></noscript>
+  
+
+  <script id="loadcss"></script>
+
+  
+<script>
+if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode))
+    document.write(
+	'<style>'+
+		'html{'+
+			'overflow-x: hidden !important;'+
+			'overflow-y: hidden !important;'+
+		'}'+
+		'.kill-ie{'+
+			'text-align:center;'+
+			'height: 100%;'+
+			'margin-top: 15%;'+
+			'margin-bottom: 5500%;'+
+		'}'+
+	'</style>'+
+    '<div class="kill-ie">'+
+        '<h1><b>抱歉，您的浏览器无法访问本站</b></h1>'+
+        '<h3>微软已经于2016年终止了对 Internet Explorer (IE) 10 及更早版本的支持，<br/>'+
+        '继续使用存在极大的安全隐患，请使用当代主流的浏览器进行访问。</h3><br/>'+
+        '<a target="_blank" rel="noopener" href="https://www.microsoft.com/zh-cn/WindowsForBusiness/End-of-IE-support"><strong>了解详情 ></strong></a>'+
+    '</div>');
+</script>
+
+
+<noscript>
+	<style>
+		html{
+			overflow-x: hidden !important;
+			overflow-y: hidden !important;
+		}
+		.kill-noscript{
+			text-align:center;
+			height: 100%;
+			margin-top: 15%;
+			margin-bottom: 5500%;
+		}
+	</style>
+    <div class="kill-noscript">
+        <h1><b>抱歉，您的浏览器无法访问本站</b></h1>
+        <h3>本页面需要浏览器支持（启用）JavaScript</h3><br/>
+        <a target="_blank" rel="noopener" href="https://www.baidu.com/s?wd=启用JavaScript"><strong>了解详情 ></strong></a>
+    </div>
+</noscript>
+
+</head>
+
+  <body>
+    
+
+<header id="l_header" class="l_header auto shadow blur show" style='opacity: 0' >
+  <div class='container'>
+  <div id='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h m-phone' id="pjax-header-nav-list">
+        <li><a id="s-comment" class="fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a id="s-toc" class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+            <img no-lazy class='logo' src='https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/blog/Logo-NavBar@3x.png'/>
+          
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h m-pc'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/about/
+                  
+                  
+                  
+                    id="about"
+                  >
+                  <i class='fas fa-info-circle fa-fw'></i>关于
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box header toggle-mode-btn">
+                  <i class='fas fa-moon fa-fw'></i>暗黑模式
+                </a>
+              <li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="搜索" />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h m-phone'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/about/
+                  
+                  
+                  
+                    id="about"
+                  >
+                  <i class='fas fa-info-circle fa-fw'></i>关于
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box header toggle-mode-btn">
+                  <i class='fas fa-moon fa-fw'></i>暗黑模式
+                </a>
+              <li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+    <div id="l_body">
+      <div id="l_cover">
+  
+    
+        <div id="full" class='cover-wrapper post search' style="display: none;">
+          
+            <div id='cover-backstretch'></div>
+          
+          <div class='cover-body'>
+  <div class='top'>
+    
+    
+      <p class="title">Never Meet</p>
+    
+    
+  </div>
+  <div class='bottom'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="only search in the website" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <div class='list-h'>
+        
+          
+            <a href="/"
+              
+              
+              id="home">
+              <i class='fas fa-rss fa-fw'></i><p>博客</p>
+            </a>
+          
+            <a href="/categories/"
+              
+              
+              id="categories">
+              <i class='fas fa-folder-open fa-fw'></i><p>分类</p>
+            </a>
+          
+            <a href="/tags/"
+              
+              
+              id="tags">
+              <i class='fas fa-tags fa-fw'></i><p>标签</p>
+            </a>
+          
+            <a href="/archives/"
+              
+              
+              id="archives">
+              <i class='fas fa-archive fa-fw'></i><p>归档</p>
+            </a>
+          
+            <a href="/about/"
+              
+              
+              id="about">
+              <i class='fas fa-info-circle fa-fw'></i><p>关于</p>
+            </a>
+          
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+          <div id="scroll-down" style="display: none;"><i class="fa fa-chevron-down scroll-down-effects"></i></div>
+        </div>
+    
+  
+  </div>
+
+      <div id="safearea">
+        <div class="body-wrapper" id="pjax-container">
+          
+
+<div class='l_main'>
+  <article class="article post white-box reveal md shadow article-type-post" id="post" itemscope itemprop="blogPost">
+  
+
+
+  
+  <div class="article-meta" id="top">
+    
+    
+    
+      <h1 class="title">
+        MyCat(四)---分片
+      </h1>
+      <div class='new-meta-box'>
+        
+          
+            
+<div class='new-meta-item author'>
+  <a class='author' href="/" rel="nofollow">
+    <img no-lazy src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210603111048.png">
+    <p>By：赵树超</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  <div class='new-meta-item category'>
+    <a class='notlink'>
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <a class="category-link" href="/categories/MySQL/">MySQL</a><span class="sep"></span><a class="category-link" href="/categories/MySQL/MyCat/">MyCat</a>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2021年6月25日</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  <div class="new-meta-item browse leancloud">
+    <a class='notlink'>
+      
+      <div id="lc-pv" data-title="MyCat(四)---分片" data-path="/2021/06/25/Mycat(%E5%9B%9B)---%E5%88%86%E7%89%87/">
+        <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+        <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+        次浏览
+      </div>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>字数：8.5k字</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>时长：43分钟</p>
+    </a>
+  </div>
+
+
+          
+        
+      </div>
+    
+  </div>
+
+
+  
+  
+  <h3 id="垂直拆分"><a href="#垂直拆分" class="headerlink" title="垂直拆分"></a>垂直拆分</h3><h4 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h4><p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628150647.png" alt="1573622314361"> </p>
+<p>一种是按照不同的表（或者Schema）来切分到不同的数据库（主机）之上，这种切分可以称之为数据的垂直（纵向）切分。</p>
+<h4 id="案例场景"><a href="#案例场景" class="headerlink" title="案例场景"></a>案例场景</h4><p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628150708.png" alt="1575725341210"> </p>
+<p>在业务系统中, 有以下表结构 ,但是由于用户与订单每天都会产生大量的数据, 单台服务器的数据存储及处理能力是有限的, 可以对数据库表进行拆分, 原有的数据库表: </p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628150716.png" alt="1575726526012"> </p>
+<h4 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h4><p>1). 准备三台数据库实例</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">192.168.192.157</span><br><span class="line">192.168.192.158</span><br><span class="line">192.168.192.159</span><br></pre></td></tr></table></figure>
+
+<p>2). 在三台数据库实例中建库建表</p>
+<p>将准备好的三个SQL脚本, 分别导入到三台MySQL实例中 ;</p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628150726.png" alt="1575730157557"> </p>
+<p>登录MySQL数据库之后, 使用source命令导入 ;</p>
+<h4 id="schema-xml的配置"><a href="#schema-xml的配置" class="headerlink" title="schema.xml的配置"></a>schema.xml的配置</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot;?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">mycat</span>:schema <span class="meta-keyword">SYSTEM</span> <span class="meta-string">&quot;schema.dtd&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mycat:schema</span> <span class="attr">xmlns:mycat</span>=<span class="string">&quot;http://io.mycat/&quot;</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">	<span class="tag">&lt;<span class="name">schema</span> <span class="attr">name</span>=<span class="string">&quot;ITCAST_DB&quot;</span> <span class="attr">checkSQLschema</span>=<span class="string">&quot;false&quot;</span> <span class="attr">sqlMaxLimit</span>=<span class="string">&quot;100&quot;</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;tb_areas_city&quot;</span> <span class="attr">dataNode</span>=<span class="string">&quot;dn1&quot;</span> <span class="attr">primaryKey</span>=<span class="string">&quot;id&quot;</span> /&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;tb_areas_provinces&quot;</span> <span class="attr">dataNode</span>=<span class="string">&quot;dn1&quot;</span> <span class="attr">primaryKey</span>=<span class="string">&quot;id&quot;</span> /&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;tb_areas_region&quot;</span> <span class="attr">dataNode</span>=<span class="string">&quot;dn1&quot;</span> <span class="attr">primaryKey</span>=<span class="string">&quot;id&quot;</span> /&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;tb_user&quot;</span> <span class="attr">dataNode</span>=<span class="string">&quot;dn1&quot;</span> <span class="attr">primaryKey</span>=<span class="string">&quot;id&quot;</span> /&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;tb_user_address&quot;</span> <span class="attr">dataNode</span>=<span class="string">&quot;dn1&quot;</span> <span class="attr">primaryKey</span>=<span class="string">&quot;id&quot;</span> /&gt;</span></span><br><span class="line">		</span><br><span class="line">		<span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;tb_goods_base&quot;</span> <span class="attr">dataNode</span>=<span class="string">&quot;dn2&quot;</span> <span class="attr">primaryKey</span>=<span class="string">&quot;id&quot;</span> /&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;tb_goods_desc&quot;</span> <span class="attr">dataNode</span>=<span class="string">&quot;dn2&quot;</span> <span class="attr">primaryKey</span>=<span class="string">&quot;goods_id&quot;</span> /&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;tb_goods_item_cat&quot;</span> <span class="attr">dataNode</span>=<span class="string">&quot;dn2&quot;</span> <span class="attr">primaryKey</span>=<span class="string">&quot;id&quot;</span> /&gt;</span></span><br><span class="line">		</span><br><span class="line">		<span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;tb_order_item&quot;</span> <span class="attr">dataNode</span>=<span class="string">&quot;dn3&quot;</span> <span class="attr">primaryKey</span>=<span class="string">&quot;id&quot;</span> /&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;tb_order_master&quot;</span> <span class="attr">dataNode</span>=<span class="string">&quot;dn3&quot;</span> <span class="attr">primaryKey</span>=<span class="string">&quot;order_id&quot;</span> /&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;tb_order_pay_log&quot;</span> <span class="attr">dataNode</span>=<span class="string">&quot;dn3&quot;</span> <span class="attr">primaryKey</span>=<span class="string">&quot;out_trade_no&quot;</span> /&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">schema</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	<span class="tag">&lt;<span class="name">dataNode</span> <span class="attr">name</span>=<span class="string">&quot;dn1&quot;</span> <span class="attr">dataHost</span>=<span class="string">&quot;host1&quot;</span> <span class="attr">database</span>=<span class="string">&quot;user_db&quot;</span> /&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">dataNode</span> <span class="attr">name</span>=<span class="string">&quot;dn2&quot;</span> <span class="attr">dataHost</span>=<span class="string">&quot;host2&quot;</span> <span class="attr">database</span>=<span class="string">&quot;goods_db&quot;</span> /&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">dataNode</span> <span class="attr">name</span>=<span class="string">&quot;dn3&quot;</span> <span class="attr">dataHost</span>=<span class="string">&quot;host3&quot;</span> <span class="attr">database</span>=<span class="string">&quot;order_db&quot;</span> /&gt;</span></span><br><span class="line">	</span><br><span class="line">    </span><br><span class="line">	<span class="tag">&lt;<span class="name">dataHost</span> <span class="attr">name</span>=<span class="string">&quot;host1&quot;</span> <span class="attr">maxCon</span>=<span class="string">&quot;1000&quot;</span> <span class="attr">minCon</span>=<span class="string">&quot;10&quot;</span> <span class="attr">balance</span>=<span class="string">&quot;0&quot;</span></span></span><br><span class="line"><span class="tag">		<span class="attr">writeType</span>=<span class="string">&quot;0&quot;</span> <span class="attr">dbType</span>=<span class="string">&quot;mysql&quot;</span> <span class="attr">dbDriver</span>=<span class="string">&quot;native&quot;</span> <span class="attr">switchType</span>=<span class="string">&quot;1&quot;</span>  <span class="attr">slaveThreshold</span>=<span class="string">&quot;100&quot;</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">heartbeat</span>&gt;</span>select user()<span class="tag">&lt;/<span class="name">heartbeat</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">writeHost</span> <span class="attr">host</span>=<span class="string">&quot;hostM1&quot;</span> <span class="attr">url</span>=<span class="string">&quot;192.168.192.157:3306&quot;</span> <span class="attr">user</span>=<span class="string">&quot;root&quot;</span> <span class="attr">password</span>=<span class="string">&quot;itcast&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">writeHost</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dataHost</span>&gt;</span>	</span><br><span class="line">    </span><br><span class="line">    <span class="tag">&lt;<span class="name">dataHost</span> <span class="attr">name</span>=<span class="string">&quot;host2&quot;</span> <span class="attr">maxCon</span>=<span class="string">&quot;1000&quot;</span> <span class="attr">minCon</span>=<span class="string">&quot;10&quot;</span> <span class="attr">balance</span>=<span class="string">&quot;0&quot;</span></span></span><br><span class="line"><span class="tag">		<span class="attr">writeType</span>=<span class="string">&quot;0&quot;</span> <span class="attr">dbType</span>=<span class="string">&quot;mysql&quot;</span> <span class="attr">dbDriver</span>=<span class="string">&quot;native&quot;</span> <span class="attr">switchType</span>=<span class="string">&quot;1&quot;</span>  <span class="attr">slaveThreshold</span>=<span class="string">&quot;100&quot;</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">heartbeat</span>&gt;</span>select user()<span class="tag">&lt;/<span class="name">heartbeat</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">writeHost</span> <span class="attr">host</span>=<span class="string">&quot;hostM2&quot;</span> <span class="attr">url</span>=<span class="string">&quot;192.168.192.158:3306&quot;</span> <span class="attr">user</span>=<span class="string">&quot;root&quot;</span> <span class="attr">password</span>=<span class="string">&quot;itcast&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">writeHost</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dataHost</span>&gt;</span>	</span><br><span class="line">    </span><br><span class="line">    <span class="tag">&lt;<span class="name">dataHost</span> <span class="attr">name</span>=<span class="string">&quot;host3&quot;</span> <span class="attr">maxCon</span>=<span class="string">&quot;1000&quot;</span> <span class="attr">minCon</span>=<span class="string">&quot;10&quot;</span> <span class="attr">balance</span>=<span class="string">&quot;0&quot;</span></span></span><br><span class="line"><span class="tag">		<span class="attr">writeType</span>=<span class="string">&quot;0&quot;</span> <span class="attr">dbType</span>=<span class="string">&quot;mysql&quot;</span> <span class="attr">dbDriver</span>=<span class="string">&quot;native&quot;</span> <span class="attr">switchType</span>=<span class="string">&quot;1&quot;</span>  <span class="attr">slaveThreshold</span>=<span class="string">&quot;100&quot;</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">heartbeat</span>&gt;</span>select user()<span class="tag">&lt;/<span class="name">heartbeat</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">writeHost</span> <span class="attr">host</span>=<span class="string">&quot;hostM3&quot;</span> <span class="attr">url</span>=<span class="string">&quot;192.168.192.159:3306&quot;</span> <span class="attr">user</span>=<span class="string">&quot;root&quot;</span> <span class="attr">password</span>=<span class="string">&quot;itcast&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">writeHost</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dataHost</span>&gt;</span>	</span><br><span class="line">    </span><br><span class="line"><span class="tag">&lt;/<span class="name">mycat:schema</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="server-xml的配置"><a href="#server-xml的配置" class="headerlink" title="server.xml的配置"></a>server.xml的配置</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">user</span> <span class="attr">name</span>=<span class="string">&quot;root&quot;</span> <span class="attr">defaultAccount</span>=<span class="string">&quot;true&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;password&quot;</span>&gt;</span>123456<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;schemas&quot;</span>&gt;</span>ITCAST_DB<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">user</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">user</span> <span class="attr">name</span>=<span class="string">&quot;test&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;password&quot;</span>&gt;</span>123456<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;schemas&quot;</span>&gt;</span>ITCAST_DB<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">user</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">user</span> <span class="attr">name</span>=<span class="string">&quot;user&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;password&quot;</span>&gt;</span>123456<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;schemas&quot;</span>&gt;</span>ITCAST_DB<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;readOnly&quot;</span>&gt;</span>true<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">user</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><p>1). 查询数据</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select * from tb_goods_base;</span><br><span class="line">select * from tb_user;</span><br><span class="line">select * from tb_order_master;</span><br></pre></td></tr></table></figure>
+
+<p>2). 插入数据</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span>  <span class="keyword">into</span> tb_user_address(id,user_id,province_id,city_id,town_id,mobile,address,contact,is_default,notes,create_date,alias) <span class="keyword">values</span> (<span class="keyword">null</span>,<span class="string">&#x27;java00001&#x27;</span>,<span class="keyword">NULL</span>,<span class="keyword">NULL</span>,<span class="keyword">NULL</span>,<span class="string">&#x27;13900112222&#x27;</span>,<span class="string">&#x27;钟楼&#x27;</span>,<span class="string">&#x27;张三&#x27;</span>,<span class="string">&#x27;0&#x27;</span>,<span class="keyword">NULL</span>,<span class="keyword">NULL</span>,<span class="keyword">NULL</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span>  <span class="keyword">into</span> tb_order_item(id,item_id,goods_id,order_id,title,price,num,total_fee,pic_path,seller_id) <span class="keyword">values</span> (<span class="keyword">null</span>,<span class="number">19</span>,<span class="number">149187842867954</span>,<span class="number">3</span>,<span class="string">&#x27;3G 6&#x27;</span>,<span class="string">&#x27;1.00&#x27;</span>,<span class="number">5</span>,<span class="string">&#x27;5.00&#x27;</span>,<span class="keyword">NULL</span>,<span class="string">&#x27;qiandu&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>3). 测试跨分片的查询</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> order_id , payment ,receiver, province , city , area <span class="keyword">FROM</span> tb_order_master o , tb_areas_provinces p , tb_areas_city c , tb_areas_region r</span><br><span class="line"><span class="keyword">WHERE</span> o.receiver_province <span class="operator">=</span> p.provinceid <span class="keyword">AND</span> o.receiver_city <span class="operator">=</span> c.cityid <span class="keyword">AND</span> o.receiver_region <span class="operator">=</span> r.areaid ;</span><br></pre></td></tr></table></figure>
+
+<p>当运行上述的SQL语句时, MyCat会报错, 原因是因为当前SQL语句涉及到跨域的join操作 ;</p>
+<h4 id="全局表配置"><a href="#全局表配置" class="headerlink" title="全局表配置"></a>全局表配置</h4><p>1). 将数据节点user_db中的关联的字典表 tb_areas_provinces , tb_areas_city , tb_areas_region中的数据备份 ;</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysqldump <span class="operator">-</span>uroot <span class="operator">-</span>pitcast user_db tb_areas_provinces  <span class="operator">&gt;</span> provinces;</span><br><span class="line">mysqldump <span class="operator">-</span>uroot <span class="operator">-</span>pitcast user_db tb_areas_city <span class="operator">&gt;</span> city;</span><br><span class="line">mysqldump <span class="operator">-</span>uroot <span class="operator">-</span>pitcast user_db tb_areas_region <span class="operator">&gt;</span> region;</span><br></pre></td></tr></table></figure>
+
+<p>2). 将备份的表结构及数据信息, 远程同步到其他两个数据节点的数据库中;</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">scp city root<span class="variable">@192</span><span class="number">.168</span><span class="number">.192</span><span class="number">.158</span>:<span class="operator">/</span>root</span><br><span class="line">scp city root<span class="variable">@192</span><span class="number">.168</span><span class="number">.192</span><span class="number">.159</span>:<span class="operator">/</span>root</span><br><span class="line"></span><br><span class="line">scp provinces root<span class="variable">@192</span><span class="number">.168</span><span class="number">.192</span><span class="number">.158</span>:<span class="operator">/</span>root</span><br><span class="line">scp provinces root<span class="variable">@192</span><span class="number">.168</span><span class="number">.192</span><span class="number">.159</span>:<span class="operator">/</span>root</span><br><span class="line"></span><br><span class="line">scp region root<span class="variable">@192</span><span class="number">.168</span><span class="number">.192</span><span class="number">.158</span>:<span class="operator">/</span>root</span><br><span class="line">scp region root<span class="variable">@192</span><span class="number">.168</span><span class="number">.192</span><span class="number">.159</span>:<span class="operator">/</span>root</span><br></pre></td></tr></table></figure>
+
+<p>3). 导入到对应的数据库中</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql -uroot -p goods_db &lt; city</span><br><span class="line">mysql -uroot -p goods_db &lt; provinces </span><br><span class="line">mysql -uroot -p goods_db &lt; region </span><br></pre></td></tr></table></figure>
+
+<p>4). MyCat逻辑表中的配置</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;tb_areas_city&quot;</span> <span class="attr">dataNode</span>=<span class="string">&quot;dn1,dn2,dn3&quot;</span> <span class="attr">primaryKey</span>=<span class="string">&quot;id&quot;</span> <span class="attr">type</span>=<span class="string">&quot;global&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;tb_areas_provinces&quot;</span> <span class="attr">dataNode</span>=<span class="string">&quot;dn1,dn2,dn3&quot;</span> <span class="attr">primaryKey</span>=<span class="string">&quot;id&quot;</span>  <span class="attr">type</span>=<span class="string">&quot;global&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;tb_areas_region&quot;</span> <span class="attr">dataNode</span>=<span class="string">&quot;dn1,dn2,dn3&quot;</span> <span class="attr">primaryKey</span>=<span class="string">&quot;id&quot;</span>  <span class="attr">type</span>=<span class="string">&quot;global&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>5). 重启MyCat</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/mycat restart</span><br></pre></td></tr></table></figure>
+
+<p>6). 测试</p>
+<p>再次执行相同的连接查询 , 是可以正常查询出对应的数据的 ;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SELECT order_id , payment ,receiver, province , city , area FROM tb_order_master o , tb_areas_provinces p , tb_areas_city c , tb_areas_region r</span><br><span class="line">WHERE o.receiver_province = p.provinceid AND o.receiver_city = c.cityid AND o.receiver_region = r.areaid ;</span><br></pre></td></tr></table></figure>
+
+<p>当我们对Mycat全局表进行增删改的操作时, 其他节点主机上的后端MySQL数据库中的数据时会同步变化的;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">update tb_areas_city set city = &#x27;石家庄&#x27; where id = 5;</span><br></pre></td></tr></table></figure>
+
+<h3 id="水平拆分"><a href="#水平拆分" class="headerlink" title="水平拆分"></a>水平拆分</h3><h4 id="概述-1"><a href="#概述-1" class="headerlink" title="概述"></a>概述</h4><p>根据表中的数据的逻辑关系，将同一个表中的数据按照某种条件拆分到多台数据库（主机）上面，这种切分称之为数据的水平（横向）切分。</p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628150738.png" alt="1577151764698"> </p>
+<h4 id="案例场景-1"><a href="#案例场景-1" class="headerlink" title="案例场景"></a>案例场景</h4><p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628150743.png" alt="1577152000136"> </p>
+<p>在业务系统中, 有一张表(日志表), 业务系统每天都会产生大量的日志数据 , 单台服务器的数据存储及处理能力是有限的, 可以对数据库表进行拆分, 原有的数据库表拆分成以下表 : </p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628150749.png" alt="1577152168606"> </p>
+<h4 id="准备工作-1"><a href="#准备工作-1" class="headerlink" title="准备工作"></a>准备工作</h4><p>1). 准备三台数据库实例</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">192.168.192.157</span><br><span class="line">192.168.192.158</span><br><span class="line">192.168.192.159</span><br></pre></td></tr></table></figure>
+
+<p>2). 在三台数据库实例中创建数据库</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> database log_db <span class="keyword">DEFAULT</span> <span class="type">CHARACTER</span> <span class="keyword">SET</span> utf8mb4;</span><br></pre></td></tr></table></figure>
+
+<h4 id="schema-xml的配置-1"><a href="#schema-xml的配置-1" class="headerlink" title="schema.xml的配置"></a>schema.xml的配置</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot;?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">mycat</span>:schema <span class="meta-keyword">SYSTEM</span> <span class="meta-string">&quot;schema.dtd&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mycat:schema</span> <span class="attr">xmlns:mycat</span>=<span class="string">&quot;http://io.mycat/&quot;</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">	<span class="tag">&lt;<span class="name">schema</span> <span class="attr">name</span>=<span class="string">&quot;LOG_DB&quot;</span> <span class="attr">checkSQLschema</span>=<span class="string">&quot;false&quot;</span> <span class="attr">sqlMaxLimit</span>=<span class="string">&quot;100&quot;</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;tb_log&quot;</span> <span class="attr">dataNode</span>=<span class="string">&quot;dn1,dn2,dn3&quot;</span> <span class="attr">primaryKey</span>=<span class="string">&quot;id&quot;</span>  <span class="attr">rule</span>=<span class="string">&quot;mod-long&quot;</span> /&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">schema</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">	<span class="tag">&lt;<span class="name">dataNode</span> <span class="attr">name</span>=<span class="string">&quot;dn1&quot;</span> <span class="attr">dataHost</span>=<span class="string">&quot;host1&quot;</span> <span class="attr">database</span>=<span class="string">&quot;log_db&quot;</span> /&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">dataNode</span> <span class="attr">name</span>=<span class="string">&quot;dn2&quot;</span> <span class="attr">dataHost</span>=<span class="string">&quot;host2&quot;</span> <span class="attr">database</span>=<span class="string">&quot;log_db&quot;</span> /&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">dataNode</span> <span class="attr">name</span>=<span class="string">&quot;dn3&quot;</span> <span class="attr">dataHost</span>=<span class="string">&quot;host3&quot;</span> <span class="attr">database</span>=<span class="string">&quot;log_db&quot;</span> /&gt;</span></span><br><span class="line">	</span><br><span class="line">    </span><br><span class="line">	<span class="tag">&lt;<span class="name">dataHost</span> <span class="attr">name</span>=<span class="string">&quot;host1&quot;</span> <span class="attr">maxCon</span>=<span class="string">&quot;1000&quot;</span> <span class="attr">minCon</span>=<span class="string">&quot;10&quot;</span> <span class="attr">balance</span>=<span class="string">&quot;0&quot;</span> <span class="attr">writeType</span>=<span class="string">&quot;0&quot;</span> <span class="attr">dbType</span>=<span class="string">&quot;mysql&quot;</span> <span class="attr">dbDriver</span>=<span class="string">&quot;native&quot;</span> <span class="attr">switchType</span>=<span class="string">&quot;1&quot;</span>  <span class="attr">slaveThreshold</span>=<span class="string">&quot;100&quot;</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">heartbeat</span>&gt;</span>select user()<span class="tag">&lt;/<span class="name">heartbeat</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">writeHost</span> <span class="attr">host</span>=<span class="string">&quot;hostM1&quot;</span> <span class="attr">url</span>=<span class="string">&quot;192.168.192.157:3306&quot;</span> <span class="attr">user</span>=<span class="string">&quot;root&quot;</span> <span class="attr">password</span>=<span class="string">&quot;itcast&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">writeHost</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dataHost</span>&gt;</span>	</span><br><span class="line">    </span><br><span class="line">    <span class="tag">&lt;<span class="name">dataHost</span> <span class="attr">name</span>=<span class="string">&quot;host2&quot;</span> <span class="attr">maxCon</span>=<span class="string">&quot;1000&quot;</span> <span class="attr">minCon</span>=<span class="string">&quot;10&quot;</span> <span class="attr">balance</span>=<span class="string">&quot;0&quot;</span> <span class="attr">writeType</span>=<span class="string">&quot;0&quot;</span> <span class="attr">dbType</span>=<span class="string">&quot;mysql&quot;</span> <span class="attr">dbDriver</span>=<span class="string">&quot;native&quot;</span> <span class="attr">switchType</span>=<span class="string">&quot;1&quot;</span>  <span class="attr">slaveThreshold</span>=<span class="string">&quot;100&quot;</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">heartbeat</span>&gt;</span>select user()<span class="tag">&lt;/<span class="name">heartbeat</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">writeHost</span> <span class="attr">host</span>=<span class="string">&quot;hostM2&quot;</span> <span class="attr">url</span>=<span class="string">&quot;192.168.192.158:3306&quot;</span> <span class="attr">user</span>=<span class="string">&quot;root&quot;</span> <span class="attr">password</span>=<span class="string">&quot;itcast&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">writeHost</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dataHost</span>&gt;</span>	</span><br><span class="line">    </span><br><span class="line">    <span class="tag">&lt;<span class="name">dataHost</span> <span class="attr">name</span>=<span class="string">&quot;host3&quot;</span> <span class="attr">maxCon</span>=<span class="string">&quot;1000&quot;</span> <span class="attr">minCon</span>=<span class="string">&quot;10&quot;</span> <span class="attr">balance</span>=<span class="string">&quot;0&quot;</span> <span class="attr">writeType</span>=<span class="string">&quot;0&quot;</span> <span class="attr">dbType</span>=<span class="string">&quot;mysql&quot;</span> <span class="attr">dbDriver</span>=<span class="string">&quot;native&quot;</span> <span class="attr">switchType</span>=<span class="string">&quot;1&quot;</span>  <span class="attr">slaveThreshold</span>=<span class="string">&quot;100&quot;</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">heartbeat</span>&gt;</span>select user()<span class="tag">&lt;/<span class="name">heartbeat</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">writeHost</span> <span class="attr">host</span>=<span class="string">&quot;hostM3&quot;</span> <span class="attr">url</span>=<span class="string">&quot;192.168.192.159:3306&quot;</span> <span class="attr">user</span>=<span class="string">&quot;root&quot;</span> <span class="attr">password</span>=<span class="string">&quot;itcast&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">writeHost</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dataHost</span>&gt;</span>	</span><br><span class="line">    </span><br><span class="line"><span class="tag">&lt;/<span class="name">mycat:schema</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="server-xml的配置-1"><a href="#server-xml的配置-1" class="headerlink" title="server.xml的配置"></a>server.xml的配置</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">user</span> <span class="attr">name</span>=<span class="string">&quot;root&quot;</span> <span class="attr">defaultAccount</span>=<span class="string">&quot;true&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;password&quot;</span>&gt;</span>123456<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;schemas&quot;</span>&gt;</span>LOG_DB<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">user</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">user</span> <span class="attr">name</span>=<span class="string">&quot;test&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;password&quot;</span>&gt;</span>123456<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;schemas&quot;</span>&gt;</span>LOG_DB<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">user</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">user</span> <span class="attr">name</span>=<span class="string">&quot;user&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;password&quot;</span>&gt;</span>123456<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;schemas&quot;</span>&gt;</span>LOG_DB<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;readOnly&quot;</span>&gt;</span>true<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">user</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="测试-1"><a href="#测试-1" class="headerlink" title="测试"></a>测试</h4><p>1). 在MyCat数据库中执行建表语句</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> `tb_log` (</span><br><span class="line">  `id` <span class="type">bigint</span>(<span class="number">20</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span> COMMENT <span class="string">&#x27;ID&#x27;</span>,</span><br><span class="line">  `model_name` <span class="type">varchar</span>(<span class="number">200</span>) <span class="keyword">DEFAULT</span> <span class="keyword">NULL</span> COMMENT <span class="string">&#x27;模块名&#x27;</span>,</span><br><span class="line">  `model_value` <span class="type">varchar</span>(<span class="number">200</span>) <span class="keyword">DEFAULT</span> <span class="keyword">NULL</span> COMMENT <span class="string">&#x27;模块值&#x27;</span>,</span><br><span class="line">  `return_value` <span class="type">varchar</span>(<span class="number">200</span>) <span class="keyword">DEFAULT</span> <span class="keyword">NULL</span> COMMENT <span class="string">&#x27;返回值&#x27;</span>,</span><br><span class="line">  `return_class` <span class="type">varchar</span>(<span class="number">200</span>) <span class="keyword">DEFAULT</span> <span class="keyword">NULL</span> COMMENT <span class="string">&#x27;返回值类型&#x27;</span>,</span><br><span class="line">  `operate_user` <span class="type">varchar</span>(<span class="number">20</span>) <span class="keyword">DEFAULT</span> <span class="keyword">NULL</span> COMMENT <span class="string">&#x27;操作用户&#x27;</span>,</span><br><span class="line">  `operate_time` <span class="type">varchar</span>(<span class="number">20</span>) <span class="keyword">DEFAULT</span> <span class="keyword">NULL</span> COMMENT <span class="string">&#x27;操作时间&#x27;</span>,</span><br><span class="line">  `param_and_value` <span class="type">varchar</span>(<span class="number">500</span>) <span class="keyword">DEFAULT</span> <span class="keyword">NULL</span> COMMENT <span class="string">&#x27;请求参数名及参数值&#x27;</span>,</span><br><span class="line">  `operate_class` <span class="type">varchar</span>(<span class="number">200</span>) <span class="keyword">DEFAULT</span> <span class="keyword">NULL</span> COMMENT <span class="string">&#x27;操作类&#x27;</span>,</span><br><span class="line">  `operate_method` <span class="type">varchar</span>(<span class="number">200</span>) <span class="keyword">DEFAULT</span> <span class="keyword">NULL</span> COMMENT <span class="string">&#x27;操作方法&#x27;</span>,</span><br><span class="line">  `cost_time` <span class="type">bigint</span>(<span class="number">20</span>) <span class="keyword">DEFAULT</span> <span class="keyword">NULL</span> COMMENT <span class="string">&#x27;执行方法耗时, 单位 ms&#x27;</span>,</span><br><span class="line">  `source` <span class="type">int</span>(<span class="number">1</span>) <span class="keyword">DEFAULT</span> <span class="keyword">NULL</span> COMMENT <span class="string">&#x27;来源 : 1 PC , 2 Android , 3 IOS&#x27;</span>,</span><br><span class="line">  <span class="keyword">PRIMARY</span> KEY (`id`)</span><br><span class="line">) ENGINE<span class="operator">=</span>InnoDB <span class="keyword">DEFAULT</span> CHARSET<span class="operator">=</span>utf8mb4;</span><br></pre></td></tr></table></figure>
+
+<p>2). 插入数据</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> `tb_log` (`id`, `model_name`, `model_value`, `return_value`, `return_class`, `operate_user`, `operate_time`, `param_and_value`, `operate_class`, `operate_method`, `cost_time`，`source`) <span class="keyword">VALUES</span>(<span class="string">&#x27;1&#x27;</span>,<span class="string">&#x27;user&#x27;</span>,<span class="string">&#x27;insert&#x27;</span>,<span class="string">&#x27;success&#x27;</span>,<span class="string">&#x27;java.lang.String&#x27;</span>,<span class="string">&#x27;10001&#x27;</span>,<span class="string">&#x27;2020-02-26 18:12:28&#x27;</span>,<span class="string">&#x27;&#123;\&quot;age\&quot;:\&quot;20\&quot;,\&quot;name\&quot;:\&quot;Tom\&quot;,\&quot;gender\&quot;:\&quot;1\&quot;&#125;&#x27;</span>,<span class="string">&#x27;cn.itcast.controller.UserController&#x27;</span>,<span class="string">&#x27;insert&#x27;</span>,<span class="string">&#x27;10&#x27;</span>,<span class="number">1</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> `tb_log` (`id`, `model_name`, `model_value`, `return_value`, `return_class`, `operate_user`, `operate_time`, `param_and_value`, `operate_class`, `operate_method`, `cost_time`，`source`) <span class="keyword">VALUES</span>(<span class="string">&#x27;2&#x27;</span>,<span class="string">&#x27;user&#x27;</span>,<span class="string">&#x27;insert&#x27;</span>,<span class="string">&#x27;success&#x27;</span>,<span class="string">&#x27;java.lang.String&#x27;</span>,<span class="string">&#x27;10001&#x27;</span>,<span class="string">&#x27;2020-02-26 18:12:27&#x27;</span>,<span class="string">&#x27;&#123;\&quot;age\&quot;:\&quot;20\&quot;,\&quot;name\&quot;:\&quot;Tom\&quot;,\&quot;gender\&quot;:\&quot;1\&quot;&#125;&#x27;</span>,<span class="string">&#x27;cn.itcast.controller.UserController&#x27;</span>,<span class="string">&#x27;insert&#x27;</span>,<span class="string">&#x27;23&#x27;</span>,<span class="number">1</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> `tb_log` (`id`, `model_name`, `model_value`, `return_value`, `return_class`, `operate_user`, `operate_time`, `param_and_value`, `operate_class`, `operate_method`, `cost_time`，`source`) <span class="keyword">VALUES</span>(<span class="string">&#x27;3&#x27;</span>,<span class="string">&#x27;user&#x27;</span>,<span class="string">&#x27;update&#x27;</span>,<span class="string">&#x27;success&#x27;</span>,<span class="string">&#x27;java.lang.String&#x27;</span>,<span class="string">&#x27;10001&#x27;</span>,<span class="string">&#x27;2020-02-26 18:16:45&#x27;</span>,<span class="string">&#x27;&#123;\&quot;age\&quot;:\&quot;20\&quot;,\&quot;name\&quot;:\&quot;Tom\&quot;,\&quot;gender\&quot;:\&quot;1\&quot;&#125;&#x27;</span>,<span class="string">&#x27;cn.itcast.controller.UserController&#x27;</span>,<span class="string">&#x27;update&#x27;</span>,<span class="string">&#x27;34&#x27;</span>,<span class="number">1</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> `tb_log` (`id`, `model_name`, `model_value`, `return_value`, `return_class`, `operate_user`, `operate_time`, `param_and_value`, `operate_class`, `operate_method`, `cost_time`，`source`) <span class="keyword">VALUES</span>(<span class="string">&#x27;4&#x27;</span>,<span class="string">&#x27;user&#x27;</span>,<span class="string">&#x27;update&#x27;</span>,<span class="string">&#x27;success&#x27;</span>,<span class="string">&#x27;java.lang.String&#x27;</span>,<span class="string">&#x27;10001&#x27;</span>,<span class="string">&#x27;2020-02-26 18:16:45&#x27;</span>,<span class="string">&#x27;&#123;\&quot;age\&quot;:\&quot;20\&quot;,\&quot;name\&quot;:\&quot;Tom\&quot;,\&quot;gender\&quot;:\&quot;1\&quot;&#125;&#x27;</span>,<span class="string">&#x27;cn.itcast.controller.UserController&#x27;</span>,<span class="string">&#x27;update&#x27;</span>,<span class="string">&#x27;13&#x27;</span>,<span class="number">2</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> `tb_log` (`id`, `model_name`, `model_value`, `return_value`, `return_class`, `operate_user`, `operate_time`, `param_and_value`, `operate_class`, `operate_method`, `cost_time`，`source`) <span class="keyword">VALUES</span>(<span class="string">&#x27;5&#x27;</span>,<span class="string">&#x27;user&#x27;</span>,<span class="string">&#x27;insert&#x27;</span>,<span class="string">&#x27;success&#x27;</span>,<span class="string">&#x27;java.lang.String&#x27;</span>,<span class="string">&#x27;10001&#x27;</span>,<span class="string">&#x27;2020-02-26 18:30:31&#x27;</span>,<span class="string">&#x27;&#123;\&quot;age\&quot;:\&quot;200\&quot;,\&quot;name\&quot;:\&quot;TomCat\&quot;,\&quot;gender\&quot;:\&quot;0\&quot;&#125;&#x27;</span>,<span class="string">&#x27;cn.itcast.controller.UserController&#x27;</span>,<span class="string">&#x27;insert&#x27;</span>,<span class="string">&#x27;29&#x27;</span>,<span class="number">3</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> `tb_log` (`id`, `model_name`, `model_value`, `return_value`, `return_class`, `operate_user`, `operate_time`, `param_and_value`, `operate_class`, `operate_method`, `cost_time`，`source`) <span class="keyword">VALUES</span>(<span class="string">&#x27;6&#x27;</span>,<span class="string">&#x27;user&#x27;</span>,<span class="string">&#x27;find&#x27;</span>,<span class="string">&#x27;success&#x27;</span>,<span class="string">&#x27;java.lang.String&#x27;</span>,<span class="string">&#x27;10001&#x27;</span>,<span class="string">&#x27;2020-02-26 18:30:31&#x27;</span>,<span class="string">&#x27;&#123;\&quot;age\&quot;:\&quot;200\&quot;,\&quot;name\&quot;:\&quot;TomCat\&quot;,\&quot;gender\&quot;:\&quot;0\&quot;&#125;&#x27;</span>,<span class="string">&#x27;cn.itcast.controller.UserController&#x27;</span>,<span class="string">&#x27;find&#x27;</span>,<span class="string">&#x27;29&#x27;</span>,<span class="number">2</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="分片规则"><a href="#分片规则" class="headerlink" title="分片规则"></a>分片规则</h3><p>MyCat的分片规则配置在conf目录下的rule.xml文件中定义 ; </p>
+<p>环境准备 : </p>
+<p>1). schema.xml中的内容做好备份 , 并配置逻辑库; </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">schema</span> <span class="attr">name</span>=<span class="string">&quot;PARTITION_DB&quot;</span> <span class="attr">checkSQLschema</span>=<span class="string">&quot;false&quot;</span> <span class="attr">sqlMaxLimit</span>=<span class="string">&quot;100&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;&quot;</span> <span class="attr">dataNode</span>=<span class="string">&quot;dn1,dn2,dn3&quot;</span> <span class="attr">rule</span>=<span class="string">&quot;&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">schema</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dataNode</span> <span class="attr">name</span>=<span class="string">&quot;dn1&quot;</span> <span class="attr">dataHost</span>=<span class="string">&quot;host1&quot;</span> <span class="attr">database</span>=<span class="string">&quot;partition_db&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dataNode</span> <span class="attr">name</span>=<span class="string">&quot;dn2&quot;</span> <span class="attr">dataHost</span>=<span class="string">&quot;host2&quot;</span> <span class="attr">database</span>=<span class="string">&quot;partition_db&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dataNode</span> <span class="attr">name</span>=<span class="string">&quot;dn3&quot;</span> <span class="attr">dataHost</span>=<span class="string">&quot;host3&quot;</span> <span class="attr">database</span>=<span class="string">&quot;partition_db&quot;</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dataHost</span> <span class="attr">name</span>=<span class="string">&quot;host1&quot;</span> <span class="attr">maxCon</span>=<span class="string">&quot;1000&quot;</span> <span class="attr">minCon</span>=<span class="string">&quot;10&quot;</span> <span class="attr">balance</span>=<span class="string">&quot;0&quot;</span></span></span><br><span class="line"><span class="tag"><span class="attr">writeType</span>=<span class="string">&quot;0&quot;</span> <span class="attr">dbType</span>=<span class="string">&quot;mysql&quot;</span> <span class="attr">dbDriver</span>=<span class="string">&quot;native&quot;</span> <span class="attr">switchType</span>=<span class="string">&quot;1&quot;</span>  <span class="attr">slaveThreshold</span>=<span class="string">&quot;100&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">heartbeat</span>&gt;</span>select user()<span class="tag">&lt;/<span class="name">heartbeat</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">writeHost</span> <span class="attr">host</span>=<span class="string">&quot;hostM1&quot;</span> <span class="attr">url</span>=<span class="string">&quot;192.168.192.157:3306&quot;</span> <span class="attr">user</span>=<span class="string">&quot;root&quot;</span> <span class="attr">password</span>=<span class="string">&quot;itcast&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">writeHost</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dataHost</span>&gt;</span>	</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dataHost</span> <span class="attr">name</span>=<span class="string">&quot;host2&quot;</span> <span class="attr">maxCon</span>=<span class="string">&quot;1000&quot;</span> <span class="attr">minCon</span>=<span class="string">&quot;10&quot;</span> <span class="attr">balance</span>=<span class="string">&quot;0&quot;</span></span></span><br><span class="line"><span class="tag"><span class="attr">writeType</span>=<span class="string">&quot;0&quot;</span> <span class="attr">dbType</span>=<span class="string">&quot;mysql&quot;</span> <span class="attr">dbDriver</span>=<span class="string">&quot;native&quot;</span> <span class="attr">switchType</span>=<span class="string">&quot;1&quot;</span>  <span class="attr">slaveThreshold</span>=<span class="string">&quot;100&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">heartbeat</span>&gt;</span>select user()<span class="tag">&lt;/<span class="name">heartbeat</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">writeHost</span> <span class="attr">host</span>=<span class="string">&quot;hostM2&quot;</span> <span class="attr">url</span>=<span class="string">&quot;192.168.192.158:3306&quot;</span> <span class="attr">user</span>=<span class="string">&quot;root&quot;</span> <span class="attr">password</span>=<span class="string">&quot;itcast&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">writeHost</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dataHost</span>&gt;</span>	</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dataHost</span> <span class="attr">name</span>=<span class="string">&quot;host3&quot;</span> <span class="attr">maxCon</span>=<span class="string">&quot;1000&quot;</span> <span class="attr">minCon</span>=<span class="string">&quot;10&quot;</span> <span class="attr">balance</span>=<span class="string">&quot;0&quot;</span></span></span><br><span class="line"><span class="tag"><span class="attr">writeType</span>=<span class="string">&quot;0&quot;</span> <span class="attr">dbType</span>=<span class="string">&quot;mysql&quot;</span> <span class="attr">dbDriver</span>=<span class="string">&quot;native&quot;</span> <span class="attr">switchType</span>=<span class="string">&quot;1&quot;</span>  <span class="attr">slaveThreshold</span>=<span class="string">&quot;100&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">heartbeat</span>&gt;</span>select user()<span class="tag">&lt;/<span class="name">heartbeat</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">writeHost</span> <span class="attr">host</span>=<span class="string">&quot;hostM3&quot;</span> <span class="attr">url</span>=<span class="string">&quot;192.168.192.159:3306&quot;</span> <span class="attr">user</span>=<span class="string">&quot;root&quot;</span> <span class="attr">password</span>=<span class="string">&quot;itcast&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">writeHost</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dataHost</span>&gt;</span>	</span><br></pre></td></tr></table></figure>
+
+<p>2). 在MySQL的三个节点的数据库中 , 创建数据库partition_db</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create database partition_db DEFAULT CHARACTER SET utf8mb4;</span><br></pre></td></tr></table></figure>
+
+<h4 id="取模分片"><a href="#取模分片" class="headerlink" title="取模分片"></a>取模分片</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">tableRule</span> <span class="attr">name</span>=<span class="string">&quot;mod-long&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">rule</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">columns</span>&gt;</span>id<span class="tag">&lt;/<span class="name">columns</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">algorithm</span>&gt;</span>mod-long<span class="tag">&lt;/<span class="name">algorithm</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">rule</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">tableRule</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">function</span> <span class="attr">name</span>=<span class="string">&quot;mod-long&quot;</span> <span class="attr">class</span>=<span class="string">&quot;io.mycat.route.function.PartitionByMod&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;count&quot;</span>&gt;</span>3<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">function</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>配置说明 : </p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>columns</td>
+<td>标识将要分片的表字段</td>
+</tr>
+<tr>
+<td>algorithm</td>
+<td>指定分片函数与function的对应关系</td>
+</tr>
+<tr>
+<td>class</td>
+<td>指定该分片算法对应的类</td>
+</tr>
+<tr>
+<td>count</td>
+<td>数据节点的数量</td>
+</tr>
+</tbody></table>
+<h4 id="范围分片"><a href="#范围分片" class="headerlink" title="范围分片"></a>范围分片</h4><p>根据指定的字段及其配置的范围与数据节点的对应情况， 来决定该数据属于哪一个分片 ， 配置如下： </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">tableRule</span> <span class="attr">name</span>=<span class="string">&quot;auto-sharding-long&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">rule</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">columns</span>&gt;</span>id<span class="tag">&lt;/<span class="name">columns</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">algorithm</span>&gt;</span>rang-long<span class="tag">&lt;/<span class="name">algorithm</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">rule</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">tableRule</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">function</span> <span class="attr">name</span>=<span class="string">&quot;rang-long&quot;</span> <span class="attr">class</span>=<span class="string">&quot;io.mycat.route.function.AutoPartitionByLong&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;mapFile&quot;</span>&gt;</span>autopartition-long.txt<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;defaultNode&quot;</span>&gt;</span>0<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">function</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>autopartition-long.txt 配置如下： </p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># range start-end ,data node index</span></span><br><span class="line"><span class="comment"># K=1000,M=10000.</span></span><br><span class="line"><span class="meta">0-500M</span>=<span class="string">0</span></span><br><span class="line"><span class="meta">500M-1000M</span>=<span class="string">1</span></span><br><span class="line"><span class="meta">1000M-1500M</span>=<span class="string">2</span></span><br></pre></td></tr></table></figure>
+
+<p>含义为 ： 0 - 500 万之间的值 ， 存储在0号数据节点 ； 500万 - 1000万之间的数据存储在1号数据节点 ； 1000万 - 1500 万的数据节点存储在2号节点 ；</p>
+<p>配置说明: </p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>columns</td>
+<td>标识将要分片的表字段</td>
+</tr>
+<tr>
+<td>algorithm</td>
+<td>指定分片函数与function的对应关系</td>
+</tr>
+<tr>
+<td>class</td>
+<td>指定该分片算法对应的类</td>
+</tr>
+<tr>
+<td>mapFile</td>
+<td>对应的外部配置文件</td>
+</tr>
+<tr>
+<td>type</td>
+<td>默认值为0 ; 0 表示Integer , 1 表示String</td>
+</tr>
+<tr>
+<td>defaultNode</td>
+<td>默认节点 <br />默认节点的所用:枚举分片时,如果碰到不识别的枚举值, 就让它路由到默认节点 ; 如果没有默认值,碰到不识别的则报错 。</td>
+</tr>
+</tbody></table>
+<p>**测试: **</p>
+<p>配置</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;tb_log&quot;</span> <span class="attr">dataNode</span>=<span class="string">&quot;dn1,dn2,dn3&quot;</span> <span class="attr">rule</span>=<span class="string">&quot;auto-sharding-long&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>数据</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>). 创建表</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> `tb_log` (</span><br><span class="line">  id <span class="type">bigint</span>(<span class="number">20</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span> COMMENT <span class="string">&#x27;ID&#x27;</span>,</span><br><span class="line">  operateuser <span class="type">varchar</span>(<span class="number">200</span>) <span class="keyword">DEFAULT</span> <span class="keyword">NULL</span> COMMENT <span class="string">&#x27;姓名&#x27;</span>,</span><br><span class="line">  operation <span class="type">int</span>(<span class="number">2</span>) <span class="keyword">DEFAULT</span> <span class="keyword">NULL</span> COMMENT <span class="string">&#x27;1: insert, 2: delete, 3: update , 4: select&#x27;</span>,</span><br><span class="line">  <span class="keyword">PRIMARY</span> KEY (`id`)</span><br><span class="line">) ENGINE<span class="operator">=</span>InnoDB <span class="keyword">DEFAULT</span> CHARSET<span class="operator">=</span>utf8mb4;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="number">2</span>). 插入数据</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> tb_log (id,operateuser ,operation) <span class="keyword">values</span>(<span class="number">1</span>,<span class="string">&#x27;Tom&#x27;</span>,<span class="number">1</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> tb_log (id,operateuser ,operation) <span class="keyword">values</span>(<span class="number">2</span>,<span class="string">&#x27;Cat&#x27;</span>,<span class="number">2</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> tb_log (id,operateuser ,operation) <span class="keyword">values</span>(<span class="number">3</span>,<span class="string">&#x27;Rose&#x27;</span>,<span class="number">3</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> tb_log (id,operateuser ,operation) <span class="keyword">values</span>(<span class="number">4</span>,<span class="string">&#x27;Coco&#x27;</span>,<span class="number">2</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> tb_log (id,operateuser ,operation) <span class="keyword">values</span>(<span class="number">5</span>,<span class="string">&#x27;Lily&#x27;</span>,<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+
+<h4 id="枚举分片"><a href="#枚举分片" class="headerlink" title="枚举分片"></a>枚举分片</h4><p>通过在配置文件中配置可能的枚举值, 指定数据分布到不同数据节点上, 本规则适用于按照省份或状态拆分数据等业务 , 配置如下: </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">tableRule</span> <span class="attr">name</span>=<span class="string">&quot;sharding-by-intfile&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">rule</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">columns</span>&gt;</span>status<span class="tag">&lt;/<span class="name">columns</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">algorithm</span>&gt;</span>hash-int<span class="tag">&lt;/<span class="name">algorithm</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">rule</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">tableRule</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">function</span> <span class="attr">name</span>=<span class="string">&quot;hash-int&quot;</span> <span class="attr">class</span>=<span class="string">&quot;io.mycat.route.function.PartitionByFileMap&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;mapFile&quot;</span>&gt;</span>partition-hash-int.txt<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;type&quot;</span>&gt;</span>0<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;defaultNode&quot;</span>&gt;</span>0<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">function</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>partition-hash-int.txt ，内容如下 :</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1=0</span><br><span class="line">2=1</span><br><span class="line">3=2</span><br></pre></td></tr></table></figure>
+
+<p>配置说明: </p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>columns</td>
+<td>标识将要分片的表字段</td>
+</tr>
+<tr>
+<td>algorithm</td>
+<td>指定分片函数与function的对应关系</td>
+</tr>
+<tr>
+<td>class</td>
+<td>指定该分片算法对应的类</td>
+</tr>
+<tr>
+<td>mapFile</td>
+<td>对应的外部配置文件</td>
+</tr>
+<tr>
+<td>type</td>
+<td>默认值为0 ; 0 表示Integer , 1 表示String</td>
+</tr>
+<tr>
+<td>defaultNode</td>
+<td>默认节点 ; 小于0 标识不设置默认节点 , 大于等于0代表设置默认节点 ; <br />默认节点的所用:枚举分片时,如果碰到不识别的枚举值, 就让它路由到默认节点 ; 如果没有默认值,碰到不识别的则报错 。</td>
+</tr>
+</tbody></table>
+<p>测试: </p>
+<p>配置</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;tb_user&quot;</span> <span class="attr">dataNode</span>=<span class="string">&quot;dn1,dn2,dn3&quot;</span> <span class="attr">rule</span>=<span class="string">&quot;sharding-by-enum-status&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>数据</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>). 创建表</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> `tb_user` (</span><br><span class="line">  id <span class="type">bigint</span>(<span class="number">20</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span> COMMENT <span class="string">&#x27;ID&#x27;</span>,</span><br><span class="line">  username <span class="type">varchar</span>(<span class="number">200</span>) <span class="keyword">DEFAULT</span> <span class="keyword">NULL</span> COMMENT <span class="string">&#x27;姓名&#x27;</span>,</span><br><span class="line">  status <span class="type">int</span>(<span class="number">2</span>) <span class="keyword">DEFAULT</span> <span class="string">&#x27;1&#x27;</span> COMMENT <span class="string">&#x27;1: 未启用, 2: 已启用, 3: 已关闭&#x27;</span>,</span><br><span class="line">  <span class="keyword">PRIMARY</span> KEY (`id`)</span><br><span class="line">) ENGINE<span class="operator">=</span>InnoDB <span class="keyword">DEFAULT</span> CHARSET<span class="operator">=</span>utf8mb4;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="number">2</span>). 插入数据</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> tb_user (id,username ,status) <span class="keyword">values</span>(<span class="number">1</span>,<span class="string">&#x27;Tom&#x27;</span>,<span class="number">1</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> tb_user (id,username ,status) <span class="keyword">values</span>(<span class="number">2</span>,<span class="string">&#x27;Cat&#x27;</span>,<span class="number">2</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> tb_user (id,username ,status) <span class="keyword">values</span>(<span class="number">3</span>,<span class="string">&#x27;Rose&#x27;</span>,<span class="number">3</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> tb_user (id,username ,status) <span class="keyword">values</span>(<span class="number">4</span>,<span class="string">&#x27;Coco&#x27;</span>,<span class="number">2</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> tb_user (id,username ,status) <span class="keyword">values</span>(<span class="number">5</span>,<span class="string">&#x27;Lily&#x27;</span>,<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+
+<h4 id="范围求模算法"><a href="#范围求模算法" class="headerlink" title="范围求模算法"></a>范围求模算法</h4><p>该算法为先进行范围分片, 计算出分片组 , 再进行组内求模。</p>
+<p><strong>优点</strong>： 综合了范围分片和求模分片的优点。 分片组内使用求模可以保证组内的数据分布比较均匀， 分片组之间采用范围分片可以兼顾范围分片的特点。</p>
+<p><strong>缺点</strong>： 在数据范围时固定值（非递增值）时，存在不方便扩展的情况，例如将 dataNode Group size 从 2 扩展为 4 时，需要进行数据迁移才能完成 ； 如图所示： </p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628150800.png" alt="image-20200110193319982"> </p>
+<p>配置如下： </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">tableRule</span> <span class="attr">name</span>=<span class="string">&quot;auto-sharding-rang-mod&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">rule</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">columns</span>&gt;</span>id<span class="tag">&lt;/<span class="name">columns</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">algorithm</span>&gt;</span>rang-mod<span class="tag">&lt;/<span class="name">algorithm</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">rule</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">tableRule</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">function</span> <span class="attr">name</span>=<span class="string">&quot;rang-mod&quot;</span> <span class="attr">class</span>=<span class="string">&quot;io.mycat.route.function.PartitionByRangeMod&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;mapFile&quot;</span>&gt;</span>autopartition-range-mod.txt<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;defaultNode&quot;</span>&gt;</span>0<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">function</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>autopartition-range-mod.txt 配置格式 :</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#range  start-end , data node group size</span><br><span class="line">0-500M=1</span><br><span class="line">500M1-2000M=2</span><br></pre></td></tr></table></figure>
+
+<p>在上述配置文件中, 等号前面的范围代表一个分片组 , 等号后面的数字代表该分片组所拥有的分片数量;</p>
+<p>配置说明: </p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>columns</td>
+<td>标识将要分片的表字段名</td>
+</tr>
+<tr>
+<td>algorithm</td>
+<td>指定分片函数与function的对应关系</td>
+</tr>
+<tr>
+<td>class</td>
+<td>指定该分片算法对应的类</td>
+</tr>
+<tr>
+<td>mapFile</td>
+<td>对应的外部配置文件</td>
+</tr>
+<tr>
+<td>defaultNode</td>
+<td>默认节点 ; 未包含以上规则的数据存储在defaultNode节点中, 节点从0开始</td>
+</tr>
+</tbody></table>
+<p><strong>测试:</strong></p>
+<p>配置</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;tb_stu&quot;</span> <span class="attr">dataNode</span>=<span class="string">&quot;dn1,dn2,dn3&quot;</span> <span class="attr">rule</span>=<span class="string">&quot;auto-sharding-rang-mod&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>数据</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>). 创建表</span><br><span class="line">    <span class="keyword">CREATE</span> <span class="keyword">TABLE</span> `tb_stu` (</span><br><span class="line">      id <span class="type">bigint</span>(<span class="number">20</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span> COMMENT <span class="string">&#x27;ID&#x27;</span>,</span><br><span class="line">      username <span class="type">varchar</span>(<span class="number">200</span>) <span class="keyword">DEFAULT</span> <span class="keyword">NULL</span> COMMENT <span class="string">&#x27;姓名&#x27;</span>,</span><br><span class="line">      status <span class="type">int</span>(<span class="number">2</span>) <span class="keyword">DEFAULT</span> <span class="string">&#x27;1&#x27;</span> COMMENT <span class="string">&#x27;1: 未启用, 2: 已启用, 3: 已关闭&#x27;</span>,</span><br><span class="line">      <span class="keyword">PRIMARY</span> KEY (`id`)</span><br><span class="line">    ) ENGINE<span class="operator">=</span>InnoDB <span class="keyword">DEFAULT</span> CHARSET<span class="operator">=</span>utf8mb4;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="number">2</span>). 插入数据</span><br><span class="line">    <span class="keyword">insert</span> <span class="keyword">into</span> tb_stu (id,username ,status) <span class="keyword">values</span>(<span class="number">1</span>,<span class="string">&#x27;Tom&#x27;</span>,<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">insert</span> <span class="keyword">into</span> tb_stu (id,username ,status) <span class="keyword">values</span>(<span class="number">2</span>,<span class="string">&#x27;Cat&#x27;</span>,<span class="number">2</span>);</span><br><span class="line">    <span class="keyword">insert</span> <span class="keyword">into</span> tb_stu (id,username ,status) <span class="keyword">values</span>(<span class="number">3</span>,<span class="string">&#x27;Rose&#x27;</span>,<span class="number">3</span>);</span><br><span class="line">    <span class="keyword">insert</span> <span class="keyword">into</span> tb_stu (id,username ,status) <span class="keyword">values</span>(<span class="number">4</span>,<span class="string">&#x27;Coco&#x27;</span>,<span class="number">2</span>);</span><br><span class="line">    <span class="keyword">insert</span> <span class="keyword">into</span> tb_stu (id,username ,status) <span class="keyword">values</span>(<span class="number">5</span>,<span class="string">&#x27;Lily&#x27;</span>,<span class="number">1</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">insert</span> <span class="keyword">into</span> tb_stu (id,username ,status) <span class="keyword">values</span>(<span class="number">5000001</span>,<span class="string">&#x27;Roce&#x27;</span>,<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">insert</span> <span class="keyword">into</span> tb_stu (id,username ,status) <span class="keyword">values</span>(<span class="number">5000002</span>,<span class="string">&#x27;Jexi&#x27;</span>,<span class="number">2</span>);</span><br><span class="line">    <span class="keyword">insert</span> <span class="keyword">into</span> tb_stu (id,username ,status) <span class="keyword">values</span>(<span class="number">5000003</span>,<span class="string">&#x27;Mini&#x27;</span>,<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+
+<h4 id="固定分片hash算法"><a href="#固定分片hash算法" class="headerlink" title="固定分片hash算法"></a>固定分片hash算法</h4><p>该算法类似于十进制的求模运算，但是为二进制的操作，例如，取 id 的二进制低 10 位 与 1111111111 进行位 &amp; 运算。</p>
+<p>最小值：</p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628150855.png" alt="image-20200112180630348"> </p>
+<p>最大值：</p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628150849.png" alt="image-20200112180643493"> </p>
+<p><strong>优点</strong>： 这种策略比较灵活，可以均匀分配也可以非均匀分配，各节点的分配比例和容量大小由partitionCount和partitionLength两个参数决定</p>
+<p><strong>缺点</strong>：和取模分片类似。</p>
+<p>配置如下 ： </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">tableRule</span> <span class="attr">name</span>=<span class="string">&quot;sharding-by-long-hash&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">rule</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">columns</span>&gt;</span>id<span class="tag">&lt;/<span class="name">columns</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">algorithm</span>&gt;</span>func1<span class="tag">&lt;/<span class="name">algorithm</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">rule</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">tableRule</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">function</span> <span class="attr">name</span>=<span class="string">&quot;func1&quot;</span> <span class="attr">class</span>=<span class="string">&quot;org.opencloudb.route.function.PartitionByLong&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;partitionCount&quot;</span>&gt;</span>2,1<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;partitionLength&quot;</span>&gt;</span>256,512<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">function</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在示例中配置的分片策略，希望将数据水平分成3份，前两份各占 25%，第三份占 50%。</p>
+<p>配置说明: </p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>columns</td>
+<td>标识将要分片的表字段名</td>
+</tr>
+<tr>
+<td>algorithm</td>
+<td>指定分片函数与function的对应关系</td>
+</tr>
+<tr>
+<td>class</td>
+<td>指定该分片算法对应的类</td>
+</tr>
+<tr>
+<td>partitionCount</td>
+<td>分片个数列表</td>
+</tr>
+<tr>
+<td>partitionLength</td>
+<td>分片范围列表</td>
+</tr>
+</tbody></table>
+<p>约束 : </p>
+<p>1). 分片长度 : 默认最大2^10 , 为 1024 ;</p>
+<p>2). count, length的数组长度必须是一致的 ;</p>
+<p>3). 两组数据的对应情况: (partitionCount[0]partitionLength[0])=(partitionCount[1]partitionLength[1])</p>
+<p>以上分为三个分区:0-255,256-511,512-1023</p>
+<p><strong>测试:</strong></p>
+<p>配置</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;tb_brand&quot;</span> <span class="attr">dataNode</span>=<span class="string">&quot;dn1,dn2,dn3&quot;</span> <span class="attr">rule</span>=<span class="string">&quot;sharding-by-long-hash&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>数据</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>). 创建表</span><br><span class="line">    <span class="keyword">CREATE</span> <span class="keyword">TABLE</span> `tb_brand` (</span><br><span class="line">      id <span class="type">int</span>(<span class="number">11</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span> COMMENT <span class="string">&#x27;ID&#x27;</span>,</span><br><span class="line">      name <span class="type">varchar</span>(<span class="number">200</span>) <span class="keyword">DEFAULT</span> <span class="keyword">NULL</span> COMMENT <span class="string">&#x27;名称&#x27;</span>,</span><br><span class="line">      firstChar <span class="type">char</span>(<span class="number">1</span>)  COMMENT <span class="string">&#x27;首字母&#x27;</span>,</span><br><span class="line">      <span class="keyword">PRIMARY</span> KEY (`id`)</span><br><span class="line">    ) ENGINE<span class="operator">=</span>InnoDB <span class="keyword">DEFAULT</span> CHARSET<span class="operator">=</span>utf8mb4;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="number">2</span>). 插入数据</span><br><span class="line">    <span class="keyword">insert</span> <span class="keyword">into</span> tb_brand (id,name ,firstChar) <span class="keyword">values</span>(<span class="number">1</span>,<span class="string">&#x27;七匹狼&#x27;</span>,<span class="string">&#x27;Q&#x27;</span>);</span><br><span class="line">    <span class="keyword">insert</span> <span class="keyword">into</span> tb_brand (id,name ,firstChar) <span class="keyword">values</span>(<span class="number">529</span>,<span class="string">&#x27;八匹狼&#x27;</span>,<span class="string">&#x27;B&#x27;</span>);</span><br><span class="line">    <span class="keyword">insert</span> <span class="keyword">into</span> tb_brand (id,name ,firstChar) <span class="keyword">values</span>(<span class="number">1203</span>,<span class="string">&#x27;九匹狼&#x27;</span>,<span class="string">&#x27;J&#x27;</span>);</span><br><span class="line">    <span class="keyword">insert</span> <span class="keyword">into</span> tb_brand (id,name ,firstChar) <span class="keyword">values</span>(<span class="number">1205</span>,<span class="string">&#x27;十匹狼&#x27;</span>,<span class="string">&#x27;S&#x27;</span>);</span><br><span class="line">    <span class="keyword">insert</span> <span class="keyword">into</span> tb_brand (id,name ,firstChar) <span class="keyword">values</span>(<span class="number">1719</span>,<span class="string">&#x27;六匹狼&#x27;</span>,<span class="string">&#x27;L&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<h4 id="取模范围算法"><a href="#取模范围算法" class="headerlink" title="取模范围算法"></a>取模范围算法</h4><p>该算法先进行取模，然后根据取模值所属范围进行分片。</p>
+<p><strong>优点</strong>：可以自主决定取模后数据的节点分布</p>
+<p><strong>缺点</strong>：dataNode 划分节点是事先建好的，需要扩展时比较麻烦。</p>
+<p> 配置如下:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">tableRule</span> <span class="attr">name</span>=<span class="string">&quot;sharding-by-pattern&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">rule</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">columns</span>&gt;</span>id<span class="tag">&lt;/<span class="name">columns</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">algorithm</span>&gt;</span>sharding-by-pattern<span class="tag">&lt;/<span class="name">algorithm</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">rule</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">tableRule</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">function</span> <span class="attr">name</span>=<span class="string">&quot;sharding-by-pattern&quot;</span> <span class="attr">class</span>=<span class="string">&quot;io.mycat.route.function.PartitionByPattern&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;mapFile&quot;</span>&gt;</span>partition-pattern.txt<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;defaultNode&quot;</span>&gt;</span>0<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;patternValue&quot;</span>&gt;</span>96<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">function</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>partition-pattern.txt 配置如下: </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">0-32=0</span><br><span class="line">33-64=1</span><br><span class="line">65-96=2</span><br></pre></td></tr></table></figure>
+
+<p>在mapFile配置文件中, 1-32即代表id%96后的分布情况。如果在1-32, 则在分片0上 ; 如果在33-64, 则在分片1上 ; 如果在65-96, 则在分片2上。</p>
+<p>配置说明: </p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>columns</td>
+<td>标识将要分片的表字段</td>
+</tr>
+<tr>
+<td>algorithm</td>
+<td>指定分片函数与function的对应关系</td>
+</tr>
+<tr>
+<td>class</td>
+<td>指定该分片算法对应的类</td>
+</tr>
+<tr>
+<td>mapFile</td>
+<td>对应的外部配置文件</td>
+</tr>
+<tr>
+<td>defaultNode</td>
+<td>默认节点 ; 如果id不是数字, 无法求模, 将分配在defaultNode上</td>
+</tr>
+<tr>
+<td>patternValue</td>
+<td>求模基数</td>
+</tr>
+</tbody></table>
+<p><strong>测试:</strong></p>
+<p>配置</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;tb_mod_range&quot;</span> <span class="attr">dataNode</span>=<span class="string">&quot;dn1,dn2,dn3&quot;</span> <span class="attr">rule</span>=<span class="string">&quot;sharding-by-pattern&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>数据</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>). 创建表</span><br><span class="line">    <span class="keyword">CREATE</span> <span class="keyword">TABLE</span> `tb_mod_range` (</span><br><span class="line">      id <span class="type">int</span>(<span class="number">11</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span> COMMENT <span class="string">&#x27;ID&#x27;</span>,</span><br><span class="line">      name <span class="type">varchar</span>(<span class="number">200</span>) <span class="keyword">DEFAULT</span> <span class="keyword">NULL</span> COMMENT <span class="string">&#x27;名称&#x27;</span>,</span><br><span class="line">      <span class="keyword">PRIMARY</span> KEY (`id`)</span><br><span class="line">    ) ENGINE<span class="operator">=</span>InnoDB <span class="keyword">DEFAULT</span> CHARSET<span class="operator">=</span>utf8mb4;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="number">2</span>). 插入数据</span><br><span class="line">    <span class="keyword">insert</span> <span class="keyword">into</span> tb_mod_range (id,name) <span class="keyword">values</span>(<span class="number">1</span>,<span class="string">&#x27;Test1&#x27;</span>);</span><br><span class="line">    <span class="keyword">insert</span> <span class="keyword">into</span> tb_mod_range (id,name) <span class="keyword">values</span>(<span class="number">2</span>,<span class="string">&#x27;Test2&#x27;</span>);</span><br><span class="line">    <span class="keyword">insert</span> <span class="keyword">into</span> tb_mod_range (id,name) <span class="keyword">values</span>(<span class="number">3</span>,<span class="string">&#x27;Test3&#x27;</span>);</span><br><span class="line">    <span class="keyword">insert</span> <span class="keyword">into</span> tb_mod_range (id,name) <span class="keyword">values</span>(<span class="number">4</span>,<span class="string">&#x27;Test4&#x27;</span>);</span><br><span class="line">    <span class="keyword">insert</span> <span class="keyword">into</span> tb_mod_range (id,name) <span class="keyword">values</span>(<span class="number">5</span>,<span class="string">&#x27;Test5&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+<p><font color='red'>注意 : 取模范围算法只能针对于数字类型进行取模运算 ; 如果是字符串则无法进行取模分片 ;</font></p>
+<h4 id="字符串hash求模范围算法"><a href="#字符串hash求模范围算法" class="headerlink" title="字符串hash求模范围算法"></a>字符串hash求模范围算法</h4><p>与取模范围算法类似, 该算法支持数值、符号、字母取模，首先截取长度为 prefixLength 的子串，在对子串中每一个字符的 ASCII 码求和，然后对求和值进行取模运算（sum%patternValue），就可以计算出子串的分片数。</p>
+<p><strong>优点</strong>：可以自主决定取模后数据的节点分布</p>
+<p><strong>缺点</strong>：dataNode 划分节点是事先建好的，需要扩展时比较麻烦。</p>
+<p>配置如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">tableRule</span> <span class="attr">name</span>=<span class="string">&quot;sharding-by-prefixpattern&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">rule</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">columns</span>&gt;</span>id<span class="tag">&lt;/<span class="name">columns</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">algorithm</span>&gt;</span>sharding-by-prefixpattern<span class="tag">&lt;/<span class="name">algorithm</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">rule</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">tableRule</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">function</span> <span class="attr">name</span>=<span class="string">&quot;sharding-by-prefixpattern&quot;</span> <span class="attr">class</span>=<span class="string">&quot;io.mycat.route.function.PartitionByPrefixPattern&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;mapFile&quot;</span>&gt;</span>partition-prefixpattern.txt<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;prefixLength&quot;</span>&gt;</span>5<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;patternValue&quot;</span>&gt;</span>96<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">function</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>partition-prefixpattern.txt 配置如下: </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># range start-end ,data node index</span><br><span class="line"># ASCII</span><br><span class="line"># 48-57=0-9</span><br><span class="line"># 64、65-90=@、A-Z</span><br><span class="line"># 97-122=a-z</span><br><span class="line">###### first host configuration</span><br><span class="line">0-32=0</span><br><span class="line">33-64=1</span><br><span class="line">65-96=2</span><br></pre></td></tr></table></figure>
+
+
+
+<p>配置说明: </p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>columns</td>
+<td>标识将要分片的表字段</td>
+</tr>
+<tr>
+<td>algorithm</td>
+<td>指定分片函数与function的对应关系</td>
+</tr>
+<tr>
+<td>class</td>
+<td>指定该分片算法对应的类</td>
+</tr>
+<tr>
+<td>mapFile</td>
+<td>对应的外部配置文件</td>
+</tr>
+<tr>
+<td>prefixLength</td>
+<td>截取的位数; 将该字段获取前prefixLength位所有ASCII码的和, 进行求模sum%patternValue ,获取的值，在通配范围内的即分片数 ;</td>
+</tr>
+<tr>
+<td>patternValue</td>
+<td>求模基数</td>
+</tr>
+</tbody></table>
+<p>如 : </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">字符串 :</span><br><span class="line">	gf89f9a</span><br><span class="line">	</span><br><span class="line">截取字符串的前5位进行ASCII的累加运算 : </span><br><span class="line">	g - 103</span><br><span class="line">	f - 102</span><br><span class="line">	8 - 56</span><br><span class="line">	9 - 57</span><br><span class="line">	f - 102</span><br><span class="line">	</span><br><span class="line">    sum求和 : 103 + 102 + + 56 + 57 + 102 = 420</span><br><span class="line">    求模 : 420 % 96 = 36</span><br><span class="line">    </span><br></pre></td></tr></table></figure>
+
+<p>附录 ASCII码表 : </p>
+<p><img src="G:\BaiduNetdiskDownload\MyCat资料\文档\文档\assets\1577267028771.png" alt="1577267028771"> </p>
+<p><strong>测试:</strong></p>
+<p>配置</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;tb_u&quot;</span> <span class="attr">dataNode</span>=<span class="string">&quot;dn1,dn2,dn3&quot;</span> <span class="attr">rule</span>=<span class="string">&quot;sharding-by-prefixpattern&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>数据</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>). 创建表</span><br><span class="line">    <span class="keyword">CREATE</span> <span class="keyword">TABLE</span> `tb_u` (</span><br><span class="line">      username <span class="type">varchar</span>(<span class="number">50</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span> COMMENT <span class="string">&#x27;用户名&#x27;</span>,</span><br><span class="line">      age <span class="type">int</span>(<span class="number">11</span>) <span class="keyword">default</span> <span class="number">0</span> COMMENT <span class="string">&#x27;年龄&#x27;</span>,</span><br><span class="line">      <span class="keyword">PRIMARY</span> KEY (`username`)</span><br><span class="line">    ) ENGINE<span class="operator">=</span>InnoDB <span class="keyword">DEFAULT</span> CHARSET<span class="operator">=</span>utf8mb4;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="number">2</span>). 插入数据</span><br><span class="line">    <span class="keyword">insert</span> <span class="keyword">into</span> tb_u (username,age) <span class="keyword">values</span>(<span class="string">&#x27;Test100001&#x27;</span>,<span class="number">18</span>);</span><br><span class="line">    <span class="keyword">insert</span> <span class="keyword">into</span> tb_u (username,age) <span class="keyword">values</span>(<span class="string">&#x27;Test200001&#x27;</span>,<span class="number">20</span>);</span><br><span class="line">    <span class="keyword">insert</span> <span class="keyword">into</span> tb_u (username,age) <span class="keyword">values</span>(<span class="string">&#x27;Test300001&#x27;</span>,<span class="number">19</span>);</span><br><span class="line">    <span class="keyword">insert</span> <span class="keyword">into</span> tb_u (username,age) <span class="keyword">values</span>(<span class="string">&#x27;Test400001&#x27;</span>,<span class="number">25</span>);</span><br><span class="line">    <span class="keyword">insert</span> <span class="keyword">into</span> tb_u (username,age) <span class="keyword">values</span>(<span class="string">&#x27;Test500001&#x27;</span>,<span class="number">22</span>);</span><br></pre></td></tr></table></figure>
+
+<h4 id="应用指定算法"><a href="#应用指定算法" class="headerlink" title="应用指定算法"></a>应用指定算法</h4><p>由运行阶段由应用自主决定路由到那个分片 , 直接根据字符子串（必须是数字）计算分片号 , 配置如下 : </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">tableRule</span> <span class="attr">name</span>=<span class="string">&quot;sharding-by-substring&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">rule</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">columns</span>&gt;</span>id<span class="tag">&lt;/<span class="name">columns</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">algorithm</span>&gt;</span>sharding-by-substring<span class="tag">&lt;/<span class="name">algorithm</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">rule</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">tableRule</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">function</span> <span class="attr">name</span>=<span class="string">&quot;sharding-by-substring&quot;</span> <span class="attr">class</span>=<span class="string">&quot;io.mycat.route.function.PartitionDirectBySubString&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;startIndex&quot;</span>&gt;</span>0<span class="tag">&lt;/<span class="name">property</span>&gt;</span> <span class="comment">&lt;!-- zero-based --&gt;</span> </span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;size&quot;</span>&gt;</span>2<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;partitionCount&quot;</span>&gt;</span>3<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;defaultPartition&quot;</span>&gt;</span>0<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">function</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>配置说明: </p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>columns</td>
+<td>标识将要分片的表字段</td>
+</tr>
+<tr>
+<td>algorithm</td>
+<td>指定分片函数与function的对应关系</td>
+</tr>
+<tr>
+<td>class</td>
+<td>指定该分片算法对应的类</td>
+</tr>
+<tr>
+<td>startIndex</td>
+<td>字符子串起始索引</td>
+</tr>
+<tr>
+<td>size</td>
+<td>字符长度</td>
+</tr>
+<tr>
+<td>partitionCount</td>
+<td>分区(分片)数量</td>
+</tr>
+<tr>
+<td>defaultPartition</td>
+<td>默认分片(在分片数量定义时, 字符标示的分片编号不在分片数量内时,使用默认分片)</td>
+</tr>
+</tbody></table>
+<p>示例说明 : </p>
+<p>id=05-100000002 , 在此配置中代表根据id中从 startIndex=0，开始，截取siz=2位数字即05，05就是获取的分区，如果没传默认分配到defaultPartition 。</p>
+<p><strong>测试:</strong></p>
+<p>配置</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;tb_app&quot;</span> <span class="attr">dataNode</span>=<span class="string">&quot;dn1,dn2,dn3&quot;</span> <span class="attr">rule</span>=<span class="string">&quot;sharding-by-substring&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>数据</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>). 创建表</span><br><span class="line">    <span class="keyword">CREATE</span> <span class="keyword">TABLE</span> `tb_app` (</span><br><span class="line">      id <span class="type">varchar</span>(<span class="number">10</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span> COMMENT <span class="string">&#x27;ID&#x27;</span>,</span><br><span class="line">      name <span class="type">varchar</span>(<span class="number">200</span>) <span class="keyword">DEFAULT</span> <span class="keyword">NULL</span> COMMENT <span class="string">&#x27;名称&#x27;</span>,</span><br><span class="line">      <span class="keyword">PRIMARY</span> KEY (`id`)</span><br><span class="line">    ) ENGINE<span class="operator">=</span>InnoDB <span class="keyword">DEFAULT</span> CHARSET<span class="operator">=</span>utf8mb4;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="number">2</span>). 插入数据</span><br><span class="line">	<span class="keyword">insert</span> <span class="keyword">into</span> tb_app (id,name) <span class="keyword">values</span>(<span class="string">&#x27;00-00001&#x27;</span>,<span class="string">&#x27;Testx00001&#x27;</span>);</span><br><span class="line">    <span class="keyword">insert</span> <span class="keyword">into</span> tb_app (id,name) <span class="keyword">values</span>(<span class="string">&#x27;01-00001&#x27;</span>,<span class="string">&#x27;Test100001&#x27;</span>);</span><br><span class="line">    <span class="keyword">insert</span> <span class="keyword">into</span> tb_app (id,name) <span class="keyword">values</span>(<span class="string">&#x27;01-00002&#x27;</span>,<span class="string">&#x27;Test200001&#x27;</span>);</span><br><span class="line">    <span class="keyword">insert</span> <span class="keyword">into</span> tb_app (id,name) <span class="keyword">values</span>(<span class="string">&#x27;02-00001&#x27;</span>,<span class="string">&#x27;Test300001&#x27;</span>);</span><br><span class="line">    <span class="keyword">insert</span> <span class="keyword">into</span> tb_app (id,name) <span class="keyword">values</span>(<span class="string">&#x27;02-00002&#x27;</span>,<span class="string">&#x27;TesT400001&#x27;</span>);</span><br><span class="line">    </span><br></pre></td></tr></table></figure>
+
+<h4 id="字符串hash解析算法"><a href="#字符串hash解析算法" class="headerlink" title="字符串hash解析算法"></a>字符串hash解析算法</h4><p>截取字符串中的指定位置的子字符串, 进行hash算法， 算出分片 ， 配置如下： </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">tableRule</span> <span class="attr">name</span>=<span class="string">&quot;sharding-by-stringhash&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">rule</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">columns</span>&gt;</span>user_id<span class="tag">&lt;/<span class="name">columns</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">algorithm</span>&gt;</span>sharding-by-stringhash<span class="tag">&lt;/<span class="name">algorithm</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">rule</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">tableRule</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">function</span> <span class="attr">name</span>=<span class="string">&quot;sharding-by-stringhash&quot;</span> <span class="attr">class</span>=<span class="string">&quot;io.mycat.route.function.PartitionByString&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;partitionLength&quot;</span>&gt;</span>512<span class="tag">&lt;/<span class="name">property</span>&gt;</span> <span class="comment">&lt;!-- zero-based --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;partitionCount&quot;</span>&gt;</span>2<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;hashSlice&quot;</span>&gt;</span>0:2<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">function</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>配置说明: </p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>columns</td>
+<td>标识将要分片的表字段</td>
+</tr>
+<tr>
+<td>algorithm</td>
+<td>指定分片函数与function的对应关系</td>
+</tr>
+<tr>
+<td>class</td>
+<td>指定该分片算法对应的类</td>
+</tr>
+<tr>
+<td>partitionLength</td>
+<td>hash求模基数 ; length*count=1024 (出于性能考虑)</td>
+</tr>
+<tr>
+<td>partitionCount</td>
+<td>分区数</td>
+</tr>
+<tr>
+<td>hashSlice</td>
+<td>hash运算位 , 根据子字符串的hash运算 ; 0 代表 str.length() , -1 代表 str.length()-1 , 大于0只代表数字自身 ; 可以理解为substring（start，end），start为0则只表示0</td>
+</tr>
+</tbody></table>
+<p><strong>测试:</strong> </p>
+<p>配置</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;tb_strhash&quot;</span> <span class="attr">dataNode</span>=<span class="string">&quot;dn1,dn2,dn3&quot;</span> <span class="attr">rule</span>=<span class="string">&quot;sharding-by-stringhash&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>数据</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>). 创建表</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> tb_strhash(</span><br><span class="line">	name <span class="type">varchar</span>(<span class="number">20</span>) <span class="keyword">primary</span> key,</span><br><span class="line">	content <span class="type">varchar</span>(<span class="number">100</span>)</span><br><span class="line">)engine<span class="operator">=</span>InnoDB <span class="keyword">DEFAULT</span> CHARSET<span class="operator">=</span>utf8mb4;</span><br><span class="line"></span><br><span class="line"><span class="number">2</span>). 插入数据</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> tb_strhash (name,content) <span class="keyword">VALUES</span>(<span class="string">&#x27;T1001&#x27;</span>, UUID());</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> tb_strhash (name,content) <span class="keyword">VALUES</span>(<span class="string">&#x27;ROSE&#x27;</span>, UUID());</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> tb_strhash (name,content) <span class="keyword">VALUES</span>(<span class="string">&#x27;JERRY&#x27;</span>, UUID());</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> tb_strhash (name,content) <span class="keyword">VALUES</span>(<span class="string">&#x27;CRISTINA&#x27;</span>, UUID());</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> tb_strhash (name,content) <span class="keyword">VALUES</span>(<span class="string">&#x27;TOMCAT&#x27;</span>, UUID());</span><br></pre></td></tr></table></figure>
+
+
+
+<p>原理: </p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628150917.png" alt="image-20200112234530612"> </p>
+<h4 id="一致性hash算法"><a href="#一致性hash算法" class="headerlink" title="一致性hash算法"></a>一致性hash算法</h4><p>一致性Hash算法有效的解决了分布式数据的拓容问题 , 配置如下: </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">tableRule</span> <span class="attr">name</span>=<span class="string">&quot;sharding-by-murmur&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">rule</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">columns</span>&gt;</span>id<span class="tag">&lt;/<span class="name">columns</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">algorithm</span>&gt;</span>murmur<span class="tag">&lt;/<span class="name">algorithm</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">rule</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">tableRule</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">function</span> <span class="attr">name</span>=<span class="string">&quot;murmur&quot;</span> <span class="attr">class</span>=<span class="string">&quot;io.mycat.route.function.PartitionByMurmurHash&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;seed&quot;</span>&gt;</span>0<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;count&quot;</span>&gt;</span>3<span class="tag">&lt;/<span class="name">property</span>&gt;</span><span class="comment">&lt;!--  --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;virtualBucketTimes&quot;</span>&gt;</span>160<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- &lt;property name=&quot;weightMapFile&quot;&gt;weightMapFile&lt;/property&gt; --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- &lt;property name=&quot;bucketMapPath&quot;&gt;/etc/mycat/bucketMapPath&lt;/property&gt; --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">function</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>配置说明: </p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>columns</td>
+<td>标识将要分片的表字段</td>
+</tr>
+<tr>
+<td>algorithm</td>
+<td>指定分片函数与function的对应关系</td>
+</tr>
+<tr>
+<td>class</td>
+<td>指定该分片算法对应的类</td>
+</tr>
+<tr>
+<td>seed</td>
+<td>创建murmur_hash对象的种子，默认0</td>
+</tr>
+<tr>
+<td>count</td>
+<td>要分片的数据库节点数量，必须指定，否则没法分片</td>
+</tr>
+<tr>
+<td>virtualBucketTimes</td>
+<td>一个实际的数据库节点被映射为这么多虚拟节点，默认是160倍，也就是虚拟节点数是物理节点数的160倍;virtualBucketTimes*count就是虚拟结点数量 ;</td>
+</tr>
+<tr>
+<td>weightMapFile</td>
+<td>节点的权重，没有指定权重的节点默认是1。以properties文件的格式填写，以从0开始到count-1的整数值也就是节点索引为key，以节点权重值为值。所有权重值必须是正整数，否则以1代替</td>
+</tr>
+<tr>
+<td>bucketMapPath</td>
+<td>用于测试时观察各物理节点与虚拟节点的分布情况，如果指定了这个属性，会把虚拟节点的murmur hash值与物理节点的映射按行输出到这个文件，没有默认值，如果不指定，就不会输出任何东西</td>
+</tr>
+</tbody></table>
+<p><strong>测试：</strong></p>
+<p>配置</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;tb_order&quot;</span> <span class="attr">dataNode</span>=<span class="string">&quot;dn1,dn2,dn3&quot;</span> <span class="attr">rule</span>=<span class="string">&quot;sharding-by-murmur&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>数据</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>). 创建表</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> tb_order(</span><br><span class="line">	id <span class="type">int</span>(<span class="number">11</span>) <span class="keyword">primary</span> key,</span><br><span class="line">	money <span class="type">int</span>(<span class="number">11</span>),</span><br><span class="line">	content <span class="type">varchar</span>(<span class="number">200</span>)</span><br><span class="line">)engine<span class="operator">=</span>InnoDB ;</span><br><span class="line"></span><br><span class="line"><span class="number">2</span>). 插入数据</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> tb_order (id,money,content) <span class="keyword">VALUES</span>(<span class="number">1</span>, <span class="number">100</span> , UUID());</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> tb_order (id,money,content) <span class="keyword">VALUES</span>(<span class="number">212</span>, <span class="number">100</span> , UUID());</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> tb_order (id,money,content) <span class="keyword">VALUES</span>(<span class="number">312</span>, <span class="number">100</span> , UUID());</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> tb_order (id,money,content) <span class="keyword">VALUES</span>(<span class="number">412</span>, <span class="number">100</span> , UUID());</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> tb_order (id,money,content) <span class="keyword">VALUES</span>(<span class="number">534</span>, <span class="number">100</span> , UUID());</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> tb_order (id,money,content) <span class="keyword">VALUES</span>(<span class="number">621</span>, <span class="number">100</span> , UUID());</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> tb_order (id,money,content) <span class="keyword">VALUES</span>(<span class="number">754563</span>, <span class="number">100</span> , UUID());</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> tb_order (id,money,content) <span class="keyword">VALUES</span>(<span class="number">8123</span>, <span class="number">100</span> , UUID());</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> tb_order (id,money,content) <span class="keyword">VALUES</span>(<span class="number">91213</span>, <span class="number">100</span> , UUID());</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> tb_order (id,money,content) <span class="keyword">VALUES</span>(<span class="number">23232</span>, <span class="number">100</span> , UUID());</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> tb_order (id,money,content) <span class="keyword">VALUES</span>(<span class="number">112321</span>, <span class="number">100</span> , UUID());</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> tb_order (id,money,content) <span class="keyword">VALUES</span>(<span class="number">21221</span>, <span class="number">100</span> , UUID());</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> tb_order (id,money,content) <span class="keyword">VALUES</span>(<span class="number">112132</span>, <span class="number">100</span> , UUID());</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> tb_order (id,money,content) <span class="keyword">VALUES</span>(<span class="number">12132</span>, <span class="number">100</span> , UUID());</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> tb_order (id,money,content) <span class="keyword">VALUES</span>(<span class="number">124321</span>, <span class="number">100</span> , UUID());</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> tb_order (id,money,content) <span class="keyword">VALUES</span>(<span class="number">212132</span>, <span class="number">100</span> , UUID());</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="日期分片算法"><a href="#日期分片算法" class="headerlink" title="日期分片算法"></a>日期分片算法</h4><p>按照日期来分片</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">tableRule</span> <span class="attr">name</span>=<span class="string">&quot;sharding-by-date&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">rule</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">columns</span>&gt;</span>create_time<span class="tag">&lt;/<span class="name">columns</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">algorithm</span>&gt;</span>sharding-by-date<span class="tag">&lt;/<span class="name">algorithm</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">rule</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">tableRule</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">function</span> <span class="attr">name</span>=<span class="string">&quot;sharding-by-date&quot;</span> <span class="attr">class</span>=<span class="string">&quot;io.mycat.route.function.PartitionByDate&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;dateFormat&quot;</span>&gt;</span>yyyy-MM-dd<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;sBeginDate&quot;</span>&gt;</span>2020-01-01<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;sEndDate&quot;</span>&gt;</span>2020-12-31<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;sPartionDay&quot;</span>&gt;</span>10<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">function</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>配置说明: </p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>columns</td>
+<td>标识将要分片的表字段</td>
+</tr>
+<tr>
+<td>algorithm</td>
+<td>指定分片函数与function的对应关系</td>
+</tr>
+<tr>
+<td>class</td>
+<td>指定该分片算法对应的类</td>
+</tr>
+<tr>
+<td>dateFormat</td>
+<td>日期格式</td>
+</tr>
+<tr>
+<td>sBeginDate</td>
+<td>开始日期</td>
+</tr>
+<tr>
+<td>sEndDate</td>
+<td>结束日期，如果配置了结束日期，则代码数据到达了这个日期的分片后，会重复从开始分片插入</td>
+</tr>
+<tr>
+<td>sPartionDay</td>
+<td>分区天数，默认值 10 ，从开始日期算起，每个10天一个分区</td>
+</tr>
+</tbody></table>
+<p>注意：配置规则的表的 dataNode 的分片，必须和分片规则数量一致，例如 2020-01-01 到 2020-12-31 ，每10天一个分片，一共需要37个分片。</p>
+<h4 id="单月小时算法"><a href="#单月小时算法" class="headerlink" title="单月小时算法"></a>单月小时算法</h4><p>单月内按照小时拆分, 最小粒度是小时 , 一天最多可以有24个分片, 最小1个分片, 下个月从头开始循环, 每个月末需要手动清理数据。</p>
+<p>配置如下 ： </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">tableRule</span> <span class="attr">name</span>=<span class="string">&quot;sharding-by-hour&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">rule</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">columns</span>&gt;</span>create_time<span class="tag">&lt;/<span class="name">columns</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">algorithm</span>&gt;</span>sharding-by-hour<span class="tag">&lt;/<span class="name">algorithm</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">rule</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">tableRule</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">function</span> <span class="attr">name</span>=<span class="string">&quot;sharding-by-hour&quot;</span> <span class="attr">class</span>=<span class="string">&quot;io.mycat.route.function.LatestMonthPartion&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;splitOneDay&quot;</span>&gt;</span>24<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">function</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>配置说明: </p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>columns</td>
+<td>标识将要分片的表字段 ； 字符串类型（yyyymmddHH）， 需要符合JAVA标准</td>
+</tr>
+<tr>
+<td>algorithm</td>
+<td>指定分片函数与function的对应关系</td>
+</tr>
+<tr>
+<td>splitOneDay</td>
+<td>一天切分的分片数</td>
+</tr>
+</tbody></table>
+<h4 id="自然月分片算法"><a href="#自然月分片算法" class="headerlink" title="自然月分片算法"></a>自然月分片算法</h4><p>使用场景为按照月份列分区, 每个自然月为一个分片, 配置如下: </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">tableRule</span> <span class="attr">name</span>=<span class="string">&quot;sharding-by-month&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">rule</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">columns</span>&gt;</span>create_time<span class="tag">&lt;/<span class="name">columns</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">algorithm</span>&gt;</span>sharding-by-month<span class="tag">&lt;/<span class="name">algorithm</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">rule</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">tableRule</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">function</span> <span class="attr">name</span>=<span class="string">&quot;sharding-by-month&quot;</span> <span class="attr">class</span>=<span class="string">&quot;io.mycat.route.function.PartitionByMonth&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;dateFormat&quot;</span>&gt;</span>yyyy-MM-dd<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;sBeginDate&quot;</span>&gt;</span>2020-01-01<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;sEndDate&quot;</span>&gt;</span>2020-12-31<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">function</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>配置说明: </p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>columns</td>
+<td>标识将要分片的表字段</td>
+</tr>
+<tr>
+<td>algorithm</td>
+<td>指定分片函数与function的对应关系</td>
+</tr>
+<tr>
+<td>class</td>
+<td>指定该分片算法对应的类</td>
+</tr>
+<tr>
+<td>dateFormat</td>
+<td>日期格式</td>
+</tr>
+<tr>
+<td>sBeginDate</td>
+<td>开始日期</td>
+</tr>
+<tr>
+<td>sEndDate</td>
+<td>结束日期，如果配置了结束日期，则代码数据到达了这个日期的分片后，会重复从开始分片插入</td>
+</tr>
+</tbody></table>
+<h4 id="日期范围hash算法"><a href="#日期范围hash算法" class="headerlink" title="日期范围hash算法"></a>日期范围hash算法</h4><p>其思想和范围取模分片一样，先根据日期进行范围分片求出分片组，再根据时间hash使得短期内数据分布的更均匀 ;</p>
+<p>优点 : 可以避免扩容时的数据迁移，又可以一定程度上避免范围分片的热点问题</p>
+<p>注意 : 要求日期格式尽量精确些，不然达不到局部均匀的目的</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">tableRule</span> <span class="attr">name</span>=<span class="string">&quot;range-date-hash&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">rule</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">columns</span>&gt;</span>create_time<span class="tag">&lt;/<span class="name">columns</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">algorithm</span>&gt;</span>range-date-hash<span class="tag">&lt;/<span class="name">algorithm</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">rule</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">tableRule</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">function</span> <span class="attr">name</span>=<span class="string">&quot;range-date-hash&quot;</span> <span class="attr">class</span>=<span class="string">&quot;io.mycat.route.function.PartitionByRangeDateHash&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;dateFormat&quot;</span>&gt;</span>yyyy-MM-dd HH:mm:ss<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;sBeginDate&quot;</span>&gt;</span>2020-01-01 00:00:00<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;groupPartionSize&quot;</span>&gt;</span>6<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;sPartionDay&quot;</span>&gt;</span>10<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">function</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>配置说明: </p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>columns</td>
+<td>标识将要分片的表字段</td>
+</tr>
+<tr>
+<td>algorithm</td>
+<td>指定分片函数与function的对应关系</td>
+</tr>
+<tr>
+<td>class</td>
+<td>指定该分片算法对应的类</td>
+</tr>
+<tr>
+<td>dateFormat</td>
+<td>日期格式 , 符合Java标准</td>
+</tr>
+<tr>
+<td>sBeginDate</td>
+<td>开始日期 , 与 dateFormat指定的格式一致</td>
+</tr>
+<tr>
+<td>groupPartionSize</td>
+<td>每组的分片数量</td>
+</tr>
+<tr>
+<td>sPartionDay</td>
+<td>代表多少天为一组</td>
+</tr>
+</tbody></table>
+
+  
+  
+    
+    <div class='footer'>
+      
+      
+      
+        <div class='copyright'>
+          <blockquote>
+            
+              
+                <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+              
+            
+              
+                <p>本文永久链接是：<a href=https://zhaoshuchao.top/2021/06/25/Mycat(%E5%9B%9B)---%E5%88%86%E7%89%87/>https://zhaoshuchao.top/2021/06/25/Mycat(%E5%9B%9B)---%E5%88%86%E7%89%87/</a></p>
+              
+            
+          </blockquote>
+        </div>
+      
+      
+    </div>
+  
+  
+    
+
+
+  <div class='article-meta' id="bottom">
+    <div class='new-meta-box'>
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/MyCat/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>MyCat</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>分库分表</p></a></div>
+
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zhaoshuchao.top/2021/06/25/Mycat(%E5%9B%9B)---%E5%88%86%E7%89%87/&title=MyCat(四)---分片 - Never Meet Blog&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://zhaoshuchao.top/2021/06/25/Mycat(%E5%9B%9B)---%E5%88%86%E7%89%87/&title=MyCat(四)---分片 - Never Meet Blog&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://service.weibo.com/share/share.php?url=https://zhaoshuchao.top/2021/06/25/Mycat(%E5%9B%9B)---%E5%88%86%E7%89%87/&title=MyCat(四)---分片 - Never Meet Blog&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+        
+          
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>字数：8.5k字</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>时长：43分钟</p>
+    </a>
+  </div>
+
+
+        
+      
+    </div>
+  </div>
+
+
+  
+  
+
+  
+    <div class="prev-next">
+      
+        <a class='prev' href='/2021/06/26/MyCat(%E4%B8%89)---%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/'>
+          <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>MyCat(三)---配置文件</p>
+          <p class='content'>1. serer.xml1.1 system标签
+
+
+属性
+取值
+含义
+
+
+
+charset
+utf8
+设置Mycat的字符集, 字符集需要与MySQL的字符集保持一致
+
+
+nonePasswo...</p>
+        </a>
+      
+      
+        <a class='next' href='/2021/06/24/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/'>
+          <p class='title'>TCP三次握手<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+          <p class='content'>握手的过程1、第一次握手：客户端给服务器发送一个 SYN 报文。
+2、第二次握手：服务器收到 SYN 报文之后，会应答一个 SYN+ACK 报文。
+3、第三次握手：客户端收到 SYN+ACK 报...</p>
+        </a>
+      
+    </div>
+  
+</article>
+
+
+  
+
+  <article class="post white-box reveal shadow" id="comments">
+    <p ct><i class='fas fa-comments'></i> 评论</p>
+    
+    <div id="valine_container" class="valine_thread">
+  <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+</div>
+
+  </article>
+
+
+
+
+
+
+</div>
+<aside class='l_side'>
+  
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9E%82%E7%9B%B4%E6%8B%86%E5%88%86"><span class="toc-text">垂直拆分</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-text">概述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E5%9C%BA%E6%99%AF"><span class="toc-text">案例场景</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="toc-text">准备工作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#schema-xml%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="toc-text">schema.xml的配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#server-xml%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="toc-text">server.xml的配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95"><span class="toc-text">测试</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%A8%E5%B1%80%E8%A1%A8%E9%85%8D%E7%BD%AE"><span class="toc-text">全局表配置</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B0%B4%E5%B9%B3%E6%8B%86%E5%88%86"><span class="toc-text">水平拆分</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0-1"><span class="toc-text">概述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B%E5%9C%BA%E6%99%AF-1"><span class="toc-text">案例场景</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C-1"><span class="toc-text">准备工作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#schema-xml%E7%9A%84%E9%85%8D%E7%BD%AE-1"><span class="toc-text">schema.xml的配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#server-xml%E7%9A%84%E9%85%8D%E7%BD%AE-1"><span class="toc-text">server.xml的配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95-1"><span class="toc-text">测试</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E7%89%87%E8%A7%84%E5%88%99"><span class="toc-text">分片规则</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%96%E6%A8%A1%E5%88%86%E7%89%87"><span class="toc-text">取模分片</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8C%83%E5%9B%B4%E5%88%86%E7%89%87"><span class="toc-text">范围分片</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9E%9A%E4%B8%BE%E5%88%86%E7%89%87"><span class="toc-text">枚举分片</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8C%83%E5%9B%B4%E6%B1%82%E6%A8%A1%E7%AE%97%E6%B3%95"><span class="toc-text">范围求模算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%BA%E5%AE%9A%E5%88%86%E7%89%87hash%E7%AE%97%E6%B3%95"><span class="toc-text">固定分片hash算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%96%E6%A8%A1%E8%8C%83%E5%9B%B4%E7%AE%97%E6%B3%95"><span class="toc-text">取模范围算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2hash%E6%B1%82%E6%A8%A1%E8%8C%83%E5%9B%B4%E7%AE%97%E6%B3%95"><span class="toc-text">字符串hash求模范围算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E6%8C%87%E5%AE%9A%E7%AE%97%E6%B3%95"><span class="toc-text">应用指定算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2hash%E8%A7%A3%E6%9E%90%E7%AE%97%E6%B3%95"><span class="toc-text">字符串hash解析算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80%E8%87%B4%E6%80%A7hash%E7%AE%97%E6%B3%95"><span class="toc-text">一致性hash算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%A5%E6%9C%9F%E5%88%86%E7%89%87%E7%AE%97%E6%B3%95"><span class="toc-text">日期分片算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%95%E6%9C%88%E5%B0%8F%E6%97%B6%E7%AE%97%E6%B3%95"><span class="toc-text">单月小时算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%87%AA%E7%84%B6%E6%9C%88%E5%88%86%E7%89%87%E7%AE%97%E6%B3%95"><span class="toc-text">自然月分片算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%A5%E6%9C%9F%E8%8C%83%E5%9B%B4hash%E7%AE%97%E6%B3%95"><span class="toc-text">日期范围hash算法</span></a></li></ol></li></ol>
+    </div>
+  </section>
+
+
+  
+
+  
+    
+    
+  
+
+  <section class="widget category shadow desktop">
+    
+  <header>
+    
+      <a href='/blog/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+    
+  </header>
+
+
+    <div class='content'>
+      <ul class="entry navigation">
+        
+          <li><a class="flat-box"
+            title="/categories/Hexo/" href="/categories/Hexo/"
+            id="categoriesHexo"
+            ><div class='name'>Hexo</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Java/" href="/categories/Java/"
+            id="categoriesJava"
+            ><div class='name'>Java</div><div class='badge'>(13)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/Java/JUC/" href="/categories/Java/JUC/"
+            id="categoriesJavaJUC"
+            ><div class='name'>JUC</div><div class='badge'>(6)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/Java/JVM/" href="/categories/Java/JVM/"
+            id="categoriesJavaJVM"
+            ><div class='name'>JVM</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/Java/Java%E5%9F%BA%E7%A1%80/" href="/categories/Java/Java%E5%9F%BA%E7%A1%80/"
+            id="categoriesJavaJavaE59FBAE7A180"
+            ><div class='name'>Java基础</div><div class='badge'>(3)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/Java/Redis/" href="/categories/Java/Redis/"
+            id="categoriesJavaRedis"
+            ><div class='name'>Redis</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/MySQL/" href="/categories/MySQL/"
+            id="categoriesMySQL"
+            ><div class='name'>MySQL</div><div class='badge'>(16)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/MySQL/MyCat/" href="/categories/MySQL/MyCat/"
+            id="categoriesMySQLMyCat"
+            ><div class='name'>MyCat</div><div class='badge'>(9)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/MySQL/SQL%E4%BC%98%E5%8C%96/" href="/categories/MySQL/SQL%E4%BC%98%E5%8C%96/"
+            id="categoriesMySQLSQLE4BC98E58C96"
+            ><div class='name'>SQL优化</div><div class='badge'>(3)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/MySQL/SQL%E8%AF%AD%E5%8F%A5/" href="/categories/MySQL/SQL%E8%AF%AD%E5%8F%A5/"
+            id="categoriesMySQLSQLE8AFADE58FA5"
+            ><div class='name'>SQL语句</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/MySQL/%E4%BA%8B%E5%8A%A1/" href="/categories/MySQL/%E4%BA%8B%E5%8A%A1/"
+            id="categoriesMySQLE4BA8BE58AA1"
+            ><div class='name'>事务</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/MySQL/%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86/" href="/categories/MySQL/%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86/"
+            id="categoriesMySQLE794A8E688B7E7AEA1E79086"
+            ><div class='name'>用户管理</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/MySQL/%E7%B4%A2%E5%BC%95/" href="/categories/MySQL/%E7%B4%A2%E5%BC%95/"
+            id="categoriesMySQLE7B4A2E5BC95"
+            ><div class='name'>索引</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E5%B7%A5%E5%85%B7/" href="/categories/%E5%B7%A5%E5%85%B7/"
+            id="categoriesE5B7A5E585B7"
+            ><div class='name'>工具</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/%E5%B7%A5%E5%85%B7/%E5%9B%BE%E5%BA%8A/" href="/categories/%E5%B7%A5%E5%85%B7/%E5%9B%BE%E5%BA%8A/"
+            id="categoriesE5B7A5E585B7E59BBEE5BA8A"
+            ><div class='name'>图床</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"
+            id="categoriesE8AEA1E7AE97E69CBAE7BD91E7BB9C"
+            ><div class='name'>计算机网络</div><div class='badge'>(3)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/" href="/categories/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/"
+            id="categoriesE997AEE9A298E99A8FE7AC94"
+            ><div class='name'>问题随笔</div><div class='badge'>(5)</div></a></li>
+        
+      </ul>
+    </div>
+  </section>
+
+
+  
+
+  
+    
+    
+  
+
+  <section class="widget tagcloud shadow desktop mobile">
+    
+  <header>
+    
+      <a href='/blog/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
+    
+  </header>
+
+
+    <div class='content'>
+      <a href="/tags/GC/" style="font-size: 1px; color: #999">GC</a> <a href="/tags/Hexo/" style="font-size: 5.6px; color: #8b8b8b">Hexo</a> <a href="/tags/JUC/" style="font-size: 14.8px; color: #707070">JUC</a> <a href="/tags/JVM/" style="font-size: 5.6px; color: #8b8b8b">JVM</a> <a href="/tags/Java/" style="font-size: 1px; color: #999">Java</a> <a href="/tags/JavaSE/" style="font-size: 10.2px; color: #7e7e7e">JavaSE</a> <a href="/tags/Linux/" style="font-size: 1px; color: #999">Linux</a> <a href="/tags/MyCat/" style="font-size: 24px; color: #555">MyCat</a> <a href="/tags/MySQL/" style="font-size: 19.4px; color: #636363">MySQL</a> <a href="/tags/Redis/" style="font-size: 5.6px; color: #8b8b8b">Redis</a> <a href="/tags/%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8/" style="font-size: 24px; color: #555">分库分表</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 1px; color: #999">工具</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 14.8px; color: #707070">并发编程</a> <a href="/tags/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 1px; color: #999">微信小程序</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10.2px; color: #7e7e7e">数据库</a> <a href="/tags/%E7%B4%A2%E5%BC%95/" style="font-size: 1px; color: #999">索引</a> <a href="/tags/%E7%BA%BF%E7%A8%8B/" style="font-size: 5.6px; color: #8b8b8b">线程</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10.2px; color: #7e7e7e">计算机网络</a> <a href="/tags/%E9%94%81/" style="font-size: 5.6px; color: #8b8b8b">锁</a> <a href="/tags/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/" style="font-size: 10.2px; color: #7e7e7e">问题随笔</a> <a href="/tags/%E9%9B%86%E5%90%88/" style="font-size: 5.6px; color: #8b8b8b">集合</a>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+
+		  
+		  <!--此文件用来存放一些不方便取值的变量-->
+<!--思路大概是将值藏到重加载的区域内-->
+
+<script>
+  window.pdata={}
+  pdata.ispage=true;
+  pdata.postTitle="MyCat(四)---分片";
+  pdata.commentPath="";
+  pdata.commentPlaceholder="";
+  // header 这里无论是否开启pjax都需要
+  var l_header=document.getElementById("l_header");
+  
+  l_header.classList.add("show");
+  
+  
+    // cover
+    var cover_wrapper=document.querySelector('.cover-wrapper');
+    
+    cover_wrapper.id="none";
+    cover_wrapper.style.display="none";
+    
+  
+</script>
+
+        </div>
+        
+  
+  <footer class="footer clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+
+        </div>
+      
+    
+      
+        <br>
+        <div class="social-wrapper">
+          
+            
+          
+            
+          
+            
+          
+        </div>
+      
+    
+      
+        <div><p>博客内容遵循 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+</div>
+      
+    
+      
+        
+          <div><p><span id="lc-sv">本站总访问量为 <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span> 次</span> <span id="lc-uv">访客数为 <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span> 人</span></p>
+</div>
+        
+      
+    
+      
+        本站使用
+        <a href="https://github.com/volantis-x/hexo-theme-volantis/tree/4.3.1" target="_blank" class="codename">Volantis</a>
+        作为主题
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="/">Copyright © 2017-2020 XXX</a></p>
+
+        </div>
+      
+    
+  </footer>
+
+
+        <a id="s-top" class="fas fa-arrow-up fa-fw" href="javascript:void(0)"></a>
+      </div>
+    </div>
+    <div>
+      <script>
+/************这个文件存放不需要重载的全局变量和全局函数*********/
+window.volantis={};
+window.volantis.loadcss=document.getElementById("loadcss");
+/******************** Pjax ********************************/
+function VPjax(){
+	this.list=[] // 存放回调函数
+	this.start=()=>{
+	  for(var i=0;i<this.list.length;i++){
+		this.list[i].run();
+	  }
+	}
+	this.push=(fn,name)=>{
+		var f=new PjaxItem(fn,name);
+		this.list.push(f);
+	}
+	// 构造一个可以run的对象
+	function PjaxItem(fn,name){
+		// 函数名称
+		this.name = name || fn.name
+		// run方法
+		this.run=()=>{
+			fn()
+		}
+	}
+}
+volantis.pjax={}
+volantis.pjax.method={
+	complete: new VPjax(),
+	error: new VPjax(),
+	send: new VPjax()
+}
+volantis.pjax={
+	...volantis.pjax,
+	push: volantis.pjax.method.complete.push,
+	error: volantis.pjax.method.error.push,
+	send: volantis.pjax.method.send.push
+}
+/********************脚本懒加载函数********************************/
+// 已经加入了setTimeout
+function loadScript(src, cb) {
+	setTimeout(function() {
+		var HEAD = document.getElementsByTagName('head')[0] || document.documentElement;
+		var script = document.createElement('script');
+		script.setAttribute('type','text/javascript');
+		if (cb) script.onload = cb;
+		script.setAttribute('src', src);
+		HEAD.appendChild(script);
+	});
+}
+//https://github.com/filamentgroup/loadCSS
+var loadCSS = function( href, before, media, attributes ){
+	var doc = window.document;
+	var ss = doc.createElement( "link" );
+	var ref;
+	if( before ){
+		ref = before;
+	}
+	else {
+		var refs = ( doc.body || doc.getElementsByTagName( "head" )[ 0 ] ).childNodes;
+		ref = refs[ refs.length - 1];
+	}
+	var sheets = doc.styleSheets;
+	if( attributes ){
+		for( var attributeName in attributes ){
+			if( attributes.hasOwnProperty( attributeName ) ){
+				ss.setAttribute( attributeName, attributes[attributeName] );
+			}
+		}
+	}
+	ss.rel = "stylesheet";
+	ss.href = href;
+	ss.media = "only x";
+	function ready( cb ){
+		if( doc.body ){
+			return cb();
+		}
+		setTimeout(function(){
+			ready( cb );
+		});
+	}
+	ready( function(){
+		ref.parentNode.insertBefore( ss, ( before ? ref : ref.nextSibling ) );
+	});
+	var onloadcssdefined = function( cb ){
+		var resolvedHref = ss.href;
+		var i = sheets.length;
+		while( i-- ){
+			if( sheets[ i ].href === resolvedHref ){
+				return cb();
+			}
+		}
+		setTimeout(function() {
+			onloadcssdefined( cb );
+		});
+	};
+	function loadCB(){
+		if( ss.addEventListener ){
+			ss.removeEventListener( "load", loadCB );
+		}
+		ss.media = media || "all";
+	}
+	if( ss.addEventListener ){
+		ss.addEventListener( "load", loadCB);
+	}
+	ss.onloadcssdefined = onloadcssdefined;
+	onloadcssdefined( loadCB );
+	return ss;
+};
+</script>
+<script>
+  
+  loadCSS("https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14/css/all.min.css", window.volantis.loadcss);
+  
+  
+  
+  
+  loadCSS("https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/styles/solarized-light.min.css", window.volantis.loadcss);
+  
+</script>
+<!-- required -->
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5/dist/jquery.min.js"></script>
+
+<script>
+  function pjax_fancybox() {
+    $(".md .gallery").find("img").each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("class", "fancybox");
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 判断当前页面是否存在描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".md .gallery").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  function SCload_fancybox() {
+    if ($(".md .gallery").find("img").length == 0) return;
+    loadCSS("https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css", document.getElementById("loadcss"));
+    loadScript('https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js', pjax_fancybox)
+  };
+  $(function () {
+    SCload_fancybox();
+  });
+  function Pjax_SCload_fancybox(){
+	if (typeof $.fancybox == "undefined") {
+	 SCload_fancybox();
+    } else {
+	 pjax_fancybox();
+    }
+  }
+  volantis.pjax.push(Pjax_SCload_fancybox)
+  volantis.pjax.send(()=>{
+      if (typeof $.fancybox != "undefined") {
+        $.fancybox.close();    // 关闭弹窗
+      }
+  },'fancybox')
+</script>
+
+
+<!-- internal -->
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+        var imgs=["https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602105452.png", "https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602105101.jpg", "https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602105045.jpg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+	  function Pjax_backstretch(){
+        
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        
+	  }
+	  loadScript("https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js",Pjax_backstretch)
+    </script>
+  
+
+
+
+
+<script>
+  function loadIssuesJS() {
+    if ($(".md").find(".issues-api").length == 0) return;
+	
+	  loadScript('/js/issues.js');
+	
+  };
+  $(function () {
+    loadIssuesJS();
+  });
+  volantis.pjax.push(()=>{
+	if (typeof IssuesAPI == "undefined") {
+	  loadIssuesJS();
+	}
+  },"IssuesJS")
+</script>
+
+
+
+
+
+  
+
+<script>
+  window.FPConfig = {
+	delay: 0,
+	ignoreKeywords: [],
+	maxRPS: 5,
+	hoverDelay: 25
+  };
+</script>
+<script defer src="https://cdn.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+<script src="/js/valine.js"></script>
+
+
+<script>
+  function emoji(path, idx, ext) {
+    return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  function pjax_valine() {
+    if(!document.querySelectorAll("#valine_container")[0])return;
+    let pagePlaceholder = pdata.commentPlaceholder || "快来评论吧~";
+    let path = pdata.commentPath;
+    if (path.length == 0) {
+      let defaultPath = '';
+      path = defaultPath || decodeURI(window.location.pathname);
+    }
+    var valine = new Valine();
+    valine.init(Object.assign({"path":null,"placeholder":"快来评论吧~","appId":"3Hus5XFQ2sDWy72CDu6mK2mo-gzGzoHsz","appKey":"sV3dLNS95WvJ4WW5HhVxKJ15","meta":["nick"],"requiredFields":["nick"],"enableQQ":true,"recordIP":false,"avatar":"robohash","pageSize":10,"lang":"zh-cn","highlight":true,"mathJax":false}, {
+      el: '#valine_container',
+      path: path,
+      placeholder: pagePlaceholder,
+      emojiCDN: 'https://cdn.jsdelivr.net/gh/volantis-x/cdn-emoji/valine/',
+      emojiMaps: emojiMaps,
+    }))
+  }
+  $(function () {
+    pjax_valine();
+  });
+  volantis.pjax.push(pjax_valine);
+</script>
+
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+<!-- optional -->
+
+  <script>
+const SearchServiceimagePath="https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@master/img/";
+const ROOT =  ("/" || "/").endsWith('/') ? ("/" || "/") : ("//" || "/" );
+
+$('.input.u-search-input').one('focus',function(){
+	
+		loadScript('/js/search/hexo.js',setSearchService);
+	
+})
+
+function listenSearch(){
+  
+    customSearch = new HexoSearch({
+      imagePath: SearchServiceimagePath
+    });
+  
+}
+function setSearchService() {
+	listenSearch();
+	
+		document.addEventListener("pjax:success", listenSearch);
+	
+}
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/highlight.min.js"></script>
+
+<script>hljs.initHighlightingOnLoad();</script>
+
+<script>
+volantis.pjax.push(()=>{
+	document.querySelectorAll('pre code').forEach((block) => {
+	  hljs.highlightBlock(block);
+	});
+},"highlightjs")
+</script>
+
+
+
+  <script defer>
+
+  const LCCounter = {
+    app_id: 'u9j57bwJod4EDmXWdxrwuqQT-MdYXbMMI',
+    app_key: 'jfHtEKVE24j0IVCGHbvuFClp',
+    custom_api_server: '',
+
+    // 查询存储的记录
+    getRecord(Counter, url, title) {
+      return new Promise(function (resolve, reject) {
+        Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({url})))
+          .then(resp => resp.json())
+          .then(({results, code, error}) => {
+            if (code === 401) {
+              throw error;
+            }
+            if (results && results.length > 0) {
+              var record = results[0];
+              resolve(record);
+            } else {
+              Counter('post', '/classes/Counter', {url, title: title, times: 0})
+                .then(resp => resp.json())
+                .then((record, error) => {
+                  if (error) {
+                    throw error;
+                  }
+                  resolve(record);
+                }).catch(error => {
+                console.error('Failed to create', error);
+                reject(error);
+              });
+            }
+          }).catch((error) => {
+          console.error('LeanCloud Counter Error:', error);
+          reject(error);
+        });
+      })
+    },
+
+    // 发起自增请求
+    increment(Counter, incrArr) {
+      return new Promise(function (resolve, reject) {
+        Counter('post', '/batch', {
+          "requests": incrArr
+        }).then((res) => {
+          res = res.json();
+          if (res.error) {
+            throw res.error;
+          }
+          resolve(res);
+        }).catch((error) => {
+          console.error('Failed to save visitor count', error);
+          reject(error);
+        });
+      });
+    },
+
+    // 构建自增请求体
+    buildIncrement(objectId) {
+      return {
+        "method": "PUT",
+        "path": `/1.1/classes/Counter/${ objectId }`,
+        "body": {
+          "times": {
+            '__op': 'Increment',
+            'amount': 1
+          }
+        }
+      }
+    },
+
+    // 校验是否为有效的 UV
+    validUV() {
+      var key = 'LeanCloudUVTimestamp';
+      var flag = localStorage.getItem(key);
+      if (flag) {
+        // 距离标记小于 24 小时则不计为 UV
+        if (new Date().getTime() - parseInt(flag) <= 86400000) {
+          return false;
+        }
+      }
+      localStorage.setItem(key, new Date().getTime().toString());
+      return true;
+    },
+
+    addCount(Counter) {
+      var enableIncr = '' === 'true' && window.location.hostname !== 'localhost';
+      enableIncr = true;
+      var getterArr = [];
+      var incrArr = [];
+      // 请求 PV 并自增
+      var pvCtn = document.querySelector('#lc-sv');
+      if (pvCtn || enableIncr) {
+        var pvGetter = this.getRecord(Counter, 'https://zhaoshuchao.top' + '/#lc-sv', 'Visits').then((record) => {
+          incrArr.push(this.buildIncrement(record.objectId))
+          var eles = document.querySelectorAll('#lc-sv #number');
+          if (eles.length > 0) {
+            eles.forEach((el,index,array)=>{
+              el.innerText = record.times + 1;
+              if (pvCtn) {
+                pvCtn.style.display = 'inline';
+              }
+            })
+          }
+        });
+        getterArr.push(pvGetter);
+      }
+
+      // 请求 UV 并自增
+      var uvCtn = document.querySelector('#lc-uv');
+      if (uvCtn || enableIncr) {
+        var uvGetter = this.getRecord(Counter, 'https://zhaoshuchao.top' + '/#lc-uv', 'Visitors').then((record) => {
+          var vuv = this.validUV();
+          vuv && incrArr.push(this.buildIncrement(record.objectId))
+          var eles = document.querySelectorAll('#lc-uv #number');
+          if (eles.length > 0) {
+            eles.forEach((el,index,array)=>{
+              el.innerText = record.times + (vuv ? 1 : 0);
+              if (uvCtn) {
+                uvCtn.style.display = 'inline';
+              }
+            })
+          }
+        });
+        getterArr.push(uvGetter);
+      }
+
+      // 请求文章的浏览数，如果是当前页面就自增
+      var allPV = document.querySelectorAll('#lc-pv');
+      if (allPV.length > 0 || enableIncr) {
+        for (i = 0; i < allPV.length; i++) {
+          let pv = allPV[i];
+          let title = pv.getAttribute('data-title');
+          var url = 'https://zhaoshuchao.top' + pv.getAttribute('data-path');
+          if (url) {
+            var viewGetter = this.getRecord(Counter, url, title).then((record) => {
+              // 是当前页面就自增
+              let curPath = window.location.pathname;
+              if (curPath.includes('index.html')) {
+                curPath = curPath.substring(0, curPath.lastIndexOf('index.html'));
+              }
+              if (pv.getAttribute('data-path') == curPath) {
+                incrArr.push(this.buildIncrement(record.objectId));
+              }
+              if (pv) {
+                var ele = pv.querySelector('#lc-pv #number');
+                if (ele) {
+                  if (pv.getAttribute('data-path') == curPath) {
+                    ele.innerText = (record.times || 0) + 1;
+                  } else {
+                    ele.innerText = record.times || 0;
+                  }
+                  pv.style.display = 'inline';
+                }
+              }
+            });
+            getterArr.push(viewGetter);
+          }
+        }
+      }
+
+      // 如果启动计数自增，批量发起自增请求
+      if (enableIncr) {
+        Promise.all(getterArr).then(() => {
+          incrArr.length > 0 && this.increment(Counter, incrArr);
+        })
+      }
+
+    },
+
+
+    fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${ api_server }/1.1${ url }`, {
+          method,
+          headers: {
+            'X-LC-Id': this.app_id,
+            'X-LC-Key': this.app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      this.addCount(Counter);
+    },
+
+    refreshCounter() {
+      var api_server = this.app_id.slice(-9) !== '-MdYXbMMI' ? this.custom_api_server : `https://${ this.app_id.slice(0, 8).toLowerCase() }.api.lncldglobal.com`;
+      if (api_server) {
+        this.fetchData(api_server);
+      } else {
+        fetch('https://app-router.leancloud.cn/2/route?appId=' + this.app_id)
+          .then(resp => resp.json())
+          .then(({api_server}) => {
+            this.fetchData('https://' + api_server);
+          });
+      }
+    }
+
+  };
+
+  LCCounter.refreshCounter();
+
+  document.addEventListener('pjax:complete', function () {
+    LCCounter.refreshCounter();
+  });
+</script>
+
+
+
+
+  <script>
+const rootElement = document.documentElement;
+const darkModeStorageKey = "user-color-scheme";
+const rootElementDarkModeAttributeName = "data-user-color-scheme";
+
+const setLS = (k, v) => {
+    localStorage.setItem(k, v);
+};
+
+const removeLS = (k) => {
+    localStorage.removeItem(k);
+};
+
+const getLS = (k) => {
+    return localStorage.getItem(k);
+};
+
+const getModeFromCSSMediaQuery = () => {
+  return window.matchMedia("(prefers-color-scheme: dark)").matches
+    ? "dark"
+    : "light";
+};
+
+const resetRootDarkModeAttributeAndLS = () => {
+  rootElement.removeAttribute(rootElementDarkModeAttributeName);
+  removeLS(darkModeStorageKey);
+};
+
+const validColorModeKeys = {
+  dark: true,
+  light: true,
+};
+
+const applyCustomDarkModeSettings = (mode) => {
+  const currentSetting = mode || getLS(darkModeStorageKey);
+
+  if (currentSetting === getModeFromCSSMediaQuery()) {
+    resetRootDarkModeAttributeAndLS();
+  } else if (validColorModeKeys[currentSetting]) {
+    rootElement.setAttribute(rootElementDarkModeAttributeName, currentSetting);
+  } else {
+    resetRootDarkModeAttributeAndLS();
+  }
+};
+
+const invertDarkModeObj = {
+  dark: "light",
+  light: "dark",
+};
+
+/**
+ * get target mode
+ */
+const toggleCustomDarkMode = () => {
+  let currentSetting = getLS(darkModeStorageKey);
+
+  if (validColorModeKeys[currentSetting]) {
+    currentSetting = invertDarkModeObj[currentSetting];
+  } else if (currentSetting === null) {
+    currentSetting = invertDarkModeObj[getModeFromCSSMediaQuery()];
+  } else {
+    return;
+  }
+  setLS(darkModeStorageKey, currentSetting);
+  return currentSetting;
+};
+
+/**
+ * bind click event for toggle button
+ */
+var btn=$("#wrapper .toggle-mode-btn,#rightmenu-wrapper .toggle-mode-btn");
+function bindToggleButton() {
+    btn.on('click',(e) => {
+      const mode = toggleCustomDarkMode();
+      applyCustomDarkModeSettings(mode);
+    });
+}
+
+applyCustomDarkModeSettings();
+document.addEventListener("DOMContentLoaded", bindToggleButton);
+volantis.pjax.push(bindToggleButton);
+volantis.pjax.send(()=>{
+	btn.unbind('click');
+},'toggle-mode-btn-unbind');
+</script>
+
+
+
+
+
+
+
+
+<script>
+function listennSidebarTOC() {
+  const navItems = document.querySelectorAll(".toc li");
+  if (!navItems.length) return;
+  const sections = [...navItems].map((element) => {
+    const link = element.querySelector(".toc-link");
+    const target = document.getElementById(
+      decodeURI(link.getAttribute("href")).replace("#", "")
+    );
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      window.scrollTo({
+		top: target.offsetTop + 100,
+		
+		behavior: "smooth"
+		
+	  });
+    });
+    return target;
+  });
+
+  function activateNavByIndex(target) {
+    if (target.classList.contains("active-current")) return;
+
+    document.querySelectorAll(".toc .active").forEach((element) => {
+      element.classList.remove("active", "active-current");
+    });
+    target.classList.add("active", "active-current");
+    let parent = target.parentNode;
+    while (!parent.matches(".toc")) {
+      if (parent.matches("li")) parent.classList.add("active");
+      parent = parent.parentNode;
+    }
+  }
+
+  function findIndex(entries) {
+    let index = 0;
+    let entry = entries[index];
+    if (entry.boundingClientRect.top > 0) {
+      index = sections.indexOf(entry.target);
+      return index === 0 ? 0 : index - 1;
+    }
+    for (; index < entries.length; index++) {
+      if (entries[index].boundingClientRect.top <= 0) {
+        entry = entries[index];
+      } else {
+        return sections.indexOf(entry.target);
+      }
+    }
+    return sections.indexOf(entry.target);
+  }
+
+  function createIntersectionObserver(marginTop) {
+    marginTop = Math.floor(marginTop + 10000);
+    let intersectionObserver = new IntersectionObserver(
+      (entries, observe) => {
+        let scrollHeight = document.documentElement.scrollHeight + 100;
+        if (scrollHeight > marginTop) {
+          observe.disconnect();
+          createIntersectionObserver(scrollHeight);
+          return;
+        }
+        let index = findIndex(entries);
+        activateNavByIndex(navItems[index]);
+      },
+      {
+        rootMargin: marginTop + "px 0px -100% 0px",
+        threshold: 0,
+      }
+    );
+    sections.forEach((element) => {
+      element && intersectionObserver.observe(element);
+    });
+  }
+  createIntersectionObserver(document.documentElement.scrollHeight);
+}
+
+document.addEventListener("DOMContentLoaded", listennSidebarTOC);
+document.addEventListener("pjax:success", listennSidebarTOC);
+</script>
+
+<!-- more -->
+
+ 
+	   
+	    
+
+
+<script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script>
+
+
+<script>
+    var pjax;
+    document.addEventListener('DOMContentLoaded', function () {
+      pjax = new Pjax({
+        elements: 'a[href]:not([href^="#"]):not([href="javascript:void(0)"]):not([pjax-fancybox])',
+        selectors: [
+          "title",
+          
+          "#pjax-container",
+          "#pjax-header-nav-list"
+        ],
+        cacheBust: false,   // url 地址追加时间戳，用以避免浏览器缓存
+        timeout: 5000
+      });
+    });
+
+    document.addEventListener('pjax:send', function (e) {
+      //window.stop(); // 相当于点击了浏览器的停止按钮
+
+      try {
+        var currentUrl = window.location.pathname;
+        var targetUrl = e.triggerElement.href;
+        var banUrl = [""];
+        if (banUrl[0] != "") {
+          banUrl.forEach(item => {
+            if(currentUrl.indexOf(item) != -1 || targetUrl.indexOf(item) != -1) {
+              window.location.href = targetUrl;
+            }
+          });
+        }
+      } catch (error) {}
+
+      window.subData = null; // 移除标题（用于一二级导航栏切换处）
+
+      volantis.$switcher.removeClass('active'); // 关闭移动端激活的搜索框
+      volantis.$header.removeClass('z_search-open'); // 关闭移动端激活的搜索框
+      volantis.$wrapper.removeClass('sub'); // 跳转页面时关闭二级导航
+
+      // 解绑事件 避免重复监听
+      volantis.$topBtn.unbind('click');
+      $('.menu a').unbind('click');
+      $(window).unbind('resize');
+      $(window).unbind('scroll');
+      $(document).unbind('scroll');
+      $(document).unbind('click');
+      $('body').unbind('click');
+	  // 使用 volantis.pjax.send 方法传入pjax:send回调函数 参见layout/_partial/scripts/global.ejs
+	  volantis.pjax.method.send.start();
+    });
+
+    document.addEventListener('pjax:complete', function () {
+      $('.nav-main').find('.list-v').not('.menu-phone').removeAttr("style",""); // 移除小尾巴的移除
+      $('.menu-phone.list-v').removeAttr("style",""); // 移除小尾巴的移除
+      $('script[data-pjax], .pjax-reload script').each(function () {
+        $(this).parent().append($(this).remove());
+      });
+      try{
+		// 使用 volantis.pjax.push 方法传入重载函数 参见layout/_partial/scripts/global.ejs
+		volantis.pjax.method.complete.start();
+      } catch (e) {
+        console.log(e);
+      }
+    });
+
+    document.addEventListener('pjax:error', function (e) {
+	  // 使用 volantis.pjax.error 方法传入pjax:error回调函数 参见layout/_partial/scripts/global.ejs
+	  volantis.pjax.method.error.start();
+      window.location.href = e.triggerElement.href;
+    });
+</script>
+ 
+	  
+    </div>
+  </body>
+</html>

@@ -1,0 +1,1971 @@
+<!DOCTYPE html>
+<html lang="zh-CN,en,default">
+  <head hexo-theme='https://github.com/volantis-x/hexo-theme-volantis/tree/4.3.1'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://cdn.jsdelivr.net'>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <link rel="preload" href="/css/first.css" as="style">
+  
+
+  <!-- 页面元数据 -->
+  
+  <title>MyCat(八)---架构解析 - Never Meet Blog</title>
+  
+    <meta name="keywords" content="MyCat,分库分表">
+  
+
+  
+
+  <!-- feed -->
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  
+    <link rel="shortcut icon" type='image/x-icon' href="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210603105954.png">
+  
+
+  <!-- import link -->
+  
+
+  
+    
+<link rel="stylesheet" href="/css/first.css">
+
+  
+
+  
+  <link rel="stylesheet" href="/css/style.css" media="print" onload="this.media='all';this.onload=null">
+  <noscript><link rel="stylesheet" href="/css/style.css"></noscript>
+  
+
+  <script id="loadcss"></script>
+
+  
+<script>
+if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode))
+    document.write(
+	'<style>'+
+		'html{'+
+			'overflow-x: hidden !important;'+
+			'overflow-y: hidden !important;'+
+		'}'+
+		'.kill-ie{'+
+			'text-align:center;'+
+			'height: 100%;'+
+			'margin-top: 15%;'+
+			'margin-bottom: 5500%;'+
+		'}'+
+	'</style>'+
+    '<div class="kill-ie">'+
+        '<h1><b>抱歉，您的浏览器无法访问本站</b></h1>'+
+        '<h3>微软已经于2016年终止了对 Internet Explorer (IE) 10 及更早版本的支持，<br/>'+
+        '继续使用存在极大的安全隐患，请使用当代主流的浏览器进行访问。</h3><br/>'+
+        '<a target="_blank" rel="noopener" href="https://www.microsoft.com/zh-cn/WindowsForBusiness/End-of-IE-support"><strong>了解详情 ></strong></a>'+
+    '</div>');
+</script>
+
+
+<noscript>
+	<style>
+		html{
+			overflow-x: hidden !important;
+			overflow-y: hidden !important;
+		}
+		.kill-noscript{
+			text-align:center;
+			height: 100%;
+			margin-top: 15%;
+			margin-bottom: 5500%;
+		}
+	</style>
+    <div class="kill-noscript">
+        <h1><b>抱歉，您的浏览器无法访问本站</b></h1>
+        <h3>本页面需要浏览器支持（启用）JavaScript</h3><br/>
+        <a target="_blank" rel="noopener" href="https://www.baidu.com/s?wd=启用JavaScript"><strong>了解详情 ></strong></a>
+    </div>
+</noscript>
+
+</head>
+
+  <body>
+    
+
+<header id="l_header" class="l_header auto shadow blur show" style='opacity: 0' >
+  <div class='container'>
+  <div id='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h m-phone' id="pjax-header-nav-list">
+        <li><a id="s-comment" class="fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a id="s-toc" class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+            <img no-lazy class='logo' src='https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/blog/Logo-NavBar@3x.png'/>
+          
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h m-pc'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/about/
+                  
+                  
+                  
+                    id="about"
+                  >
+                  <i class='fas fa-info-circle fa-fw'></i>关于
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box header toggle-mode-btn">
+                  <i class='fas fa-moon fa-fw'></i>暗黑模式
+                </a>
+              <li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="搜索" />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h m-phone'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/about/
+                  
+                  
+                  
+                    id="about"
+                  >
+                  <i class='fas fa-info-circle fa-fw'></i>关于
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box header toggle-mode-btn">
+                  <i class='fas fa-moon fa-fw'></i>暗黑模式
+                </a>
+              <li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+    <div id="l_body">
+      <div id="l_cover">
+  
+    
+        <div id="full" class='cover-wrapper post search' style="display: none;">
+          
+            <div id='cover-backstretch'></div>
+          
+          <div class='cover-body'>
+  <div class='top'>
+    
+    
+      <p class="title">Never Meet</p>
+    
+    
+  </div>
+  <div class='bottom'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="only search in the website" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <div class='list-h'>
+        
+          
+            <a href="/"
+              
+              
+              id="home">
+              <i class='fas fa-rss fa-fw'></i><p>博客</p>
+            </a>
+          
+            <a href="/categories/"
+              
+              
+              id="categories">
+              <i class='fas fa-folder-open fa-fw'></i><p>分类</p>
+            </a>
+          
+            <a href="/tags/"
+              
+              
+              id="tags">
+              <i class='fas fa-tags fa-fw'></i><p>标签</p>
+            </a>
+          
+            <a href="/archives/"
+              
+              
+              id="archives">
+              <i class='fas fa-archive fa-fw'></i><p>归档</p>
+            </a>
+          
+            <a href="/about/"
+              
+              
+              id="about">
+              <i class='fas fa-info-circle fa-fw'></i><p>关于</p>
+            </a>
+          
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+          <div id="scroll-down" style="display: none;"><i class="fa fa-chevron-down scroll-down-effects"></i></div>
+        </div>
+    
+  
+  </div>
+
+      <div id="safearea">
+        <div class="body-wrapper" id="pjax-container">
+          
+
+<div class='l_main'>
+  <article class="article post white-box reveal md shadow article-type-post" id="post" itemscope itemprop="blogPost">
+  
+
+
+  
+  <div class="article-meta" id="top">
+    
+    
+    
+      <h1 class="title">
+        MyCat(八)---架构解析
+      </h1>
+      <div class='new-meta-box'>
+        
+          
+            
+<div class='new-meta-item author'>
+  <a class='author' href="/" rel="nofollow">
+    <img no-lazy src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210603111048.png">
+    <p>By：赵树超</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  <div class='new-meta-item category'>
+    <a class='notlink'>
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <a class="category-link" href="/categories/MySQL/">MySQL</a><span class="sep"></span><a class="category-link" href="/categories/MySQL/MyCat/">MyCat</a>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2021年6月20日</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  <div class="new-meta-item browse leancloud">
+    <a class='notlink'>
+      
+      <div id="lc-pv" data-title="MyCat(八)---架构解析" data-path="/2021/06/20/MyCat(%E5%85%AB)---%E6%9E%B6%E6%9E%84%E8%A7%A3%E6%9E%90/">
+        <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+        <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+        次浏览
+      </div>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>字数：5.1k字</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>时长：18分钟</p>
+    </a>
+  </div>
+
+
+          
+        
+      </div>
+    
+  </div>
+
+
+  
+  
+  <h3 id="MyCat总体架构介绍"><a href="#MyCat总体架构介绍" class="headerlink" title="MyCat总体架构介绍"></a>MyCat总体架构介绍</h3><h4 id="源码下载及导入"><a href="#源码下载及导入" class="headerlink" title="源码下载及导入"></a>源码下载及导入</h4><p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151313.png" alt="image-20200202220149279"> </p>
+<p>导入Idea</p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151317.png" alt="image-20200202220220682"> </p>
+<h4 id="总体架构"><a href="#总体架构" class="headerlink" title="总体架构"></a>总体架构</h4><p>MyCat在逻辑上由几个模块组成: 通信协议、路由解析、结果集处理、数据库连接、监控等模块。如图所示： </p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151323.png" alt="image-20200107230122662"> </p>
+<p>1). 通信协议模块： 通信协议模块承担底层的收发数据、线程回调处理工作， MyCat通信协议默认采用Reactor模式，在协议层采用MySQL协议；</p>
+<p>2). 路由解析模块: 负责对传入的SQL语句进行语法解析, 解析语句的条件、类型、关键字等，并进行优化；</p>
+<p>3). SQL执行模块: 负责从连接池中获取连接, 再根据路由解析的结果, 把SQL语句分发到相应的节点执行;</p>
+<p>4). 数据库连接模块: 负责创建、管理、维护后端的连接池。为减少每次建立数据库连接的开销，数据库使用连接池机制对连接声明周期进行管理；</p>
+<p>5). 结果集处理模块: 负责对跨分片的查询结果进行汇聚、排序、截取等；</p>
+<p>6). 监控管理模块: 负责MyCat的连接、内存等资源进行监控和管理。监控主要通过管理指令及监控服务展现一些监控数据； 管理则主要通过轮询事件来检测和释放不适用的资源；</p>
+<h4 id="总体执行流程"><a href="#总体执行流程" class="headerlink" title="总体执行流程"></a>总体执行流程</h4><p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151327.png" alt="image-20200107233001248"> </p>
+<h3 id="MyCat网络I-O架构及实现"><a href="#MyCat网络I-O架构及实现" class="headerlink" title="MyCat网络I/O架构及实现"></a>MyCat网络I/O架构及实现</h3><h4 id="BIO、NIO与AIO"><a href="#BIO、NIO与AIO" class="headerlink" title="BIO、NIO与AIO"></a>BIO、NIO与AIO</h4><p>1). BIO</p>
+<p>BIO(同步阻塞I/O) 通常由一个单独的Acceptor线程负责监听客户端的连接, 接收到客户端的连接请求后, 会为每个客户端创建一个新的线程进行处理, 处理完成之后, 再给客户端返回结果, 销毁线程 。</p>
+<p>每个客户端请求接入时， 都需要开启一个线程进行处理， 一个线程只能处理一个客户端连接。 当客户端变多时，会创建大量的处理线程， 每个线程都需要分配栈空间和CPU， 并且频繁的线程上下文切换也会造成性能的浪费。所以该模式， 无法满足高性能、高并发接入的需求。</p>
+<p>2). NIO</p>
+<p>NIO(同步非阻塞I/O)基于Reactor模式作为底层通信模型，Reactor模式可以将事件驱动的应用进行事件分派, 将客户端发送过来的服务请求分派给合适的处理类(handler)。当Socket有流可读或可写入Socket时, 操作系统会通知相应的应用程序进行处理, 应用程序再将流读取到缓冲区或写入操作系统。 这时已经不是一个连接对应一个处理线程了， 而是一个有效的请求对应一个线程， 当没有数据时， 就没有工作线程来处理。</p>
+<p>NIO 的最大优点体现在线程轮询访问Selector, 当read或write到达时则处理, 未到达时则继续轮询。</p>
+<p>3). AIO</p>
+<p>AIO，全程 Asynchronous IO(异步非阻塞的IO), 是一种非阻塞异步的通信模式。在NIO的基础上引入了新的异步通道的概念，并提供了异步文件通道和异步套接字通道的实现。AIO中客户端的I/O请求都是由OS先完成了再通知服务器应用去启动线程进行处理。</p>
+<p>AIO与NIO的主要区别在于回调与轮询, 客户端不需要关注服务处理事件是否完成, 也不需要轮询, 只需要关注自己的回调函数。</p>
+<h4 id="通信架构"><a href="#通信架构" class="headerlink" title="通信架构"></a>通信架构</h4><p>在MyCat中实现了NIO与AIO两种I/O模式, 可以通过配置文件server.xml进行指定 : </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;usingAIO&quot;</span>&gt;</span>1<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>usingAIO为1代表使用AIO模型 , 为0表示使用NIO模型;</p>
+<p><strong>MyCat的AIO架构</strong></p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151332.png" alt="image-20200108103954458"> </p>
+<p>1). MyCatStartUp是整个MyCat服务启动的入口;</p>
+<p>2). 在获取到MyCat的home目录后, 把主要的任务交给MyCatServer , 并调用其startup方法;</p>
+<p>3). 初始化系统配置, 获取配置文件中的usingAIO的配置, 如果配置为1, 说明使用AIO模型 , 进入到AIO的分支, 并创建两个连接, 一个是管理后台连接(9066), 一个server的连接(8066);</p>
+<p>4). 进入AIO分支 , 主要有AIOAcceptor接收客户端请求, 绑定端口, 创建服务端的异步Socket ;在accept方法中完成两件事: ①. FrontedConnection的创建, 这是前段连接的关键; ②. register注册事件, MySQL协议握手包就在此时发送;</p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151336.png" alt="image-20200108111012502"> </p>
+<p><strong>MyCat的NIO架构</strong></p>
+<p>如果设置的usingAIO为0 ,那么将走NIOAcceptor通道 , 流程如下: </p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151339.png" alt="image-20200108111153230"> </p>
+<p>1). 如果走NIO分支 , 将首先创建NIOAcceptor对象, 并调用其start方法;</p>
+<p>2). NIOAcceptor 负责处理Accept事件, 服务端接收客户端的连接事件, 就是MyCat作为服务端去处理前端业务程序发过来的连接请求, 建立链接后, 调用NIOAcceptor的 NIOReactor.postRegister方法进行注册（并没有注解注册， 而是放入缓冲队列， 避免加锁的竞争）。 </p>
+<p>NIOAcceptor的accept方法 ： </p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151345.png" alt="image-20200108112521438"> </p>
+<p>NIOReactor的postRegister方法： </p>
+<p><img src="G:\BaiduNetdiskDownload\MyCat资料\文档\文档\assets\image-20200108112959564.png" alt="image-20200108112959564"> </p>
+<h3 id="Mycat实现MySQL协议"><a href="#Mycat实现MySQL协议" class="headerlink" title="Mycat实现MySQL协议"></a>Mycat实现MySQL协议</h3><h4 id="MySQL协议简介"><a href="#MySQL协议简介" class="headerlink" title="MySQL协议简介"></a>MySQL协议简介</h4><h5 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h5><p>MySQL协议处于应用层之下、TCP/IP之上, 在MySQL客户端和服务端之间使用。包含了链接器、MySQL代理、主从复制服务器之间通信，并支持SSL加密、传输数据的压缩、连接和身份验证及数据交互等。其中，握手认证阶段和命令执行阶段是MySQL协议中的两个重要阶段。</p>
+<h5 id="握手认证阶段"><a href="#握手认证阶段" class="headerlink" title="握手认证阶段"></a>握手认证阶段</h5><p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151350.png" alt="image-20200109113445831"> </p>
+<p>A. 握手认证阶段是客户端连接服务器的必经之路, 客户端与服务端完成TCP的三次握手以后, 服务端会向客户端发送一个初始化握手包, 握手包中包含了协议版本、MySQLServer版本、线程ID、服务器的权能标识和字符集等信息。</p>
+<p>B. 客户端在接收到服务端的初始化握手包之后， 会发送身份验证包给服务端（AuthPacket）, 该包中包含用户名、密码等信息。</p>
+<p>C. 服务端接收到客户端的登录验证包之后，需要进行逻辑校验，校验该登录信息是否正确。如果信息都符合，则返回一个OKPacket，表示登录成功,否则返回ERR_Packet，表示拒绝。</p>
+<p>Wireshark抓包如下:</p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151353.png" alt="image-20200127165109223"> </p>
+<p>报文分析如下： </p>
+<p>1). 初始化握手包</p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151356.png" alt="image-20200109133647751"> </p>
+<p>通过抓包工具Wireshark抓取到的握手包信息如下, 握手包格式:</p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151401.png" alt="image-20200127162616334">  </p>
+<p>说明: </p>
+<p>Packet Length : 包的长度;</p>
+<p>Packet Number : 包的序号;</p>
+<p>Server Greeting : 消息体, 包含了协议版本、MySQLServer版本、线程ID和字符集等信息。</p>
+<p>2). 登录认证包</p>
+<p>客户端在接收到服务端发来的初始握手包之后， 向服务端发出认证请求， 该请求包含以下信息（由Wireshark抓获） ： </p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151405.png" alt="image-20200127163702804"> </p>
+<p>3). OK包或ERROR包</p>
+<p>服务端接收到客户端的登录认证包之后，如果通过认证，则返回一个OKPacket，如果未通过认证，则返回一个ERROR包。</p>
+<p>OK报文如下： </p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151420.png" alt="image-20200127163957990"> </p>
+<p>ERROR报文如下 :</p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151425.png" alt="image-20200127165156952"> </p>
+<h5 id="命令执行阶段"><a href="#命令执行阶段" class="headerlink" title="命令执行阶段"></a>命令执行阶段</h5><p>在握手认证阶段通过并完成以后, 客户端可以向服务端发送各种命令来请求数据, 此阶段的流程是: 命令请求-&gt;返回结果集。</p>
+<p>Wireshark 捕获的数据包如下： </p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151431.png" alt="image-20200127170112968"> </p>
+<p>1). 命令包</p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151436.png" alt="image-20200127170235143"> </p>
+<p>2). 结果集包</p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151442.png" alt="image-20200127170823882"> </p>
+<h4 id="MySQL协议在MyCat中实现"><a href="#MySQL协议在MyCat中实现" class="headerlink" title="MySQL协议在MyCat中实现"></a>MySQL协议在MyCat中实现</h4><h5 id="握手认证实现"><a href="#握手认证实现" class="headerlink" title="握手认证实现"></a>握手认证实现</h5><p>在MyCat中同时实现了NIO和AIO, 通过配置可以选择NIO和AIO。MyCat Server在启动阶段已经选择好采用NIO还是AIO，因此建立I/O通道后,MyCat服务端一直等待客户端端的连接,当有连接到来的时候,MyCat首先发送握手包。 </p>
+<p>1). 握手包源码实现</p>
+<p>MyCat中的源码中io.mycat.net.FrontendConnection类的实现如下:</p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151448.png" alt="image-20200127183259378"> </p>
+<p>握手包信息组装完毕后, 通过FrontedConnection写回客户端。</p>
+<p>2). 认证包源码实现</p>
+<p>客户端接收到握手包后, 紧接着向服务端发起一个认证包, MyCat封装为类 AuthPacket:</p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151502.png" alt="image-20200127231628215"> </p>
+<p>客户端发送的认证包转由 FrontendAuthenticator 的Handler来处理, 主要操作就是 拆包, 检查用户名、密码合法性， 检查连接数是够超出限制。源码实现如下： </p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151506.png" alt="image-20200127232022594"> </p>
+<p>认证失败， 调用failure方法， 认证成功调用success方法。</p>
+<p>failure方法源码： </p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151510.png" alt="image-20200127232344040"> </p>
+<p>success方法源码： </p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151514.png" alt="image-20200127232422887"> </p>
+<h5 id="命令执行实现"><a href="#命令执行实现" class="headerlink" title="命令执行实现"></a>命令执行实现</h5><p>命令执行阶段就是SQL命令和SQL语句执行阶段， 在该阶段MyCat主要需要做的事情， 就是对客户端发来的数据包进行拆包， 并判断命令的类型， 并解析SQL语句， 执行响应的SQL语句， 最后把执行结果封装在结果集包中， 返回给客户端。</p>
+<p>从客户端发来的命令交给 FrontendCommandHandler 中的handle方法处理:</p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151520.png" alt="image-20200127235140959"> </p>
+<p>处理具体的请求, 返回客户端结果集数据包: </p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151527.png" alt="image-20200128000050787"> </p>
+<h3 id="MyCat线程架构与实现"><a href="#MyCat线程架构与实现" class="headerlink" title="MyCat线程架构与实现"></a>MyCat线程架构与实现</h3><h4 id="MyCat线程池实现"><a href="#MyCat线程池实现" class="headerlink" title="MyCat线程池实现"></a>MyCat线程池实现</h4><p>在MyCat中大量用到了线程池， 通过线程池来避免频繁的创建和销毁线程而造成的系统性能的浪费。在MyCat中使用的线程池是JDK中提供的线程池 ThreadPoolExecutor 的子类 NameableExecutor ， 构造方法如下： </p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151532.png" alt="image-20200108114506434"> </p>
+<p>父类构造为： </p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151536.png" alt="image-20200108114611505"> </p>
+<p>构造参数含义: </p>
+<p>corePoolSize : 核心池大小</p>
+<p>maximumPoolSize : 最大线程数</p>
+<p>keepAliveTime: 线程没有任务执行时, 最多能够存活多久</p>
+<p>timeUnit: 时间单位</p>
+<p>workQueue: 阻塞任务队列</p>
+<p>threadFactory: 线程工厂, 用来创建线程</p>
+<h4 id="MyCat线程架构"><a href="#MyCat线程架构" class="headerlink" title="MyCat线程架构"></a>MyCat线程架构</h4><p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151541.png" alt="image-20200108114952672"> </p>
+<p>在MyCat中主要有两大线程池: timerExecutor 和 businessExecutor。</p>
+<p>1). timerExecutor 线程池主要完成系统时间定时更新、处理器定时检查、数据节点定时连接空闲超时检查、数据节点定时心跳检测等任务。</p>
+<p>2). businessExecutor是MyCat最重要的线程资源池, 该资源池的线程使用的范围非常广, 涵盖以下方面: </p>
+<p>A. 后端用原生协议连接数据</p>
+<p>B. JDBC执行SQL语句</p>
+<p>C. SQL拦截</p>
+<p>D. 数据合并服务</p>
+<p>E. 批量SQL作业</p>
+<p>F. 查询结果的异步分发</p>
+<p>G. 基于guava实现异步回调</p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151545.png" alt="image-20200108141645417"> </p>
+<h3 id="MyCat内存管理及缓存框架与实现"><a href="#MyCat内存管理及缓存框架与实现" class="headerlink" title="MyCat内存管理及缓存框架与实现"></a>MyCat内存管理及缓存框架与实现</h3><p>这里所提到的内存管理指的是MyCat缓冲区管理, 众所周知设置缓冲区的唯一目的是提高系统的性能, 缓冲区通常是部分常用的数据存放在缓冲池中以便系统直接访问, 避免使用磁盘IO访问磁盘数据, 从而提高性能。</p>
+<h4 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h4><p>1). 缓冲池组成</p>
+<p>缓冲池的最小单位为chunk, 默认的chunk大小为4096字节(DEFAULT_BUFFER_CHUNK_SIZE), BufferPool的总大小为4096 x processors x 1000(其中processors为处理器数量)。对I/O进程而言, 他们共享一个缓冲池。缓冲池有两种类型： 本地缓存线程（以$_开头的线程）缓冲区和其他缓冲区， 分配buffer时, 优先获取ThreadLocalPool中的buffer, 没有命中时会获取BufferPool中的buffer。</p>
+<p>2). 分配MyCat缓冲池</p>
+<p>分配缓冲池时, 可以指定大小, 也可以用默认值。</p>
+<p>A. allocate(): 先检测是否为本地线程， 当执行线程为本地缓存线程时， localBufferPool取出一个可用的buffer。如果不是， 则从ConcurrentLinkedQueue队列中取出一个buffer进行分配, 如果队列没有可用的buffer, 则创建一个直接缓冲区。</p>
+<p>B. allocate(size): 如果用户指定的size不大于chunkSize, 则调用allocate()进行分配; 反之则调用createTempBuffer(size)创建临时非直接缓冲区。</p>
+<p>3). MyCat缓冲池的回收</p>
+<p>回收时先判断buffer是否有效, 有如下情况时缓冲池不回收。</p>
+<p>A. 不是直接缓冲区</p>
+<p>B. buffer是空的</p>
+<p>C. buffer的容量大于chunkSize</p>
+<h4 id="MyCat缓存架构"><a href="#MyCat缓存架构" class="headerlink" title="MyCat缓存架构"></a>MyCat缓存架构</h4><p>1). 缓存框架选择</p>
+<p>MyCat支持ehcache、mapdb、leveldb缓存, 可通过配置文件cacheserver.properties来进行配置;</p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151549.png" alt="image-20200108154627518"> </p>
+<p>2). 缓存内容</p>
+<p>MyCat有路由缓存、表主键到datanode缓存、ER关系缓存。</p>
+<p>A. 路由缓存: 即SQLRouteCache, 根据SQL语句查找路由信息的缓存, 该缓存只是针对select语句, 如果执行了之前已经执行过的某个SQL语句(缓存命中), 那么路由信息就不需要重复计算了, 直接从缓存中获取。</p>
+<p>B. 表主键到datanode缓存: 当分片字段与主键字段不一致时, 直接通过主键值查询时无法定位具体分片的(只能全分片下发), 所以设置该缓存之后, 就可以利用主键值查找到分片名, 缓存的key是ID值, value是节点名。</p>
+<p>C. ER关系缓存: 在ER分片时使用, 而且在insert查询中才会使用缓存, 当字表插入数据时, 根据父子关联字段确定子表分片, 下次可以直接从缓存中获取所在的分片。 </p>
+<p>查看缓存指令： show @@cache；</p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151553.png" alt="image-20200108155642414"> </p>
+<h3 id="MyCat连接池架构与实现"><a href="#MyCat连接池架构与实现" class="headerlink" title="MyCat连接池架构与实现"></a>MyCat连接池架构与实现</h3><p>这里我们所讨论的连接池是MyCat的后端连接池， 也就是MyCat后端与各个数据库节点之间的连接架构。</p>
+<p>1). 连接池创建</p>
+<p>MyCat按照每个dataHost创建一个连接池, 根据schema.xml文件的配置取得最小的连接数minCon,  并初始化minCon个连接。在初始化连接时， 还需要判定用户选择的是JDBC还是原生的MySQL协议， 以便于创建对应的连接。</p>
+<p>2). 连接池分配</p>
+<p>分配连接就是从连接池队列中取出一个连接， 在取出一个连接时， MyCat需要根据负载均衡（balance属性）的类型选择不同的数据源， 因为连接和数据源绑在一起，所以需要知道MyCat读写的是那些数据源， 才能分配响应的连接。 </p>
+<p>3). 架构</p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151557.png" alt="image-20200108162456464"> </p>
+<h3 id="MyCat主从切换架构与实现"><a href="#MyCat主从切换架构与实现" class="headerlink" title="MyCat主从切换架构与实现"></a>MyCat主从切换架构与实现</h3><h4 id="MyCat主从切换概述"><a href="#MyCat主从切换概述" class="headerlink" title="MyCat主从切换概述"></a>MyCat主从切换概述</h4><p>MyCat实现MySQL读写分离的目的在于降低单节点数据库的访问压力,  原理就是让主数据库执行增删改操作, 从数据库执行查询操作, 利用MySQL数据库的复制机制将Master的数据同步到slave上。</p>
+<p>当master宕机后，slave承载的业务如何切换到master继续提供服务，以及slave宕机后如何将master切换到slave上。手动切换数据源很简单， 但不是运维工作的首选，本节重点就是讲解如何实现自动切换。</p>
+<p>MyCat的读写分离依赖于MySQL的主从同步, 也就是说MyCat没有实现数据的主从同步功能, 但是实现了自动切换功能。</p>
+<p><strong>1). 自动切换</strong></p>
+<p>自动切换是MyCat主从复制的默认配置 , 当主机或从机宕机后, MyCat自动切换到可用的服务器上。 假设写服务器为M， 读服务器为S， 则： </p>
+<p>正常时， 写M读S；</p>
+<p>当M宕机后， 读写S ； 恢复M后， 写S， 读M ；</p>
+<p>当S宕机后， 读写M ； 恢复S后， 写M， 读S ；</p>
+<p><strong>2). 基于MySQL主从同步状态的切换</strong></p>
+<p>这种切换方式与自动切换不同， MyCat检测到主从数据同步延迟时， 会自动切换到拥有最新数据的MySQL服务器上， 防止读到很久以前的数据。</p>
+<p>原理就是通过检查MySQL的主从同步状态（show slave status）中的Seconds_Behind_Master、Slave_IO_Running、Slave_SQL_Running三个字段,来确定当前主从同步的状态以及主从之间的数据延迟。 Seconds_Behind_Master为0表示没有延迟，数值越大，则说明延迟越高。</p>
+<h4 id="MyCat主从切换实现"><a href="#MyCat主从切换实现" class="headerlink" title="MyCat主从切换实现"></a>MyCat主从切换实现</h4><p>基于延迟的切换， 则判断结果集中的Slave_IO_Running、Slave_SQL_Running两个个字段是否都为yes，以及Seconds_Behind_Master 是否小于配置文件中配置的 slaveThreshold的值, 如果有其中任何一个条件不满足, 则切换。</p>
+<p>主要流程如下:</p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151603.png" alt="image-20200128005840029"> </p>
+<h3 id="MyCat核心技术"><a href="#MyCat核心技术" class="headerlink" title="MyCat核心技术"></a>MyCat核心技术</h3><h4 id="MyCat分布式事务实现"><a href="#MyCat分布式事务实现" class="headerlink" title="MyCat分布式事务实现"></a>MyCat分布式事务实现</h4><p>MyCat在1.6版本以后已经支持XA分布式事务类型了。具体的使用流程如下：</p>
+<p>1). 在应用层需要设置事务不能自动提交</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set autocommit=0;</span><br></pre></td></tr></table></figure>
+
+<p>2). 在SQL中设置XA为开启状态</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set xa = on;</span><br></pre></td></tr></table></figure>
+
+<p>3). 执行SQL</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">insert into user(id,name,sex) values(1,&#x27;Tom&#x27;,&#x27;1&#x27;),(2,&#x27;Rose&#x27;,&#x27;2&#x27;),(3,&#x27;Leo&#x27;,&#x27;1&#x27;),(4,&#x27;Lee&#x27;,&#x27;1&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p>4). 对事务进行提交或回滚</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">commit/rollback</span><br></pre></td></tr></table></figure>
+
+
+
+<p>完整流程如下: </p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151608.png" alt="image-20200129223657058"> </p>
+<h4 id="MyCat-SQL路由实现"><a href="#MyCat-SQL路由实现" class="headerlink" title="MyCat SQL路由实现"></a>MyCat SQL路由实现</h4><p>MyCat的路由是和SQL解析组件息息相关的, SQL路由模块是MyCat数据库中间件最重要的模块之一, 使用MyCat主要是为了分库分表, 而分库分表的核心就是路由。</p>
+<h5 id="路由的作用"><a href="#路由的作用" class="headerlink" title="路由的作用"></a>路由的作用</h5><p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151611.png" alt="image-20200113225535847"> </p>
+<p>如图所示， MyCat接收到应用系统发来的查询语句， 要将其发送到后端连接的MySQL数据库去执行， 但是后端有三个数据库服务器，具体要查询那一台数据库服务器呢， 这就是路由需要实现的功能。</p>
+<p>SQL的路由既要保证数据的完整 ， 也不能造成资源的浪费， 还要保证路由的效率。</p>
+<h5 id="解析器"><a href="#解析器" class="headerlink" title="解析器"></a>解析器</h5><p>Mycat1.3版本之前模式使用的是Fdbparser的foundationdb的开源SQL解析器，在2015年被apple收购后，从开源变为闭源了。</p>
+<p>目前版本的MyCat采用的是Druid的SQL解析器， 性能比采用Fdbparser整体性能提高20%以上。</p>
+<h4 id="MyCat跨库Join"><a href="#MyCat跨库Join" class="headerlink" title="MyCat跨库Join"></a>MyCat跨库Join</h4><h5 id="全局表"><a href="#全局表" class="headerlink" title="全局表"></a>全局表</h5><p>每个企业级的系统中, 都会存在一些系统的基础信息表, 类似于字典表、省份、城市、区域、语言表等， 这些表与业务表之间存在关系， 但不是业务主从关系，而是一种属性关系。</p>
+<p>当我们对业务表进行分片处理时， 可以将这些基础信息表设置为全局表， 也就是在每个节点中都存在该表。</p>
+<p>全局表的特性如下： </p>
+<p>A. 全局表的insert、update、delete操作会实时地在所有节点同步执行, 保持各个节点数据的一致性</p>
+<p>B. 全局表的查询操作会从任意节点执行,因为所有节点的数据都一致</p>
+<p>C. 全局表可以和任意表进行join操作</p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151616.png" alt="image-20200128013501684"> </p>
+<h5 id="ER表"><a href="#ER表" class="headerlink" title="ER表"></a>ER表</h5><p>关系型数据库是基于实体关系模型(Entity Relationship Model)的, MyCat中的ER表便来源于此。 MyCat提出了基于ER关系的数据分片策略 , 子表的记录与其所关联的父表的记录存放在同一个数据分片中, 通过表分组(Table Group)保证数据关联查询不会跨库操作。</p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151619.png" alt="image-20200129101108379"> </p>
+<h5 id="catlet"><a href="#catlet" class="headerlink" title="catlet"></a>catlet</h5><p>catlet是MyCat为了解决跨分片Join提出的一种创新思路, 也叫做人工智能(HBT)。MyCat参考了数据库中存储过程的实现方式，提出类似的跨库解决方案，用户可以根据系统提供的API接口实现跨分片Join。</p>
+<p>采用这种方案开发时,必须要实现Catlet接口的两个方法 :</p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151623.png" alt="image-20200129104415975"> </p>
+<p>route 方法: 路由的方法, 传递系统配置和schema配置等 ;</p>
+<p>processSQL方法: EngineCtx执行SQL并给客户端返回结果集 ;</p>
+<p>当我们自定义Catlet完成之后, 需要将Catlet的实现类进行编译,并将其字节码文件 XXXCatlet.class存放在mycat_home/catlet目录下, 系统会加载相关Class, 而且每隔1分钟扫描一次文件是否更新, 若更新则自动重新加载,因此无需重启服务。</p>
+<p><strong>ShareJoin</strong></p>
+<p>ShareJoin 是Catlet的实现， 是一个简单的跨分片Join， 目前支持两个表的Join，原理就是解析SQL语句， 拆分成单表的语句执行， 单后把各个节点的数据进行汇集。</p>
+<p>要想使用Catlet完成join， 还需要借助于MyCat中的注解， 在执行SQL语句时，使用catlet注解:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*!mycat:catlet=demo.catlets.ShareJoin */</span> <span class="keyword">select</span> a.id <span class="keyword">as</span> aid , a.id , b.id <span class="keyword">as</span> bid , b.name <span class="keyword">as</span> name <span class="keyword">from</span> customer a, company b <span class="keyword">where</span> a.company_id<span class="operator">=</span>b.id <span class="keyword">and</span> a.id <span class="operator">=</span> <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="MyCat数据汇聚与排序"><a href="#MyCat数据汇聚与排序" class="headerlink" title="MyCat数据汇聚与排序"></a>MyCat数据汇聚与排序</h4><p>通过MyCat实现数据汇聚和排序,不仅可以减少各分片与客户端之间的数据传输IO, 也可以帮助开发者总复杂的数据处理中解放出来,从而专注于开发业务代码。</p>
+<p>在MySQL中存在两种排序方式： 一种利用有序索引获取有序数据， 另一种通过相应的排序算法将获取到的数据在内存中进行排序。 而MyCat中数据排序采用堆排序法对多个分片返回有序数据，并在合并、排序后再返回给客户端。</p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151627.png" alt="image-20200129113055429"> </p>
+
+  
+  
+    
+    <div class='footer'>
+      
+      
+      
+        <div class='copyright'>
+          <blockquote>
+            
+              
+                <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+              
+            
+              
+                <p>本文永久链接是：<a href=https://zhaoshuchao.top/2021/06/20/MyCat(%E5%85%AB)---%E6%9E%B6%E6%9E%84%E8%A7%A3%E6%9E%90/>https://zhaoshuchao.top/2021/06/20/MyCat(%E5%85%AB)---%E6%9E%B6%E6%9E%84%E8%A7%A3%E6%9E%90/</a></p>
+              
+            
+          </blockquote>
+        </div>
+      
+      
+    </div>
+  
+  
+    
+
+
+  <div class='article-meta' id="bottom">
+    <div class='new-meta-box'>
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/MyCat/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>MyCat</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>分库分表</p></a></div>
+
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zhaoshuchao.top/2021/06/20/MyCat(%E5%85%AB)---%E6%9E%B6%E6%9E%84%E8%A7%A3%E6%9E%90/&title=MyCat(八)---架构解析 - Never Meet Blog&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://zhaoshuchao.top/2021/06/20/MyCat(%E5%85%AB)---%E6%9E%B6%E6%9E%84%E8%A7%A3%E6%9E%90/&title=MyCat(八)---架构解析 - Never Meet Blog&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://service.weibo.com/share/share.php?url=https://zhaoshuchao.top/2021/06/20/MyCat(%E5%85%AB)---%E6%9E%B6%E6%9E%84%E8%A7%A3%E6%9E%90/&title=MyCat(八)---架构解析 - Never Meet Blog&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+        
+          
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>字数：5.1k字</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>时长：18分钟</p>
+    </a>
+  </div>
+
+
+        
+      
+    </div>
+  </div>
+
+
+  
+  
+
+  
+    <div class="prev-next">
+      
+        <a class='prev' href='/2021/06/21/Mycat(%E4%B8%83)---%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/'>
+          <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>MyCat(七)---高可用集群搭建</p>
+          <p class='content'>MyCat高可用集群搭建MyCat实现读写分离架构在上面的章节, 我们已经讲解过了通过MyCat来实现MySQL的读写分离, 从而完成MySQL集群的负载均衡 , 如下面的结构图: 
+ 
+但是以...</p>
+        </a>
+      
+      
+        <a class='next' href='/2021/06/19/MyCat(%E4%B9%9D)---%E6%A1%88%E4%BE%8B/'>
+          <p class='title'>MyCat(九)---案例<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+          <p class='content'>案例概述案例介绍本案例将模拟电商项目中的商品管理、订单管理、基础信息管理、日志管理模块，对整个系统中的数据表进行分片操作，将根据不同的业务需求，采用不同的分片方式 。
+系统架构 
+本案例涉及到的...</p>
+        </a>
+      
+    </div>
+  
+</article>
+
+
+  
+
+  <article class="post white-box reveal shadow" id="comments">
+    <p ct><i class='fas fa-comments'></i> 评论</p>
+    
+    <div id="valine_container" class="valine_thread">
+  <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+</div>
+
+  </article>
+
+
+
+
+
+
+</div>
+<aside class='l_side'>
+  
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#MyCat%E6%80%BB%E4%BD%93%E6%9E%B6%E6%9E%84%E4%BB%8B%E7%BB%8D"><span class="toc-text">MyCat总体架构介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%BA%90%E7%A0%81%E4%B8%8B%E8%BD%BD%E5%8F%8A%E5%AF%BC%E5%85%A5"><span class="toc-text">源码下载及导入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%BB%E4%BD%93%E6%9E%B6%E6%9E%84"><span class="toc-text">总体架构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%BB%E4%BD%93%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B"><span class="toc-text">总体执行流程</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MyCat%E7%BD%91%E7%BB%9CI-O%E6%9E%B6%E6%9E%84%E5%8F%8A%E5%AE%9E%E7%8E%B0"><span class="toc-text">MyCat网络I&#x2F;O架构及实现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#BIO%E3%80%81NIO%E4%B8%8EAIO"><span class="toc-text">BIO、NIO与AIO</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%9A%E4%BF%A1%E6%9E%B6%E6%9E%84"><span class="toc-text">通信架构</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mycat%E5%AE%9E%E7%8E%B0MySQL%E5%8D%8F%E8%AE%AE"><span class="toc-text">Mycat实现MySQL协议</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL%E5%8D%8F%E8%AE%AE%E7%AE%80%E4%BB%8B"><span class="toc-text">MySQL协议简介</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-text">概述</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8F%A1%E6%89%8B%E8%AE%A4%E8%AF%81%E9%98%B6%E6%AE%B5"><span class="toc-text">握手认证阶段</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E9%98%B6%E6%AE%B5"><span class="toc-text">命令执行阶段</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL%E5%8D%8F%E8%AE%AE%E5%9C%A8MyCat%E4%B8%AD%E5%AE%9E%E7%8E%B0"><span class="toc-text">MySQL协议在MyCat中实现</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8F%A1%E6%89%8B%E8%AE%A4%E8%AF%81%E5%AE%9E%E7%8E%B0"><span class="toc-text">握手认证实现</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%AE%9E%E7%8E%B0"><span class="toc-text">命令执行实现</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MyCat%E7%BA%BF%E7%A8%8B%E6%9E%B6%E6%9E%84%E4%B8%8E%E5%AE%9E%E7%8E%B0"><span class="toc-text">MyCat线程架构与实现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#MyCat%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%AE%9E%E7%8E%B0"><span class="toc-text">MyCat线程池实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MyCat%E7%BA%BF%E7%A8%8B%E6%9E%B6%E6%9E%84"><span class="toc-text">MyCat线程架构</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MyCat%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%8F%8A%E7%BC%93%E5%AD%98%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%AE%9E%E7%8E%B0"><span class="toc-text">MyCat内存管理及缓存框架与实现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="toc-text">内存管理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MyCat%E7%BC%93%E5%AD%98%E6%9E%B6%E6%9E%84"><span class="toc-text">MyCat缓存架构</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MyCat%E8%BF%9E%E6%8E%A5%E6%B1%A0%E6%9E%B6%E6%9E%84%E4%B8%8E%E5%AE%9E%E7%8E%B0"><span class="toc-text">MyCat连接池架构与实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MyCat%E4%B8%BB%E4%BB%8E%E5%88%87%E6%8D%A2%E6%9E%B6%E6%9E%84%E4%B8%8E%E5%AE%9E%E7%8E%B0"><span class="toc-text">MyCat主从切换架构与实现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#MyCat%E4%B8%BB%E4%BB%8E%E5%88%87%E6%8D%A2%E6%A6%82%E8%BF%B0"><span class="toc-text">MyCat主从切换概述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MyCat%E4%B8%BB%E4%BB%8E%E5%88%87%E6%8D%A2%E5%AE%9E%E7%8E%B0"><span class="toc-text">MyCat主从切换实现</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MyCat%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF"><span class="toc-text">MyCat核心技术</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#MyCat%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E5%AE%9E%E7%8E%B0"><span class="toc-text">MyCat分布式事务实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MyCat-SQL%E8%B7%AF%E7%94%B1%E5%AE%9E%E7%8E%B0"><span class="toc-text">MyCat SQL路由实现</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-text">路由的作用</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A7%A3%E6%9E%90%E5%99%A8"><span class="toc-text">解析器</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MyCat%E8%B7%A8%E5%BA%93Join"><span class="toc-text">MyCat跨库Join</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%85%A8%E5%B1%80%E8%A1%A8"><span class="toc-text">全局表</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#ER%E8%A1%A8"><span class="toc-text">ER表</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#catlet"><span class="toc-text">catlet</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MyCat%E6%95%B0%E6%8D%AE%E6%B1%87%E8%81%9A%E4%B8%8E%E6%8E%92%E5%BA%8F"><span class="toc-text">MyCat数据汇聚与排序</span></a></li></ol></li></ol>
+    </div>
+  </section>
+
+
+  
+
+  
+    
+    
+  
+
+  <section class="widget category shadow desktop">
+    
+  <header>
+    
+      <a href='/blog/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+    
+  </header>
+
+
+    <div class='content'>
+      <ul class="entry navigation">
+        
+          <li><a class="flat-box"
+            title="/categories/Hexo/" href="/categories/Hexo/"
+            id="categoriesHexo"
+            ><div class='name'>Hexo</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Java/" href="/categories/Java/"
+            id="categoriesJava"
+            ><div class='name'>Java</div><div class='badge'>(13)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/Java/JUC/" href="/categories/Java/JUC/"
+            id="categoriesJavaJUC"
+            ><div class='name'>JUC</div><div class='badge'>(6)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/Java/JVM/" href="/categories/Java/JVM/"
+            id="categoriesJavaJVM"
+            ><div class='name'>JVM</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/Java/Java%E5%9F%BA%E7%A1%80/" href="/categories/Java/Java%E5%9F%BA%E7%A1%80/"
+            id="categoriesJavaJavaE59FBAE7A180"
+            ><div class='name'>Java基础</div><div class='badge'>(3)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/Java/Redis/" href="/categories/Java/Redis/"
+            id="categoriesJavaRedis"
+            ><div class='name'>Redis</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/MySQL/" href="/categories/MySQL/"
+            id="categoriesMySQL"
+            ><div class='name'>MySQL</div><div class='badge'>(16)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/MySQL/MyCat/" href="/categories/MySQL/MyCat/"
+            id="categoriesMySQLMyCat"
+            ><div class='name'>MyCat</div><div class='badge'>(9)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/MySQL/SQL%E4%BC%98%E5%8C%96/" href="/categories/MySQL/SQL%E4%BC%98%E5%8C%96/"
+            id="categoriesMySQLSQLE4BC98E58C96"
+            ><div class='name'>SQL优化</div><div class='badge'>(3)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/MySQL/SQL%E8%AF%AD%E5%8F%A5/" href="/categories/MySQL/SQL%E8%AF%AD%E5%8F%A5/"
+            id="categoriesMySQLSQLE8AFADE58FA5"
+            ><div class='name'>SQL语句</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/MySQL/%E4%BA%8B%E5%8A%A1/" href="/categories/MySQL/%E4%BA%8B%E5%8A%A1/"
+            id="categoriesMySQLE4BA8BE58AA1"
+            ><div class='name'>事务</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/MySQL/%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86/" href="/categories/MySQL/%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86/"
+            id="categoriesMySQLE794A8E688B7E7AEA1E79086"
+            ><div class='name'>用户管理</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/MySQL/%E7%B4%A2%E5%BC%95/" href="/categories/MySQL/%E7%B4%A2%E5%BC%95/"
+            id="categoriesMySQLE7B4A2E5BC95"
+            ><div class='name'>索引</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E5%B7%A5%E5%85%B7/" href="/categories/%E5%B7%A5%E5%85%B7/"
+            id="categoriesE5B7A5E585B7"
+            ><div class='name'>工具</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/%E5%B7%A5%E5%85%B7/%E5%9B%BE%E5%BA%8A/" href="/categories/%E5%B7%A5%E5%85%B7/%E5%9B%BE%E5%BA%8A/"
+            id="categoriesE5B7A5E585B7E59BBEE5BA8A"
+            ><div class='name'>图床</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"
+            id="categoriesE8AEA1E7AE97E69CBAE7BD91E7BB9C"
+            ><div class='name'>计算机网络</div><div class='badge'>(3)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/" href="/categories/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/"
+            id="categoriesE997AEE9A298E99A8FE7AC94"
+            ><div class='name'>问题随笔</div><div class='badge'>(5)</div></a></li>
+        
+      </ul>
+    </div>
+  </section>
+
+
+  
+
+  
+    
+    
+  
+
+  <section class="widget tagcloud shadow desktop mobile">
+    
+  <header>
+    
+      <a href='/blog/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
+    
+  </header>
+
+
+    <div class='content'>
+      <a href="/tags/GC/" style="font-size: 1px; color: #999">GC</a> <a href="/tags/Hexo/" style="font-size: 5.6px; color: #8b8b8b">Hexo</a> <a href="/tags/JUC/" style="font-size: 14.8px; color: #707070">JUC</a> <a href="/tags/JVM/" style="font-size: 5.6px; color: #8b8b8b">JVM</a> <a href="/tags/Java/" style="font-size: 1px; color: #999">Java</a> <a href="/tags/JavaSE/" style="font-size: 10.2px; color: #7e7e7e">JavaSE</a> <a href="/tags/Linux/" style="font-size: 1px; color: #999">Linux</a> <a href="/tags/MyCat/" style="font-size: 24px; color: #555">MyCat</a> <a href="/tags/MySQL/" style="font-size: 19.4px; color: #636363">MySQL</a> <a href="/tags/Redis/" style="font-size: 5.6px; color: #8b8b8b">Redis</a> <a href="/tags/%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8/" style="font-size: 24px; color: #555">分库分表</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 1px; color: #999">工具</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 14.8px; color: #707070">并发编程</a> <a href="/tags/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 1px; color: #999">微信小程序</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10.2px; color: #7e7e7e">数据库</a> <a href="/tags/%E7%B4%A2%E5%BC%95/" style="font-size: 1px; color: #999">索引</a> <a href="/tags/%E7%BA%BF%E7%A8%8B/" style="font-size: 5.6px; color: #8b8b8b">线程</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10.2px; color: #7e7e7e">计算机网络</a> <a href="/tags/%E9%94%81/" style="font-size: 5.6px; color: #8b8b8b">锁</a> <a href="/tags/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/" style="font-size: 10.2px; color: #7e7e7e">问题随笔</a> <a href="/tags/%E9%9B%86%E5%90%88/" style="font-size: 5.6px; color: #8b8b8b">集合</a>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+
+		  
+		  <!--此文件用来存放一些不方便取值的变量-->
+<!--思路大概是将值藏到重加载的区域内-->
+
+<script>
+  window.pdata={}
+  pdata.ispage=true;
+  pdata.postTitle="MyCat(八)---架构解析";
+  pdata.commentPath="";
+  pdata.commentPlaceholder="";
+  // header 这里无论是否开启pjax都需要
+  var l_header=document.getElementById("l_header");
+  
+  l_header.classList.add("show");
+  
+  
+    // cover
+    var cover_wrapper=document.querySelector('.cover-wrapper');
+    
+    cover_wrapper.id="none";
+    cover_wrapper.style.display="none";
+    
+  
+</script>
+
+        </div>
+        
+  
+  <footer class="footer clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+
+        </div>
+      
+    
+      
+        <br>
+        <div class="social-wrapper">
+          
+            
+          
+            
+          
+            
+          
+        </div>
+      
+    
+      
+        <div><p>博客内容遵循 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+</div>
+      
+    
+      
+        
+          <div><p><span id="lc-sv">本站总访问量为 <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span> 次</span> <span id="lc-uv">访客数为 <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span> 人</span></p>
+</div>
+        
+      
+    
+      
+        本站使用
+        <a href="https://github.com/volantis-x/hexo-theme-volantis/tree/4.3.1" target="_blank" class="codename">Volantis</a>
+        作为主题
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="/">Copyright © 2017-2020 XXX</a></p>
+
+        </div>
+      
+    
+  </footer>
+
+
+        <a id="s-top" class="fas fa-arrow-up fa-fw" href="javascript:void(0)"></a>
+      </div>
+    </div>
+    <div>
+      <script>
+/************这个文件存放不需要重载的全局变量和全局函数*********/
+window.volantis={};
+window.volantis.loadcss=document.getElementById("loadcss");
+/******************** Pjax ********************************/
+function VPjax(){
+	this.list=[] // 存放回调函数
+	this.start=()=>{
+	  for(var i=0;i<this.list.length;i++){
+		this.list[i].run();
+	  }
+	}
+	this.push=(fn,name)=>{
+		var f=new PjaxItem(fn,name);
+		this.list.push(f);
+	}
+	// 构造一个可以run的对象
+	function PjaxItem(fn,name){
+		// 函数名称
+		this.name = name || fn.name
+		// run方法
+		this.run=()=>{
+			fn()
+		}
+	}
+}
+volantis.pjax={}
+volantis.pjax.method={
+	complete: new VPjax(),
+	error: new VPjax(),
+	send: new VPjax()
+}
+volantis.pjax={
+	...volantis.pjax,
+	push: volantis.pjax.method.complete.push,
+	error: volantis.pjax.method.error.push,
+	send: volantis.pjax.method.send.push
+}
+/********************脚本懒加载函数********************************/
+// 已经加入了setTimeout
+function loadScript(src, cb) {
+	setTimeout(function() {
+		var HEAD = document.getElementsByTagName('head')[0] || document.documentElement;
+		var script = document.createElement('script');
+		script.setAttribute('type','text/javascript');
+		if (cb) script.onload = cb;
+		script.setAttribute('src', src);
+		HEAD.appendChild(script);
+	});
+}
+//https://github.com/filamentgroup/loadCSS
+var loadCSS = function( href, before, media, attributes ){
+	var doc = window.document;
+	var ss = doc.createElement( "link" );
+	var ref;
+	if( before ){
+		ref = before;
+	}
+	else {
+		var refs = ( doc.body || doc.getElementsByTagName( "head" )[ 0 ] ).childNodes;
+		ref = refs[ refs.length - 1];
+	}
+	var sheets = doc.styleSheets;
+	if( attributes ){
+		for( var attributeName in attributes ){
+			if( attributes.hasOwnProperty( attributeName ) ){
+				ss.setAttribute( attributeName, attributes[attributeName] );
+			}
+		}
+	}
+	ss.rel = "stylesheet";
+	ss.href = href;
+	ss.media = "only x";
+	function ready( cb ){
+		if( doc.body ){
+			return cb();
+		}
+		setTimeout(function(){
+			ready( cb );
+		});
+	}
+	ready( function(){
+		ref.parentNode.insertBefore( ss, ( before ? ref : ref.nextSibling ) );
+	});
+	var onloadcssdefined = function( cb ){
+		var resolvedHref = ss.href;
+		var i = sheets.length;
+		while( i-- ){
+			if( sheets[ i ].href === resolvedHref ){
+				return cb();
+			}
+		}
+		setTimeout(function() {
+			onloadcssdefined( cb );
+		});
+	};
+	function loadCB(){
+		if( ss.addEventListener ){
+			ss.removeEventListener( "load", loadCB );
+		}
+		ss.media = media || "all";
+	}
+	if( ss.addEventListener ){
+		ss.addEventListener( "load", loadCB);
+	}
+	ss.onloadcssdefined = onloadcssdefined;
+	onloadcssdefined( loadCB );
+	return ss;
+};
+</script>
+<script>
+  
+  loadCSS("https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14/css/all.min.css", window.volantis.loadcss);
+  
+  
+  
+  
+  loadCSS("https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/styles/solarized-light.min.css", window.volantis.loadcss);
+  
+</script>
+<!-- required -->
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5/dist/jquery.min.js"></script>
+
+<script>
+  function pjax_fancybox() {
+    $(".md .gallery").find("img").each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("class", "fancybox");
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 判断当前页面是否存在描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".md .gallery").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  function SCload_fancybox() {
+    if ($(".md .gallery").find("img").length == 0) return;
+    loadCSS("https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css", document.getElementById("loadcss"));
+    loadScript('https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js', pjax_fancybox)
+  };
+  $(function () {
+    SCload_fancybox();
+  });
+  function Pjax_SCload_fancybox(){
+	if (typeof $.fancybox == "undefined") {
+	 SCload_fancybox();
+    } else {
+	 pjax_fancybox();
+    }
+  }
+  volantis.pjax.push(Pjax_SCload_fancybox)
+  volantis.pjax.send(()=>{
+      if (typeof $.fancybox != "undefined") {
+        $.fancybox.close();    // 关闭弹窗
+      }
+  },'fancybox')
+</script>
+
+
+<!-- internal -->
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+        var imgs=["https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602105452.png", "https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602105101.jpg", "https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602105045.jpg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+	  function Pjax_backstretch(){
+        
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        
+	  }
+	  loadScript("https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js",Pjax_backstretch)
+    </script>
+  
+
+
+
+
+<script>
+  function loadIssuesJS() {
+    if ($(".md").find(".issues-api").length == 0) return;
+	
+	  loadScript('/js/issues.js');
+	
+  };
+  $(function () {
+    loadIssuesJS();
+  });
+  volantis.pjax.push(()=>{
+	if (typeof IssuesAPI == "undefined") {
+	  loadIssuesJS();
+	}
+  },"IssuesJS")
+</script>
+
+
+
+
+
+  
+
+<script>
+  window.FPConfig = {
+	delay: 0,
+	ignoreKeywords: [],
+	maxRPS: 5,
+	hoverDelay: 25
+  };
+</script>
+<script defer src="https://cdn.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+<script src="/js/valine.js"></script>
+
+
+<script>
+  function emoji(path, idx, ext) {
+    return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  function pjax_valine() {
+    if(!document.querySelectorAll("#valine_container")[0])return;
+    let pagePlaceholder = pdata.commentPlaceholder || "快来评论吧~";
+    let path = pdata.commentPath;
+    if (path.length == 0) {
+      let defaultPath = '';
+      path = defaultPath || decodeURI(window.location.pathname);
+    }
+    var valine = new Valine();
+    valine.init(Object.assign({"path":null,"placeholder":"快来评论吧~","appId":"3Hus5XFQ2sDWy72CDu6mK2mo-gzGzoHsz","appKey":"sV3dLNS95WvJ4WW5HhVxKJ15","meta":["nick"],"requiredFields":["nick"],"enableQQ":true,"recordIP":false,"avatar":"robohash","pageSize":10,"lang":"zh-cn","highlight":true,"mathJax":false}, {
+      el: '#valine_container',
+      path: path,
+      placeholder: pagePlaceholder,
+      emojiCDN: 'https://cdn.jsdelivr.net/gh/volantis-x/cdn-emoji/valine/',
+      emojiMaps: emojiMaps,
+    }))
+  }
+  $(function () {
+    pjax_valine();
+  });
+  volantis.pjax.push(pjax_valine);
+</script>
+
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+<!-- optional -->
+
+  <script>
+const SearchServiceimagePath="https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@master/img/";
+const ROOT =  ("/" || "/").endsWith('/') ? ("/" || "/") : ("//" || "/" );
+
+$('.input.u-search-input').one('focus',function(){
+	
+		loadScript('/js/search/hexo.js',setSearchService);
+	
+})
+
+function listenSearch(){
+  
+    customSearch = new HexoSearch({
+      imagePath: SearchServiceimagePath
+    });
+  
+}
+function setSearchService() {
+	listenSearch();
+	
+		document.addEventListener("pjax:success", listenSearch);
+	
+}
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/highlight.min.js"></script>
+
+<script>hljs.initHighlightingOnLoad();</script>
+
+<script>
+volantis.pjax.push(()=>{
+	document.querySelectorAll('pre code').forEach((block) => {
+	  hljs.highlightBlock(block);
+	});
+},"highlightjs")
+</script>
+
+
+
+  <script defer>
+
+  const LCCounter = {
+    app_id: 'u9j57bwJod4EDmXWdxrwuqQT-MdYXbMMI',
+    app_key: 'jfHtEKVE24j0IVCGHbvuFClp',
+    custom_api_server: '',
+
+    // 查询存储的记录
+    getRecord(Counter, url, title) {
+      return new Promise(function (resolve, reject) {
+        Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({url})))
+          .then(resp => resp.json())
+          .then(({results, code, error}) => {
+            if (code === 401) {
+              throw error;
+            }
+            if (results && results.length > 0) {
+              var record = results[0];
+              resolve(record);
+            } else {
+              Counter('post', '/classes/Counter', {url, title: title, times: 0})
+                .then(resp => resp.json())
+                .then((record, error) => {
+                  if (error) {
+                    throw error;
+                  }
+                  resolve(record);
+                }).catch(error => {
+                console.error('Failed to create', error);
+                reject(error);
+              });
+            }
+          }).catch((error) => {
+          console.error('LeanCloud Counter Error:', error);
+          reject(error);
+        });
+      })
+    },
+
+    // 发起自增请求
+    increment(Counter, incrArr) {
+      return new Promise(function (resolve, reject) {
+        Counter('post', '/batch', {
+          "requests": incrArr
+        }).then((res) => {
+          res = res.json();
+          if (res.error) {
+            throw res.error;
+          }
+          resolve(res);
+        }).catch((error) => {
+          console.error('Failed to save visitor count', error);
+          reject(error);
+        });
+      });
+    },
+
+    // 构建自增请求体
+    buildIncrement(objectId) {
+      return {
+        "method": "PUT",
+        "path": `/1.1/classes/Counter/${ objectId }`,
+        "body": {
+          "times": {
+            '__op': 'Increment',
+            'amount': 1
+          }
+        }
+      }
+    },
+
+    // 校验是否为有效的 UV
+    validUV() {
+      var key = 'LeanCloudUVTimestamp';
+      var flag = localStorage.getItem(key);
+      if (flag) {
+        // 距离标记小于 24 小时则不计为 UV
+        if (new Date().getTime() - parseInt(flag) <= 86400000) {
+          return false;
+        }
+      }
+      localStorage.setItem(key, new Date().getTime().toString());
+      return true;
+    },
+
+    addCount(Counter) {
+      var enableIncr = '' === 'true' && window.location.hostname !== 'localhost';
+      enableIncr = true;
+      var getterArr = [];
+      var incrArr = [];
+      // 请求 PV 并自增
+      var pvCtn = document.querySelector('#lc-sv');
+      if (pvCtn || enableIncr) {
+        var pvGetter = this.getRecord(Counter, 'https://zhaoshuchao.top' + '/#lc-sv', 'Visits').then((record) => {
+          incrArr.push(this.buildIncrement(record.objectId))
+          var eles = document.querySelectorAll('#lc-sv #number');
+          if (eles.length > 0) {
+            eles.forEach((el,index,array)=>{
+              el.innerText = record.times + 1;
+              if (pvCtn) {
+                pvCtn.style.display = 'inline';
+              }
+            })
+          }
+        });
+        getterArr.push(pvGetter);
+      }
+
+      // 请求 UV 并自增
+      var uvCtn = document.querySelector('#lc-uv');
+      if (uvCtn || enableIncr) {
+        var uvGetter = this.getRecord(Counter, 'https://zhaoshuchao.top' + '/#lc-uv', 'Visitors').then((record) => {
+          var vuv = this.validUV();
+          vuv && incrArr.push(this.buildIncrement(record.objectId))
+          var eles = document.querySelectorAll('#lc-uv #number');
+          if (eles.length > 0) {
+            eles.forEach((el,index,array)=>{
+              el.innerText = record.times + (vuv ? 1 : 0);
+              if (uvCtn) {
+                uvCtn.style.display = 'inline';
+              }
+            })
+          }
+        });
+        getterArr.push(uvGetter);
+      }
+
+      // 请求文章的浏览数，如果是当前页面就自增
+      var allPV = document.querySelectorAll('#lc-pv');
+      if (allPV.length > 0 || enableIncr) {
+        for (i = 0; i < allPV.length; i++) {
+          let pv = allPV[i];
+          let title = pv.getAttribute('data-title');
+          var url = 'https://zhaoshuchao.top' + pv.getAttribute('data-path');
+          if (url) {
+            var viewGetter = this.getRecord(Counter, url, title).then((record) => {
+              // 是当前页面就自增
+              let curPath = window.location.pathname;
+              if (curPath.includes('index.html')) {
+                curPath = curPath.substring(0, curPath.lastIndexOf('index.html'));
+              }
+              if (pv.getAttribute('data-path') == curPath) {
+                incrArr.push(this.buildIncrement(record.objectId));
+              }
+              if (pv) {
+                var ele = pv.querySelector('#lc-pv #number');
+                if (ele) {
+                  if (pv.getAttribute('data-path') == curPath) {
+                    ele.innerText = (record.times || 0) + 1;
+                  } else {
+                    ele.innerText = record.times || 0;
+                  }
+                  pv.style.display = 'inline';
+                }
+              }
+            });
+            getterArr.push(viewGetter);
+          }
+        }
+      }
+
+      // 如果启动计数自增，批量发起自增请求
+      if (enableIncr) {
+        Promise.all(getterArr).then(() => {
+          incrArr.length > 0 && this.increment(Counter, incrArr);
+        })
+      }
+
+    },
+
+
+    fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${ api_server }/1.1${ url }`, {
+          method,
+          headers: {
+            'X-LC-Id': this.app_id,
+            'X-LC-Key': this.app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      this.addCount(Counter);
+    },
+
+    refreshCounter() {
+      var api_server = this.app_id.slice(-9) !== '-MdYXbMMI' ? this.custom_api_server : `https://${ this.app_id.slice(0, 8).toLowerCase() }.api.lncldglobal.com`;
+      if (api_server) {
+        this.fetchData(api_server);
+      } else {
+        fetch('https://app-router.leancloud.cn/2/route?appId=' + this.app_id)
+          .then(resp => resp.json())
+          .then(({api_server}) => {
+            this.fetchData('https://' + api_server);
+          });
+      }
+    }
+
+  };
+
+  LCCounter.refreshCounter();
+
+  document.addEventListener('pjax:complete', function () {
+    LCCounter.refreshCounter();
+  });
+</script>
+
+
+
+
+  <script>
+const rootElement = document.documentElement;
+const darkModeStorageKey = "user-color-scheme";
+const rootElementDarkModeAttributeName = "data-user-color-scheme";
+
+const setLS = (k, v) => {
+    localStorage.setItem(k, v);
+};
+
+const removeLS = (k) => {
+    localStorage.removeItem(k);
+};
+
+const getLS = (k) => {
+    return localStorage.getItem(k);
+};
+
+const getModeFromCSSMediaQuery = () => {
+  return window.matchMedia("(prefers-color-scheme: dark)").matches
+    ? "dark"
+    : "light";
+};
+
+const resetRootDarkModeAttributeAndLS = () => {
+  rootElement.removeAttribute(rootElementDarkModeAttributeName);
+  removeLS(darkModeStorageKey);
+};
+
+const validColorModeKeys = {
+  dark: true,
+  light: true,
+};
+
+const applyCustomDarkModeSettings = (mode) => {
+  const currentSetting = mode || getLS(darkModeStorageKey);
+
+  if (currentSetting === getModeFromCSSMediaQuery()) {
+    resetRootDarkModeAttributeAndLS();
+  } else if (validColorModeKeys[currentSetting]) {
+    rootElement.setAttribute(rootElementDarkModeAttributeName, currentSetting);
+  } else {
+    resetRootDarkModeAttributeAndLS();
+  }
+};
+
+const invertDarkModeObj = {
+  dark: "light",
+  light: "dark",
+};
+
+/**
+ * get target mode
+ */
+const toggleCustomDarkMode = () => {
+  let currentSetting = getLS(darkModeStorageKey);
+
+  if (validColorModeKeys[currentSetting]) {
+    currentSetting = invertDarkModeObj[currentSetting];
+  } else if (currentSetting === null) {
+    currentSetting = invertDarkModeObj[getModeFromCSSMediaQuery()];
+  } else {
+    return;
+  }
+  setLS(darkModeStorageKey, currentSetting);
+  return currentSetting;
+};
+
+/**
+ * bind click event for toggle button
+ */
+var btn=$("#wrapper .toggle-mode-btn,#rightmenu-wrapper .toggle-mode-btn");
+function bindToggleButton() {
+    btn.on('click',(e) => {
+      const mode = toggleCustomDarkMode();
+      applyCustomDarkModeSettings(mode);
+    });
+}
+
+applyCustomDarkModeSettings();
+document.addEventListener("DOMContentLoaded", bindToggleButton);
+volantis.pjax.push(bindToggleButton);
+volantis.pjax.send(()=>{
+	btn.unbind('click');
+},'toggle-mode-btn-unbind');
+</script>
+
+
+
+
+
+
+
+
+<script>
+function listennSidebarTOC() {
+  const navItems = document.querySelectorAll(".toc li");
+  if (!navItems.length) return;
+  const sections = [...navItems].map((element) => {
+    const link = element.querySelector(".toc-link");
+    const target = document.getElementById(
+      decodeURI(link.getAttribute("href")).replace("#", "")
+    );
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      window.scrollTo({
+		top: target.offsetTop + 100,
+		
+		behavior: "smooth"
+		
+	  });
+    });
+    return target;
+  });
+
+  function activateNavByIndex(target) {
+    if (target.classList.contains("active-current")) return;
+
+    document.querySelectorAll(".toc .active").forEach((element) => {
+      element.classList.remove("active", "active-current");
+    });
+    target.classList.add("active", "active-current");
+    let parent = target.parentNode;
+    while (!parent.matches(".toc")) {
+      if (parent.matches("li")) parent.classList.add("active");
+      parent = parent.parentNode;
+    }
+  }
+
+  function findIndex(entries) {
+    let index = 0;
+    let entry = entries[index];
+    if (entry.boundingClientRect.top > 0) {
+      index = sections.indexOf(entry.target);
+      return index === 0 ? 0 : index - 1;
+    }
+    for (; index < entries.length; index++) {
+      if (entries[index].boundingClientRect.top <= 0) {
+        entry = entries[index];
+      } else {
+        return sections.indexOf(entry.target);
+      }
+    }
+    return sections.indexOf(entry.target);
+  }
+
+  function createIntersectionObserver(marginTop) {
+    marginTop = Math.floor(marginTop + 10000);
+    let intersectionObserver = new IntersectionObserver(
+      (entries, observe) => {
+        let scrollHeight = document.documentElement.scrollHeight + 100;
+        if (scrollHeight > marginTop) {
+          observe.disconnect();
+          createIntersectionObserver(scrollHeight);
+          return;
+        }
+        let index = findIndex(entries);
+        activateNavByIndex(navItems[index]);
+      },
+      {
+        rootMargin: marginTop + "px 0px -100% 0px",
+        threshold: 0,
+      }
+    );
+    sections.forEach((element) => {
+      element && intersectionObserver.observe(element);
+    });
+  }
+  createIntersectionObserver(document.documentElement.scrollHeight);
+}
+
+document.addEventListener("DOMContentLoaded", listennSidebarTOC);
+document.addEventListener("pjax:success", listennSidebarTOC);
+</script>
+
+<!-- more -->
+
+ 
+	   
+	    
+
+
+<script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script>
+
+
+<script>
+    var pjax;
+    document.addEventListener('DOMContentLoaded', function () {
+      pjax = new Pjax({
+        elements: 'a[href]:not([href^="#"]):not([href="javascript:void(0)"]):not([pjax-fancybox])',
+        selectors: [
+          "title",
+          
+          "#pjax-container",
+          "#pjax-header-nav-list"
+        ],
+        cacheBust: false,   // url 地址追加时间戳，用以避免浏览器缓存
+        timeout: 5000
+      });
+    });
+
+    document.addEventListener('pjax:send', function (e) {
+      //window.stop(); // 相当于点击了浏览器的停止按钮
+
+      try {
+        var currentUrl = window.location.pathname;
+        var targetUrl = e.triggerElement.href;
+        var banUrl = [""];
+        if (banUrl[0] != "") {
+          banUrl.forEach(item => {
+            if(currentUrl.indexOf(item) != -1 || targetUrl.indexOf(item) != -1) {
+              window.location.href = targetUrl;
+            }
+          });
+        }
+      } catch (error) {}
+
+      window.subData = null; // 移除标题（用于一二级导航栏切换处）
+
+      volantis.$switcher.removeClass('active'); // 关闭移动端激活的搜索框
+      volantis.$header.removeClass('z_search-open'); // 关闭移动端激活的搜索框
+      volantis.$wrapper.removeClass('sub'); // 跳转页面时关闭二级导航
+
+      // 解绑事件 避免重复监听
+      volantis.$topBtn.unbind('click');
+      $('.menu a').unbind('click');
+      $(window).unbind('resize');
+      $(window).unbind('scroll');
+      $(document).unbind('scroll');
+      $(document).unbind('click');
+      $('body').unbind('click');
+	  // 使用 volantis.pjax.send 方法传入pjax:send回调函数 参见layout/_partial/scripts/global.ejs
+	  volantis.pjax.method.send.start();
+    });
+
+    document.addEventListener('pjax:complete', function () {
+      $('.nav-main').find('.list-v').not('.menu-phone').removeAttr("style",""); // 移除小尾巴的移除
+      $('.menu-phone.list-v').removeAttr("style",""); // 移除小尾巴的移除
+      $('script[data-pjax], .pjax-reload script').each(function () {
+        $(this).parent().append($(this).remove());
+      });
+      try{
+		// 使用 volantis.pjax.push 方法传入重载函数 参见layout/_partial/scripts/global.ejs
+		volantis.pjax.method.complete.start();
+      } catch (e) {
+        console.log(e);
+      }
+    });
+
+    document.addEventListener('pjax:error', function (e) {
+	  // 使用 volantis.pjax.error 方法传入pjax:error回调函数 参见layout/_partial/scripts/global.ejs
+	  volantis.pjax.method.error.start();
+      window.location.href = e.triggerElement.href;
+    });
+</script>
+ 
+	  
+    </div>
+  </body>
+</html>

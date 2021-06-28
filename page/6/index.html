@@ -438,17 +438,18 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   
     
     <h2 class="article-title" >
-      <a href="/2021/04/01/%E5%8F%8D%E5%B0%84/">
-        反射
+      <a href="/2021/04/19/SQL%E4%BC%98%E5%8C%96/">
+        SQL优化
       </a>
     </h2>
   
   <div class='md'>
     
       
-        如何通过反射创建对象简单的说，反射机制就是在程序的运行过程中被允许对程序本身进行操作，比如自我检查，进行装载，还可以获取类本身，类的所有成员变量和方法，类的对象，还可以在运行过程中动态的创建类的实例，通过实例来调用类的方法，这就是反射机制一个比较重要的功能了。那么要通过程序来理解反射机制，首先要理解类的加载过程
+        简单的SQL优化
+对查询优化，应尽量避免全表扫描，首先应考虑在where以及order by涉及到的列上建立索引.只返回有用的字段，不要全部返回(不要用select * from  返回的字段一点要有用，尽量实现覆盖索引，避免回表操作)
 
-在Java程序执行的时候，要经历三个步骤：加载、连接和初始化。首先程序要加载到...
+应尽量避免在where子句中对字段进行null值判断，否则将导致放弃使用索引而进行全表扫描.（建议创建字段时设置一个默认值，避免null值,比如字符默认为...
       
     
   </div>
@@ -456,58 +457,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     <div class='meta-v3' line_style='solid'>
       <div>
         
-        <time>2021-04-01</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/Java%E5%9F%BA%E7%A1%80/">Java基础</a>
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/2021/04/01/%E5%8F%8D%E5%B0%84/'>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
-</div>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
-    
-    <h2 class="article-title" >
-      <a href="/2021/03/30/MySQL%E4%B8%ADshow-profile%E8%AF%A6%E8%A7%A3/">
-        MySQL中show profile详解
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      
-        
-当我们在优化sql的时候可以使用explain来查看执行计划，可当根据执行计划优化完毕之后我们的sql的运行时间还是比较长，这时我们可以使用show profile更细粒度的分析，show-profile，可以提高用来分析当前会话中语句执行的资源消耗情况,可以用于sql调优的测量.
-Show Profile官方文档地址
-
-1.  基本语法：
-查看是否开启：show variables li...
-      
-    
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
-        
-        <time>2021-03-30</time>
+        <time>2021-04-19</time>
         
           <span class="dot"></span>
           <a class="category-link" href="/categories/MySQL/">MySQL</a><span class="sep"></span><a class="category-link" href="/categories/MySQL/SQL%E4%BC%98%E5%8C%96/">SQL优化</a>
@@ -515,7 +465,7 @@ Show Profile官方文档地址
       </div>
       
         <div>
-          <a class='readmore' href='/2021/03/30/MySQL%E4%B8%ADshow-profile%E8%AF%A6%E8%A7%A3/'>
+          <a class='readmore' href='/2021/04/19/SQL%E4%BC%98%E5%8C%96/'>
             阅读全文
           </a>
         </div>
@@ -537,19 +487,19 @@ Show Profile官方文档地址
   
     
     <h2 class="article-title" >
-      <a href="/2021/03/20/%E9%80%9A%E8%BF%87Query-Profiler%E6%9F%A5%E7%9C%8BMySQL%E8%AF%AD%E5%8F%A5%E8%BF%90%E8%A1%8C%E6%97%B6%E9%97%B4/">
-        通过Query Profiler查看MySQL语句运行时间
+      <a href="/2021/04/15/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
+        线程池
       </a>
     </h2>
   
   <div class='md'>
     
       
-        前言
-Query Profiler是MYSQL自带的一种query诊断分析工具，通过它可以分析出一条SQL语句的性能瓶颈在什么地方。通常我们是使用的explain,以及slow query log都无法做到精确分析，
-
- 但是Query Profiler却可以定位出一条SQL语句执行的各种资源消耗情况，比如CPU，IO等，以及该SQL执行所耗费的时间等。
-Show profiles是5.0....
+        线程池的优势总体来说，线程池有如下的优势：
+（1）降低资源消耗。通过重复利用已创建的线程降低线程创建和销毁造成的消耗。
+（2）提高响应速度。当任务到达时，任务可以不需要等到线程创建就能立即执行。
+（3）提高线程的可管理性。线程是稀缺资源，如果无限制的创建，不仅会消耗系统资源，还会降低系统的稳定性，使用线程池可以进行统一的分配，调优和监控。
+线程池的使用四种构造方法线程池的真正实现类是 Thr...
       
     
   </div>
@@ -557,15 +507,15 @@ Show profiles是5.0....
     <div class='meta-v3' line_style='solid'>
       <div>
         
-        <time>2021-03-20</time>
+        <time>2021-04-15</time>
         
           <span class="dot"></span>
-          <a class="category-link" href="/categories/MySQL/">MySQL</a><span class="sep"></span><a class="category-link" href="/categories/MySQL/SQL%E4%BC%98%E5%8C%96/">SQL优化</a>
+          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JUC/">JUC</a>
         
       </div>
       
         <div>
-          <a class='readmore' href='/2021/03/20/%E9%80%9A%E8%BF%87Query-Profiler%E6%9F%A5%E7%9C%8BMySQL%E8%AF%AD%E5%8F%A5%E8%BF%90%E8%A1%8C%E6%97%B6%E9%97%B4/'>
+          <a class='readmore' href='/2021/04/15/%E7%BA%BF%E7%A8%8B%E6%B1%A0/'>
             阅读全文
           </a>
         </div>
@@ -587,8 +537,8 @@ Show profiles是5.0....
   
     
     <h2 class="article-title" >
-      <a href="/2021/03/15/Gitee-PicGo-Typora%E5%AE%9E%E7%8E%B0%E9%AB%98%E9%80%9F%E5%9B%BE%E5%BA%8A/">
-        Gitee+PicGo+Typora实现高速图床
+      <a href="/2021/04/15/Synchronized/">
+        Synchronized
       </a>
     </h2>
   
@@ -596,14 +546,8 @@ Show profiles是5.0....
     
       
         
-之前使用GitHub搭建床图，我们都知道GitHub在国内速度感人，图片经常刷不出来，而且上传巨慢，今天我们用国内Gitee搭建床图，实现秒级上传，而且配和Typora笔记集成实现自动上传
 
-Gitee创建图床仓库注册登录码云账户，并创建一个仓库
-
-
-注意这里一定要选择开源，否则最后生成的图片地址访问不到！
-
-获取仓库的私人令牌token这个token需要配置在PicGo中，用于自动上传使...
+前言：造成线程安全问题的主要诱因有两点: 一是存在共享数据(也称临界资源)，二是存在多条线程共同操作共享数据。因此为了解决这个问题，我们可能需要这样一个方案，当存在多个线程操作共享数据时，需要保证同一时刻有且只有一个线程在操作共享数据，其他线程必须等到该线程处理完数据后再进行，这种方式有个高尚的名称叫互斥锁，即能达到互斥访问目的的锁，也就是说当一个共享数据被当前正在访问的线程加上互斥锁后...
       
     
   </div>
@@ -611,15 +555,15 @@ Gitee创建图床仓库注册登录码云账户，并创建一个仓库
     <div class='meta-v3' line_style='solid'>
       <div>
         
-        <time>2021-03-15</time>
+        <time>2021-04-15</time>
         
           <span class="dot"></span>
-          <a class="category-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a><span class="sep"></span><a class="category-link" href="/categories/%E5%B7%A5%E5%85%B7/%E5%9B%BE%E5%BA%8A/">图床</a>
+          <a class="category-link" href="/categories/Java/">Java</a><span class="sep"></span><a class="category-link" href="/categories/Java/JUC/">JUC</a>
         
       </div>
       
         <div>
-          <a class='readmore' href='/2021/03/15/Gitee-PicGo-Typora%E5%AE%9E%E7%8E%B0%E9%AB%98%E9%80%9F%E5%9B%BE%E5%BA%8A/'>
+          <a class='readmore' href='/2021/04/15/Synchronized/'>
             阅读全文
           </a>
         </div>
@@ -641,20 +585,18 @@ Gitee创建图床仓库注册登录码云账户，并创建一个仓库
   
     
     <h2 class="article-title" >
-      <a href="/2021/03/03/Hexo%E4%BD%BF%E7%94%A8Volantis%E4%B8%BB%E9%A2%98/">
-        Hexo使用Volantis主题
+      <a href="/2021/04/15/jaxb%E4%BB%8Exml%E8%AF%BB%E5%8F%96%E7%89%B9%E6%AE%8A%E6%97%A5%E6%9C%9F%E6%A0%BC%E5%BC%8F%E4%B8%BAnull/">
+        jaxb从xml读取特殊日期格式为null
       </a>
     </h2>
   
   <div class='md'>
     
       
-        更换主题这里采用的是Volantis5主题和 Hexo 5.0.2，不用复制什么主题到theme文件夹下，直接使用npm安装即可
+        
+解决jaxb从xml文件读取 yyyy-MM-dd HH:mm:ss字段数据返回null 的问题
 
-在 blog/_config.yml 文件中找到并修改：
-1theme: volantis
-下载主题
-123456# 安装npm i hexo-theme-volantis# 安装 Hexo 搜索的依赖包npm i hexo-generator-search h...
+编写DateAdapter类，处理日期格式1234567891011121314151617181920/** * @author zsc * @date 2020/9/30 * jaxb从xml文件读取特殊格式日期（解决读取 yyyy-MM-dd HH:mm:ss返回null 的问题） *...
       
     
   </div>
@@ -662,15 +604,66 @@ Gitee创建图床仓库注册登录码云账户，并创建一个仓库
     <div class='meta-v3' line_style='solid'>
       <div>
         
-        <time>2021-03-03</time>
+        <time>2021-04-15</time>
         
           <span class="dot"></span>
-          <a class="category-link" href="/categories/Hexo/">Hexo</a>
+          <a class="category-link" href="/categories/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/">问题随笔</a>
         
       </div>
       
         <div>
-          <a class='readmore' href='/2021/03/03/Hexo%E4%BD%BF%E7%94%A8Volantis%E4%B8%BB%E9%A2%98/'>
+          <a class='readmore' href='/2021/04/15/jaxb%E4%BB%8Exml%E8%AF%BB%E5%8F%96%E7%89%B9%E6%AE%8A%E6%97%A5%E6%9C%9F%E6%A0%BC%E5%BC%8F%E4%B8%BAnull/'>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+  
+
+</div>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <div class="post post-v3 white-box reveal shadow">
+  
+  
+  
+  
+    
+    <h2 class="article-title" >
+      <a href="/2021/04/12/MySQL%E5%88%9B%E5%BB%BA%E7%94%A8%E6%88%B7/">
+        MySQL创建用户
+      </a>
+    </h2>
+  
+  <div class='md'>
+    
+      
+        
+MySQL创建可读用户和指定数据库用户
+必须在Root用户下创建
+
+MySQL 赋予用户权限命令的简单格式可概括为：grant 权限 on 数据库对象 to 用户
+创建数据库仅可读用户123# reader是用户名,xxxxxx为密码；GRANT后面跟的是用户权限，用户名@后面跟的是可连接的ip地址，%表示任意ip都可登陆GRANT Select ON *.* TO reader@&quo...
+      
+    
+  </div>
+  
+    <div class='meta-v3' line_style='solid'>
+      <div>
+        
+        <time>2021-04-12</time>
+        
+          <span class="dot"></span>
+          <a class="category-link" href="/categories/MySQL/">MySQL</a><span class="sep"></span><a class="category-link" href="/categories/MySQL/%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86/">用户管理</a>
+        
+      </div>
+      
+        <div>
+          <a class='readmore' href='/2021/04/12/MySQL%E5%88%9B%E5%BB%BA%E7%94%A8%E6%88%B7/'>
             阅读全文
           </a>
         </div>
@@ -697,7 +690,7 @@ Gitee创建图床仓库注册登录码云账户，并创建一个仓库
           </a>
         
         <p class="current">
-          6 / 7
+          6 / 8
         </p>
         
           <a class="next" rel="next" href="/page/7/">
@@ -833,7 +826,12 @@ Gitee创建图床仓库注册登录码云账户，并创建一个仓库
           <li><a class="flat-box"
             title="/categories/MySQL/" href="/categories/MySQL/"
             id="categoriesMySQL"
-            ><div class='name'>MySQL</div><div class='badge'>(7)</div></a></li>
+            ><div class='name'>MySQL</div><div class='badge'>(16)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/MySQL/MyCat/" href="/categories/MySQL/MyCat/"
+            id="categoriesMySQLMyCat"
+            ><div class='name'>MyCat</div><div class='badge'>(9)</div></a></li>
         
           <li><a class="flat-box child"
             title="/categories/MySQL/SQL%E4%BC%98%E5%8C%96/" href="/categories/MySQL/SQL%E4%BC%98%E5%8C%96/"
@@ -902,7 +900,7 @@ Gitee创建图床仓库注册登录码云账户，并创建一个仓库
 
 
     <div class='content'>
-      <a href="/tags/GC/" style="font-size: 1px; color: #999">GC</a> <a href="/tags/Hexo/" style="font-size: 6.75px; color: #888">Hexo</a> <a href="/tags/JUC/" style="font-size: 18.25px; color: #666">JUC</a> <a href="/tags/JVM/" style="font-size: 6.75px; color: #888">JVM</a> <a href="/tags/Java/" style="font-size: 1px; color: #999">Java</a> <a href="/tags/JavaSE/" style="font-size: 12.5px; color: #777">JavaSE</a> <a href="/tags/Linux/" style="font-size: 1px; color: #999">Linux</a> <a href="/tags/MySQL/" style="font-size: 24px; color: #555">MySQL</a> <a href="/tags/Redis/" style="font-size: 6.75px; color: #888">Redis</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 1px; color: #999">工具</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 18.25px; color: #666">并发编程</a> <a href="/tags/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 1px; color: #999">微信小程序</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 12.5px; color: #777">数据库</a> <a href="/tags/%E7%B4%A2%E5%BC%95/" style="font-size: 1px; color: #999">索引</a> <a href="/tags/%E7%BA%BF%E7%A8%8B/" style="font-size: 6.75px; color: #888">线程</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 12.5px; color: #777">计算机网络</a> <a href="/tags/%E9%94%81/" style="font-size: 6.75px; color: #888">锁</a> <a href="/tags/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/" style="font-size: 12.5px; color: #777">问题随笔</a> <a href="/tags/%E9%9B%86%E5%90%88/" style="font-size: 6.75px; color: #888">集合</a>
+      <a href="/tags/GC/" style="font-size: 1px; color: #999">GC</a> <a href="/tags/Hexo/" style="font-size: 5.6px; color: #8b8b8b">Hexo</a> <a href="/tags/JUC/" style="font-size: 14.8px; color: #707070">JUC</a> <a href="/tags/JVM/" style="font-size: 5.6px; color: #8b8b8b">JVM</a> <a href="/tags/Java/" style="font-size: 1px; color: #999">Java</a> <a href="/tags/JavaSE/" style="font-size: 10.2px; color: #7e7e7e">JavaSE</a> <a href="/tags/Linux/" style="font-size: 1px; color: #999">Linux</a> <a href="/tags/MyCat/" style="font-size: 24px; color: #555">MyCat</a> <a href="/tags/MySQL/" style="font-size: 19.4px; color: #636363">MySQL</a> <a href="/tags/Redis/" style="font-size: 5.6px; color: #8b8b8b">Redis</a> <a href="/tags/%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8/" style="font-size: 24px; color: #555">分库分表</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 1px; color: #999">工具</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 14.8px; color: #707070">并发编程</a> <a href="/tags/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 1px; color: #999">微信小程序</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10.2px; color: #7e7e7e">数据库</a> <a href="/tags/%E7%B4%A2%E5%BC%95/" style="font-size: 1px; color: #999">索引</a> <a href="/tags/%E7%BA%BF%E7%A8%8B/" style="font-size: 5.6px; color: #8b8b8b">线程</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10.2px; color: #7e7e7e">计算机网络</a> <a href="/tags/%E9%94%81/" style="font-size: 5.6px; color: #8b8b8b">锁</a> <a href="/tags/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/" style="font-size: 10.2px; color: #7e7e7e">问题随笔</a> <a href="/tags/%E9%9B%86%E5%90%88/" style="font-size: 5.6px; color: #8b8b8b">集合</a>
     </div>
   </section>
 

@@ -1,0 +1,2041 @@
+<!DOCTYPE html>
+<html lang="zh-CN,en,default">
+  <head hexo-theme='https://github.com/volantis-x/hexo-theme-volantis/tree/4.3.1'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://cdn.jsdelivr.net'>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <link rel="preload" href="/css/first.css" as="style">
+  
+
+  <!-- 页面元数据 -->
+  
+  <title>MyCat(七)---高可用集群搭建 - Never Meet Blog</title>
+  
+    <meta name="keywords" content="MyCat,分库分表">
+  
+
+  
+
+  <!-- feed -->
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  
+    <link rel="shortcut icon" type='image/x-icon' href="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210603105954.png">
+  
+
+  <!-- import link -->
+  
+
+  
+    
+<link rel="stylesheet" href="/css/first.css">
+
+  
+
+  
+  <link rel="stylesheet" href="/css/style.css" media="print" onload="this.media='all';this.onload=null">
+  <noscript><link rel="stylesheet" href="/css/style.css"></noscript>
+  
+
+  <script id="loadcss"></script>
+
+  
+<script>
+if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode))
+    document.write(
+	'<style>'+
+		'html{'+
+			'overflow-x: hidden !important;'+
+			'overflow-y: hidden !important;'+
+		'}'+
+		'.kill-ie{'+
+			'text-align:center;'+
+			'height: 100%;'+
+			'margin-top: 15%;'+
+			'margin-bottom: 5500%;'+
+		'}'+
+	'</style>'+
+    '<div class="kill-ie">'+
+        '<h1><b>抱歉，您的浏览器无法访问本站</b></h1>'+
+        '<h3>微软已经于2016年终止了对 Internet Explorer (IE) 10 及更早版本的支持，<br/>'+
+        '继续使用存在极大的安全隐患，请使用当代主流的浏览器进行访问。</h3><br/>'+
+        '<a target="_blank" rel="noopener" href="https://www.microsoft.com/zh-cn/WindowsForBusiness/End-of-IE-support"><strong>了解详情 ></strong></a>'+
+    '</div>');
+</script>
+
+
+<noscript>
+	<style>
+		html{
+			overflow-x: hidden !important;
+			overflow-y: hidden !important;
+		}
+		.kill-noscript{
+			text-align:center;
+			height: 100%;
+			margin-top: 15%;
+			margin-bottom: 5500%;
+		}
+	</style>
+    <div class="kill-noscript">
+        <h1><b>抱歉，您的浏览器无法访问本站</b></h1>
+        <h3>本页面需要浏览器支持（启用）JavaScript</h3><br/>
+        <a target="_blank" rel="noopener" href="https://www.baidu.com/s?wd=启用JavaScript"><strong>了解详情 ></strong></a>
+    </div>
+</noscript>
+
+</head>
+
+  <body>
+    
+
+<header id="l_header" class="l_header auto shadow blur show" style='opacity: 0' >
+  <div class='container'>
+  <div id='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h m-phone' id="pjax-header-nav-list">
+        <li><a id="s-comment" class="fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a id="s-toc" class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+            <img no-lazy class='logo' src='https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/blog/Logo-NavBar@3x.png'/>
+          
+          
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h m-pc'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/about/
+                  
+                  
+                  
+                    id="about"
+                  >
+                  <i class='fas fa-info-circle fa-fw'></i>关于
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box header toggle-mode-btn">
+                  <i class='fas fa-moon fa-fw'></i>暗黑模式
+                </a>
+              <li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="搜索" />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h m-phone'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-rss fa-fw'></i>博客
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/about/
+                  
+                  
+                  
+                    id="about"
+                  >
+                  <i class='fas fa-info-circle fa-fw'></i>关于
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box header toggle-mode-btn">
+                  <i class='fas fa-moon fa-fw'></i>暗黑模式
+                </a>
+              <li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+    <div id="l_body">
+      <div id="l_cover">
+  
+    
+        <div id="full" class='cover-wrapper post search' style="display: none;">
+          
+            <div id='cover-backstretch'></div>
+          
+          <div class='cover-body'>
+  <div class='top'>
+    
+    
+      <p class="title">Never Meet</p>
+    
+    
+  </div>
+  <div class='bottom'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="only search in the website" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <div class='list-h'>
+        
+          
+            <a href="/"
+              
+              
+              id="home">
+              <i class='fas fa-rss fa-fw'></i><p>博客</p>
+            </a>
+          
+            <a href="/categories/"
+              
+              
+              id="categories">
+              <i class='fas fa-folder-open fa-fw'></i><p>分类</p>
+            </a>
+          
+            <a href="/tags/"
+              
+              
+              id="tags">
+              <i class='fas fa-tags fa-fw'></i><p>标签</p>
+            </a>
+          
+            <a href="/archives/"
+              
+              
+              id="archives">
+              <i class='fas fa-archive fa-fw'></i><p>归档</p>
+            </a>
+          
+            <a href="/about/"
+              
+              
+              id="about">
+              <i class='fas fa-info-circle fa-fw'></i><p>关于</p>
+            </a>
+          
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+          <div id="scroll-down" style="display: none;"><i class="fa fa-chevron-down scroll-down-effects"></i></div>
+        </div>
+    
+  
+  </div>
+
+      <div id="safearea">
+        <div class="body-wrapper" id="pjax-container">
+          
+
+<div class='l_main'>
+  <article class="article post white-box reveal md shadow article-type-post" id="post" itemscope itemprop="blogPost">
+  
+
+
+  
+  <div class="article-meta" id="top">
+    
+    
+    
+      <h1 class="title">
+        MyCat(七)---高可用集群搭建
+      </h1>
+      <div class='new-meta-box'>
+        
+          
+            
+<div class='new-meta-item author'>
+  <a class='author' href="/" rel="nofollow">
+    <img no-lazy src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210603111048.png">
+    <p>By：赵树超</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  <div class='new-meta-item category'>
+    <a class='notlink'>
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <a class="category-link" href="/categories/MySQL/">MySQL</a><span class="sep"></span><a class="category-link" href="/categories/MySQL/MyCat/">MyCat</a>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2021年6月21日</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  <div class="new-meta-item browse leancloud">
+    <a class='notlink'>
+      
+      <div id="lc-pv" data-title="MyCat(七)---高可用集群搭建" data-path="/2021/06/21/Mycat(%E4%B8%83)---%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/">
+        <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+        <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+        次浏览
+      </div>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>字数：4.4k字</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>时长：18分钟</p>
+    </a>
+  </div>
+
+
+          
+        
+      </div>
+    
+  </div>
+
+
+  
+  
+  <h3 id="MyCat高可用集群搭建"><a href="#MyCat高可用集群搭建" class="headerlink" title="MyCat高可用集群搭建"></a>MyCat高可用集群搭建</h3><h4 id="MyCat实现读写分离架构"><a href="#MyCat实现读写分离架构" class="headerlink" title="MyCat实现读写分离架构"></a>MyCat实现读写分离架构</h4><p>在上面的章节, 我们已经讲解过了通过MyCat来实现MySQL的读写分离, 从而完成MySQL集群的负载均衡 , 如下面的结构图: </p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151225.png" alt="image-20200104144550132"> </p>
+<p>但是以上架构存在问题 , 由于MyCat中间件是单节点的服务, 前端客户端所有的压力过来都直接请求这一台MyCat , 存在单点故障。所以这个时候， 我们就需要考虑MyCat的集群 ；</p>
+<h4 id="MyCat集群架构"><a href="#MyCat集群架构" class="headerlink" title="MyCat集群架构"></a>MyCat集群架构</h4><p>通过MyCat来实现后端MySQL的负载均衡 ， 通过HAProxy再实现MyCat集群的负载均衡 ; </p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151230.png" alt="image-20200104151016408"> </p>
+<p>HAProxy 负责将请求分发到 MyCat 上，起到负载均衡的作用，同时 HAProxy 也能检测到 MyCat 是否存活，HAProxy 只会将请求转发到存活的 MyCat 上。如果一台 MyCat 服务器宕机，HAPorxy 转发请求时不会转发到宕机的 MyCat 上，所以 MyCat 依然可用。</p>
+<p><strong>HAProxy介绍:</strong></p>
+<p>HAProxy 是一个开源的、高性能的基于TCP(第四层)和HTTP(第七层)应用的负载均衡软件。 使用HAProxy可以快速、可靠地实现基于TCP与HTTP应用的负载均衡解决方案。</p>
+<p>具有以下优点： </p>
+<p>①. 可靠性和稳定性好, 可以与硬件级的F5负载均衡服务器媲美 ;</p>
+<p>②. 处理能力强, 最高可以通过维护4w-5w个并发连接, 单位时间处理的最大请求数达到2w个 ;</p>
+<p>③. 支持多种负载均衡算法 ;</p>
+<p>④. 有功能强大的监控界面, 通过此页面可以实时了解系统的运行情况 ;</p>
+<p>但是， 上述的架构也是存在问题的， 因为所以的客户端请求都是先到达HAProxy, 由HAProxy再将请求再向下分发, 如果HAProxy宕机的话, 就会造成整个MyCat集群不能正常运行, 依然存在单点故障。</p>
+<h4 id="MyCat的高可用集群"><a href="#MyCat的高可用集群" class="headerlink" title="MyCat的高可用集群"></a>MyCat的高可用集群</h4><p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151236.png" alt="image-20200104153537319"> </p>
+<p><strong>图解说明：</strong><br>1). HAProxy 实现了 MyCat 多节点的集群高可用和负载均衡，而 HAProxy 自身的高可用则可以通过Keepalived 来实现。因此，HAProxy 主机上要同时安装 HAProxy 和 Keepalived，Keepalived 负责为该服务器抢占 vip（虚拟 ip），抢占到 vip 后，对该主机的访问可以通过原来的 ip访问，也可以直接通过 vip访问。</p>
+<p>2). Keepalived 抢占 vip 有优先级，在 keepalived.conf 配置中的 priority 属性决定。但是一般哪台主机上的Keepalived服务先启动就会抢占到vip，即使是slave，只要先启动也能抢到（要注意避免Keepalived的资源抢占问题）。</p>
+<p>3). HAProxy 负责将对 vip 的请求分发到 MyCat 集群节点上，起到负载均衡的作用。同时 HAProxy 也能检测到 MyCat 是否存活，HAProxy 只会将请求转发到存活的 MyCat 上。</p>
+<p>4). 如果 Keepalived+HAProxy 高可用集群中的一台服务器宕机，集群中另外一台服务器上的 Keepalived会立刻抢占 vip 并接管服务，此时抢占了 vip 的 HAProxy 节点可以继续提供服务。</p>
+<p>5). 如果一台 MyCat 服务器宕机，HAPorxy 转发请求时不会转发到宕机的 MyCat 上，所以 MyCat 依然可用。</p>
+<p>综上：MyCat 的高可用及负载均衡由 HAProxy 来实现，而 HAProxy 的高可用，由 Keepalived 来实现。</p>
+<p><strong>keepalived介绍:</strong></p>
+<p>Keepalived是一种基于VRRP协议来实现的高可用方案,可以利用其来避免单点故障。 通常有两台甚至多台服务器运行Keepalived，一台为主服务器(Master), 其他为备份服务器, 但是对外表现为一个虚拟IP(VIP), 主服务器会发送特定的消息给备份服务器, 当备份服务器接收不到这个消息时, 即认为主服务器宕机, 备份服务器就会接管虚拟IP, 继续提供服务, 从而保证了整个集群的高可用。<br>VRRP(虚拟路由冗余协议-Virtual Router Redundancy Protocol)协议是用于实现路由器冗余的协议，VRRP 协议将两台或多台路由器设备虚拟成一个设备，对外提供虚拟路由器 IP(一个或多个)，而在路由器组内部，如果实际拥有这个对外 IP 的路由器如果工作正常的话就是 MASTER，或者是通过算法选举产生。MASTER 实现针对虚拟路由器 IP 的各种网络功能，如 ARP 请求，ICMP，以及数据的转发等；其他设备不拥有该虚拟 IP，状态是 BACKUP，除了接收 MASTER 的VRRP 状态通告信息外，不执行对外的网络功能。当主机失效时，BACKUP 将接管原先 MASTER 的网络功能。VRRP 协议使用多播数据来传输 VRRP 数据，VRRP 数据使用特殊的虚拟源 MAC 地址发送数据而不是自身网卡的 MAC 地址，VRRP 运行时只有 MASTER 路由器定时发送 VRRP 通告信息，表示 MASTER 工作正常以及虚拟路由器 IP(组)，BACKUP 只接收 VRRP 数据，不发送数据，如果一定时间内没有接收到 MASTER 的通告信息，各 BACKUP 将宣告自己成为 MASTER，发送通告信息，重新进行 MASTER 选举状态。</p>
+<h3 id="高可用集群搭建"><a href="#高可用集群搭建" class="headerlink" title="高可用集群搭建"></a>高可用集群搭建</h3><h4 id="部署环境规划"><a href="#部署环境规划" class="headerlink" title="部署环境规划"></a>部署环境规划</h4><table>
+<thead>
+<tr>
+<th align="left">名称</th>
+<th align="center">IP</th>
+<th align="center">端口</th>
+<th align="center">用户名/密码</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">MySQL Master</td>
+<td align="center">192.168.192.157</td>
+<td align="center">3306</td>
+<td align="center">root/itcast</td>
+</tr>
+<tr>
+<td align="left">MySQL Slave</td>
+<td align="center">192.168.192.158</td>
+<td align="center">3306</td>
+<td align="center">root/itcast</td>
+</tr>
+<tr>
+<td align="left">MyCat节点1</td>
+<td align="center">192.168.192.157</td>
+<td align="center">8066</td>
+<td align="center">root/123456</td>
+</tr>
+<tr>
+<td align="left">MyCat节点2</td>
+<td align="center">192.168.192.158</td>
+<td align="center">8066</td>
+<td align="center">root/123456</td>
+</tr>
+<tr>
+<td align="left">HAProxy节点1/keepalived主</td>
+<td align="center">192.168.192.159</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="left">HAProxy节点2/keepalived备</td>
+<td align="center">192.168.192.160</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151241.png" alt="image-20200104153537319"> </p>
+<h4 id="MySQL主从复制搭建"><a href="#MySQL主从复制搭建" class="headerlink" title="MySQL主从复制搭建"></a>MySQL主从复制搭建</h4><h5 id="master"><a href="#master" class="headerlink" title="master"></a>master</h5><p>1） 在master 的配置文件（/usr/my.cnf）中，配置如下内容：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#mysql 服务ID,保证整个集群环境中唯一</span></span><br><span class="line"><span class="meta">server-id</span>=<span class="string">1</span></span><br><span class="line"><span class="comment">#mysql binlog 日志的存储路径和文件名</span></span><br><span class="line"><span class="meta">log-bin</span>=<span class="string">/var/lib/mysql/mysqlbin</span></span><br><span class="line"><span class="comment">#设置logbin格式</span></span><br><span class="line"><span class="attr">binlog_format</span>=<span class="string">STATEMENT</span></span><br><span class="line"><span class="comment">#是否只读,1 代表只读, 0 代表读写</span></span><br><span class="line"><span class="meta">read-only</span>=<span class="string">0</span></span><br><span class="line"><span class="comment">#指定同步的数据库</span></span><br><span class="line"><span class="meta">binlog-do-db</span>=<span class="string">db01</span></span><br><span class="line"><span class="meta">binlog-do-db</span>=<span class="string">db02</span></span><br><span class="line"><span class="meta">binlog-do-db</span>=<span class="string">db03</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>2） 执行完毕之后，需要重启Mysql：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service mysql restart ;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>3） 创建同步数据的账户，并且进行授权操作：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">grant</span> replication slave <span class="keyword">on</span> <span class="operator">*</span>.<span class="operator">*</span> <span class="keyword">to</span> <span class="string">&#x27;itcast&#x27;</span>@<span class="string">&#x27;%&#x27;</span> identified <span class="keyword">by</span> <span class="string">&#x27;itcast&#x27;</span>;	</span><br><span class="line"></span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>4） 查看master状态：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> master status;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151247.png" alt="image-20200104171647471">  </p>
+<p>字段含义:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">File : 从哪个日志文件开始推送日志文件 </span><br><span class="line">Position ： 从哪个位置开始推送日志</span><br><span class="line">Binlog_Do_DB : 指定需要同步的数据库</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="slave"><a href="#slave" class="headerlink" title="slave"></a>slave</h5><p>1） 在 slave 端配置文件中，配置如下内容：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#mysql服务端ID,唯一</span></span><br><span class="line"><span class="meta">server-id</span>=<span class="string">2</span></span><br><span class="line"><span class="comment">#指定binlog日志</span></span><br><span class="line"><span class="meta">log-bin</span>=<span class="string">/var/lib/mysql/mysqlbin</span></span><br><span class="line"><span class="comment">#启用中继日志</span></span><br><span class="line"><span class="meta">relay-log</span>=<span class="string">mysql-relay</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>2）  执行完毕之后，需要重启Mysql：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service mysql restart;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>3） 执行如下指令 ：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">change master <span class="keyword">to</span> master_host<span class="operator">=</span> <span class="string">&#x27;192.168.192.157&#x27;</span>, master_user<span class="operator">=</span><span class="string">&#x27;itcast&#x27;</span>, master_password<span class="operator">=</span><span class="string">&#x27;itcast&#x27;</span>, master_log_file<span class="operator">=</span><span class="string">&#x27;mysqlbin.000002&#x27;</span>, master_log_pos<span class="operator">=</span><span class="number">120</span>;</span><br></pre></td></tr></table></figure>
+
+<p>指定当前从库对应的主库的IP地址，用户名，密码，从哪个日志文件开始的那个位置开始同步推送日志。</p>
+<p>4） 开启同步操作</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">start slave;</span><br><span class="line">show slave status;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151251.png" alt="image-20200103144903105">  </p>
+<p>5） 停止同步操作</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stop slave;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="测试验证"><a href="#测试验证" class="headerlink" title="测试验证"></a>测试验证</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">create database db01;</span><br><span class="line"></span><br><span class="line">user db01;</span><br><span class="line"></span><br><span class="line"><span class="function">create table <span class="title">user</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">	id <span class="keyword">int</span>(<span class="number">11</span>)</span> not <span class="keyword">null</span> auto_increment,</span></span><br><span class="line"><span class="function">	name <span class="title">varchar</span><span class="params">(<span class="number">50</span>)</span> not <span class="keyword">null</span>,</span></span><br><span class="line"><span class="function">	sex <span class="title">varchar</span><span class="params">(<span class="number">1</span>)</span>,</span></span><br><span class="line"><span class="function">	primary <span class="title">key</span> <span class="params">(id)</span></span></span><br><span class="line"><span class="function">)engine</span>=innodb <span class="keyword">default</span> charset=utf8;</span><br><span class="line"></span><br><span class="line"><span class="function">insert into <span class="title">user</span><span class="params">(id,name,sex)</span> <span class="title">values</span><span class="params">(<span class="keyword">null</span>,<span class="string">&#x27;Tom&#x27;</span>,<span class="string">&#x27;1&#x27;</span>)</span></span>;</span><br><span class="line"><span class="function">insert into <span class="title">user</span><span class="params">(id,name,sex)</span> <span class="title">values</span><span class="params">(<span class="keyword">null</span>,<span class="string">&#x27;Trigger&#x27;</span>,<span class="string">&#x27;0&#x27;</span>)</span></span>;</span><br><span class="line"><span class="function">insert into <span class="title">user</span><span class="params">(id,name,sex)</span> <span class="title">values</span><span class="params">(<span class="keyword">null</span>,<span class="string">&#x27;Dawn&#x27;</span>,<span class="string">&#x27;1&#x27;</span>)</span></span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="MyCat安装配置"><a href="#MyCat安装配置" class="headerlink" title="MyCat安装配置"></a>MyCat安装配置</h4><h5 id="schema-xml"><a href="#schema-xml" class="headerlink" title="schema.xml"></a>schema.xml</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot;?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">mycat</span>:schema <span class="meta-keyword">SYSTEM</span> <span class="meta-string">&quot;schema.dtd&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mycat:schema</span> <span class="attr">xmlns:mycat</span>=<span class="string">&quot;http://io.mycat/&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">schema</span> <span class="attr">name</span>=<span class="string">&quot;ITCAST&quot;</span> <span class="attr">checkSQLschema</span>=<span class="string">&quot;true&quot;</span> <span class="attr">sqlMaxLimit</span>=<span class="string">&quot;100&quot;</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;user&quot;</span> <span class="attr">dataNode</span>=<span class="string">&quot;dn1&quot;</span> <span class="attr">primaryKey</span>=<span class="string">&quot;id&quot;</span>/&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">schema</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">dataNode</span> <span class="attr">name</span>=<span class="string">&quot;dn1&quot;</span> <span class="attr">dataHost</span>=<span class="string">&quot;localhost1&quot;</span> <span class="attr">database</span>=<span class="string">&quot;db01&quot;</span> /&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">dataHost</span> <span class="attr">name</span>=<span class="string">&quot;localhost1&quot;</span> <span class="attr">maxCon</span>=<span class="string">&quot;1000&quot;</span> <span class="attr">minCon</span>=<span class="string">&quot;10&quot;</span> <span class="attr">balance</span>=<span class="string">&quot;1&quot;</span> <span class="attr">writeType</span>=<span class="string">&quot;0&quot;</span> <span class="attr">dbType</span>=<span class="string">&quot;mysql&quot;</span> 	</span></span><br><span class="line"><span class="tag">				<span class="attr">dbDriver</span>=<span class="string">&quot;native&quot;</span> <span class="attr">switchType</span>=<span class="string">&quot;1&quot;</span>  <span class="attr">slaveThreshold</span>=<span class="string">&quot;100&quot;</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">heartbeat</span>&gt;</span>select user()<span class="tag">&lt;/<span class="name">heartbeat</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">writeHost</span> <span class="attr">host</span>=<span class="string">&quot;hostM1&quot;</span> <span class="attr">url</span>=<span class="string">&quot;192.168.192.157:3306&quot;</span> <span class="attr">user</span>=<span class="string">&quot;root&quot;</span> <span class="attr">password</span>=<span class="string">&quot;itcast&quot;</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">readHost</span> <span class="attr">host</span>=<span class="string">&quot;hostS1&quot;</span> <span class="attr">url</span>=<span class="string">&quot;192.168.192.158:3306&quot;</span> <span class="attr">user</span>=<span class="string">&quot;root&quot;</span> <span class="attr">password</span>=<span class="string">&quot;itcast&quot;</span> /&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">writeHost</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dataHost</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">mycat:schema</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="server-xml"><a href="#server-xml" class="headerlink" title="server.xml"></a>server.xml</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">user</span> <span class="attr">name</span>=<span class="string">&quot;root&quot;</span> <span class="attr">defaultAccount</span>=<span class="string">&quot;true&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;password&quot;</span>&gt;</span>123456<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;schemas&quot;</span>&gt;</span>ITCAST<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">user</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">user</span> <span class="attr">name</span>=<span class="string">&quot;test&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;password&quot;</span>&gt;</span>123456<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;schemas&quot;</span>&gt;</span>ITCAST<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">user</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>两台MyCat服务, 做相同的配置 ;</p>
+<h4 id="HAProxy安装配置"><a href="#HAProxy安装配置" class="headerlink" title="HAProxy安装配置"></a>HAProxy安装配置</h4><h5 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h5><p>1). 准备好HAProxy安装包，传到/root目录下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">haproxy-1.5.16.tar.gz</span><br></pre></td></tr></table></figure>
+
+
+
+<p>2). 解压到/usr/local/src目录下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf haproxy-1.5.16.tar.gz -C /usr/local/src</span><br></pre></td></tr></table></figure>
+
+
+
+<p>3). 进入解压后的目录，查看内核版本，进行编译</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/src/haproxy-1.5.16</span><br><span class="line">uname -r</span><br><span class="line">make TARGET=linux2632 PREFIX=/usr/local/haproxy ARCH=x86_64</span><br><span class="line"></span><br><span class="line"># TARGET=linux310，内核版本，使用uname -r查看内核，如：2.6.32-431.el6.x86_64，此时该参数就为linux2632；</span><br><span class="line"># ARCH=x86_64，系统位数；</span><br><span class="line"># PREFIX=/usr/local/haprpxy #/usr/local/haprpxy，为haprpxy安装路径。</span><br></pre></td></tr></table></figure>
+
+
+
+<p>4). 编译完成后，进行安装</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make install PREFIX=/usr/local/haproxy</span><br></pre></td></tr></table></figure>
+
+
+
+<p>5). 安装完成后，创建目录</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /usr/data/haproxy/</span><br></pre></td></tr></table></figure>
+
+
+
+<p>6). 创建HAProxy配置文件</p>
+<p>vim /usr/local/haproxy/haproxy.conf</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">global</span></span><br><span class="line">	<span class="string">log</span> <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span> <span class="string">local0</span> </span><br><span class="line">	<span class="string">maxconn</span> <span class="number">4096</span> </span><br><span class="line">	<span class="string">chroot</span> <span class="string">/usr/local/haproxy</span> </span><br><span class="line">	<span class="string">pidfile</span> <span class="string">/usr/data/haproxy/haproxy.pid</span></span><br><span class="line">	<span class="string">uid</span> <span class="number">99</span></span><br><span class="line">	<span class="string">gid</span> <span class="number">99</span></span><br><span class="line">	<span class="string">daemon</span></span><br><span class="line">	<span class="string">node</span> <span class="string">mysql-haproxy-01</span></span><br><span class="line">	<span class="string">description</span> <span class="string">mysql-haproxy-01</span></span><br><span class="line"><span class="string">defaults</span></span><br><span class="line">	<span class="string">log</span> <span class="string">global</span></span><br><span class="line">	<span class="string">mode</span> <span class="string">tcp</span></span><br><span class="line">	<span class="string">option</span> <span class="string">abortonclose</span></span><br><span class="line">	<span class="string">option</span> <span class="string">redispatch</span></span><br><span class="line">	<span class="string">retries</span> <span class="number">3</span></span><br><span class="line">	<span class="string">maxconn</span> <span class="number">2000</span></span><br><span class="line">	<span class="string">timeout</span> <span class="string">connect</span> <span class="string">50000ms</span></span><br><span class="line">	<span class="string">timeout</span> <span class="string">client</span> <span class="string">50000ms</span></span><br><span class="line">	<span class="string">timeout</span> <span class="string">server</span> <span class="string">50000ms</span></span><br><span class="line"><span class="string">listen</span> <span class="string">proxy_status</span></span><br><span class="line">	<span class="string">bind</span> <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span><span class="string">:48066</span></span><br><span class="line">		<span class="string">mode</span> <span class="string">tcp</span></span><br><span class="line">		<span class="string">balance</span> <span class="string">roundrobin</span></span><br><span class="line">		<span class="string">server</span> <span class="string">mycat_1</span> <span class="number">192.168</span><span class="number">.192</span><span class="number">.157</span><span class="string">:8066</span> <span class="string">check</span></span><br><span class="line">		<span class="string">server</span> <span class="string">mycat_2</span> <span class="number">192.168</span><span class="number">.192</span><span class="number">.158</span><span class="string">:8066</span> <span class="string">check</span></span><br><span class="line"><span class="string">frontend</span> <span class="string">admin_stats</span></span><br><span class="line">	<span class="string">bind</span> <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span><span class="string">:8888</span></span><br><span class="line">		<span class="string">mode</span> <span class="string">http</span></span><br><span class="line">		<span class="string">stats</span> <span class="string">enable</span></span><br><span class="line">		<span class="string">option</span> <span class="string">httplog</span></span><br><span class="line">		<span class="string">maxconn</span> <span class="number">10</span></span><br><span class="line">		<span class="string">stats</span> <span class="string">refresh</span> <span class="string">30s</span></span><br><span class="line">		<span class="string">stats</span> <span class="string">uri</span> <span class="string">/admin</span></span><br><span class="line">		<span class="string">stats</span> <span class="string">auth</span> <span class="string">admin:123123</span></span><br><span class="line">		<span class="string">stats</span> <span class="string">hide-version</span></span><br><span class="line">		<span class="string">stats</span> <span class="string">admin</span> <span class="string">if</span> <span class="literal">TRUE</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>内容解析如下</strong> : </p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#global 配置中的参数为进程级别的参数，通常与其运行的操作系统有关</span></span><br><span class="line"><span class="string">global</span></span><br><span class="line">	<span class="comment">#定义全局的syslog服务器, 最多可定义2个; local0 是日志设备, 对应于/etc/rsyslog.conf中的配置 , 默认收集info级别日志</span></span><br><span class="line">	<span class="string">log</span> <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span> <span class="string">local0</span> </span><br><span class="line">	<span class="comment">#log 127.0.0.1 local1 notice</span></span><br><span class="line">	<span class="comment">#log loghost local0 info</span></span><br><span class="line">	<span class="comment">#设定每个haproxy进程所接受的最大并发连接数 ;</span></span><br><span class="line">	<span class="string">maxconn</span> <span class="number">4096</span> </span><br><span class="line">	<span class="comment">#修改HAproxy工作目录至指定的目录并在放弃权限之前执行chroot操作, 可以提升haproxy的安全级别</span></span><br><span class="line">	<span class="string">chroot</span> <span class="string">/usr/local/haproxy</span> </span><br><span class="line">	<span class="comment">#进程ID保存文件</span></span><br><span class="line">	<span class="string">pidfile</span> <span class="string">/usr/data/haproxy/haproxy.pid</span></span><br><span class="line">	<span class="comment">#指定用户ID</span></span><br><span class="line">	<span class="string">uid</span> <span class="number">99</span></span><br><span class="line">	<span class="comment">#指定组ID</span></span><br><span class="line">	<span class="string">gid</span> <span class="number">99</span></span><br><span class="line">	<span class="comment">#设置HAproxy以守护进程方式运行</span></span><br><span class="line">	<span class="string">daemon</span></span><br><span class="line">	<span class="comment">#debug</span></span><br><span class="line">	<span class="comment">#quiet</span></span><br><span class="line">	<span class="string">node</span> <span class="string">mysql-haproxy-01</span>  <span class="comment">## 定义当前节点的名称，用于 HA 场景中多 haproxy 进程共享同一个 IP 地址时</span></span><br><span class="line">	<span class="string">description</span> <span class="string">mysql-haproxy-01</span> <span class="comment">## 当前实例的描述信息</span></span><br><span class="line">	</span><br><span class="line"><span class="comment">#defaults：用于为所有其他配置段提供默认参数，这默认配置参数可由下一个&quot;defaults&quot;所重新设定</span></span><br><span class="line"><span class="string">defaults</span></span><br><span class="line">	<span class="comment">#继承global中的log定义</span></span><br><span class="line">	<span class="string">log</span> <span class="string">global</span></span><br><span class="line">	<span class="comment">#所使用的处理模式(tcp:四层 , http:七层, health:状态检查,只返回OK)</span></span><br><span class="line">	<span class="comment">### tcp: 实例运行于纯 tcp 模式，在客户端和服务器端之间将建立一个全双工的连接，且不会对 7 层报文做任何类型的检查，此为默认模式</span></span><br><span class="line">	<span class="comment">### http:实例运行于 http 模式，客户端请求在转发至后端服务器之前将被深度分析，所有不与 RFC 模式兼容的请求都会被拒绝</span></span><br><span class="line">	<span class="comment">### health：实例运行于 health 模式，其对入站请求仅响应“OK”信息并关闭连接，且不会记录任何日志信息 ，此模式将用于相应外部组件的监控状态检测请求</span></span><br><span class="line">	<span class="string">mode</span> <span class="string">tcp</span></span><br><span class="line">	<span class="comment">#当服务器负载很高的时候，自动结束掉当前队列处理时间比较长的连接</span></span><br><span class="line">	<span class="string">option</span> <span class="string">abortonclose</span></span><br><span class="line">		</span><br><span class="line">	<span class="comment">#当使用了cookie时，haproxy将会将请求的后端服务器的serverID插入到cookie中，以保证会话的session持久性，而此时，后端服务器宕机，但是客户端的cookie不会刷新，设置此参数，将会将客户请求强制定向到另外一个后端server上，以保证服务的正常。</span></span><br><span class="line">	<span class="string">option</span> <span class="string">redispatch</span></span><br><span class="line">	<span class="string">retries</span> <span class="number">3</span></span><br><span class="line">	<span class="comment"># 前端的最大并发连接数（默认为 2000）</span></span><br><span class="line">	<span class="string">maxconn</span> <span class="number">2000</span></span><br><span class="line">	<span class="comment"># 连接超时(默认是毫秒,单位可以设置 us,ms,s,m,h,d)</span></span><br><span class="line">	<span class="string">timeout</span> <span class="string">connect</span> <span class="number">5000</span></span><br><span class="line">	<span class="comment"># 客户端超时时间</span></span><br><span class="line">	<span class="string">timeout</span> <span class="string">client</span> <span class="number">50000</span></span><br><span class="line">	<span class="comment"># 服务器超时时间</span></span><br><span class="line">	<span class="string">timeout</span> <span class="string">server</span> <span class="number">50000</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#listen: 用于定义通过关联“前端”和“后端”一个完整的代理，通常只对 TCP 流量有用</span></span><br><span class="line"><span class="string">listen</span> <span class="string">proxy_status</span></span><br><span class="line">	<span class="string">bind</span> <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span><span class="string">:48066</span> <span class="comment"># 绑定端口</span></span><br><span class="line">		<span class="string">mode</span> <span class="string">tcp</span></span><br><span class="line">		<span class="string">balance</span> <span class="string">roundrobin</span> <span class="comment"># 定义负载均衡算法，可用于&quot;defaults&quot;、&quot;listen&quot;和&quot;backend&quot;中,默认为轮询</span></span><br><span class="line">		<span class="comment">#格式: server &lt;name&gt; &lt;address&gt; [:[port]] [param*]</span></span><br><span class="line">		<span class="comment"># weight : 权重，默认为 1，最大值为 256，0 表示不参与负载均衡</span></span><br><span class="line">        <span class="comment"># backup : 设定为备用服务器，仅在负载均衡场景中的其他 server 均不可以启用此 server</span></span><br><span class="line">        <span class="comment"># check  : 启动对此 server 执行监控状态检查，其可以借助于额外的其他参数完成更精细的设定</span></span><br><span class="line">        <span class="comment"># inter  : 设定监控状态检查的时间间隔，单位为毫秒，默认为 2000，也可以使用 fastinter 和 downinter 来根据服务器端专题优化此事件延迟</span></span><br><span class="line">        <span class="comment"># rise   : 设置 server 从离线状态转换至正常状态需要检查的次数（不设置的情况下，默认值为 2）</span></span><br><span class="line">        <span class="comment"># fall   : 设置 server 从正常状态转换至离线状态需要检查的次数（不设置的情况下，默认值为 3）</span></span><br><span class="line">        <span class="comment"># cookie : 为指定 server 设定 cookie 值，此处指定的值将会在请求入站时被检查，第一次为此值挑选的 server 将会被后续的请求所选中，其目的在于实现持久连接的功能</span></span><br><span class="line">        <span class="comment"># maxconn: 指定此服务器接受的最大并发连接数，如果发往此服务器的连接数目高于此处指定的值，其将被放置于请求队列，以等待其他连接被释放</span></span><br><span class="line">		<span class="string">server</span> <span class="string">mycat_1</span> <span class="number">192.168</span><span class="number">.192</span><span class="number">.157</span><span class="string">:8066</span> <span class="string">check</span> <span class="string">inter</span> <span class="string">10s</span></span><br><span class="line">		<span class="string">server</span> <span class="string">mycat_2</span> <span class="number">192.168</span><span class="number">.192</span><span class="number">.158</span><span class="string">:8066</span> <span class="string">check</span> <span class="string">inter</span> <span class="string">10s</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 用来匹配接收客户所请求的域名，uri等，并针对不同的匹配，做不同的请求处理</span></span><br><span class="line"><span class="comment"># HAProxy 的状态信息统计页面</span></span><br><span class="line"><span class="string">frontend</span> <span class="string">admin_stats</span></span><br><span class="line">	<span class="string">bind</span> <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span><span class="string">:8888</span></span><br><span class="line">		<span class="string">mode</span> <span class="string">http</span></span><br><span class="line">		<span class="string">stats</span> <span class="string">enable</span></span><br><span class="line">		<span class="string">option</span> <span class="string">httplog</span></span><br><span class="line">		<span class="string">maxconn</span> <span class="number">10</span></span><br><span class="line">		<span class="string">stats</span> <span class="string">refresh</span> <span class="string">30s</span></span><br><span class="line">		<span class="string">stats</span> <span class="string">uri</span> <span class="string">/admin</span></span><br><span class="line">		<span class="string">stats</span> <span class="string">auth</span> <span class="string">admin:123123</span></span><br><span class="line">		<span class="string">stats</span> <span class="string">hide-version</span></span><br><span class="line">		<span class="string">stats</span> <span class="string">admin</span> <span class="string">if</span> <span class="literal">TRUE</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>HAProxy的负载均衡策略: </p>
+<table>
+<thead>
+<tr>
+<th>策略</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>roundrobin</td>
+<td>表示简单的轮循，即客户端每访问一次，请求轮循跳转到后端不同的节点机器上</td>
+</tr>
+<tr>
+<td>static-rr</td>
+<td>基于权重轮循，根据权重轮循调度到后端不同节点</td>
+</tr>
+<tr>
+<td>leastconn</td>
+<td>加权最少连接，表示最少连接者优先处理</td>
+</tr>
+<tr>
+<td>source</td>
+<td>表示根据请求源IP，这个跟Nginx的IP_hash机制类似，使用其作为解决session问题的一种方法</td>
+</tr>
+<tr>
+<td>uri</td>
+<td>表示根据请求的URL，调度到后端不同的服务器</td>
+</tr>
+<tr>
+<td>url_param</td>
+<td>表示根据请求的URL参数来进行调度</td>
+</tr>
+<tr>
+<td>hdr（name）</td>
+<td>表示根据HTTP请求头来锁定每一次HTTP请求</td>
+</tr>
+<tr>
+<td>rdp-cookie（name）</td>
+<td>表示根据cookie（name）来锁定并哈希每一次TCP请求</td>
+</tr>
+</tbody></table>
+<h5 id="启动访问"><a href="#启动访问" class="headerlink" title="启动访问"></a>启动访问</h5><p>1). 启动HAProxy</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/haproxy/sbin/haproxy -f /usr/local/haproxy/haproxy.conf</span><br></pre></td></tr></table></figure>
+
+
+
+<p>2). 查看HAProxy进程</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps -ef|grep haproxy</span><br></pre></td></tr></table></figure>
+
+
+
+<p>3). 访问</p>
+<p><a target="_blank" rel="noopener" href="http://192.168.192.162:8888/admin">http://192.168.192.162:8888/admin</a></p>
+<p>界面: </p>
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151301.png" alt="image-20200202214408231">  </p>
+<h4 id="Keepalived安装配置"><a href="#Keepalived安装配置" class="headerlink" title="Keepalived安装配置"></a>Keepalived安装配置</h4><p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151304.png" alt="image-20200203010953404"> </p>
+<h5 id="安装配置"><a href="#安装配置" class="headerlink" title="安装配置"></a>安装配置</h5><p>1). 上传安装包到Linux</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alt + p --------&gt; put D:/tmp/keepalived-1.4.5.tar.gz</span><br></pre></td></tr></table></figure>
+
+
+
+<p>2). 解压安装包到目录 /usr/local/src</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf keepalived-1.4.5.tar.gz -C /usr/local/src</span><br></pre></td></tr></table></figure>
+
+
+
+<p>3). 安装依赖插件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y gcc openssl-devel popt-devel</span><br></pre></td></tr></table></figure>
+
+
+
+<p>4). 进入解压后的目录，进行配置，进行编译</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/src/keepalived-1.4.5</span><br><span class="line"></span><br><span class="line">./configure --prefix=/usr/local/keepalived</span><br></pre></td></tr></table></figure>
+
+
+
+<p>5). 进行编译，完成后进行安装</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
+
+
+
+<p>6). 运行前配置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cp /usr/local/src/keepalived-1.4.5/keepalived/etc/init.d/keepalived /etc/init.d/</span><br><span class="line">mkdir /etc/keepalived</span><br><span class="line">cp /usr/local/keepalived/etc/keepalived/keepalived.conf /etc/keepalived/</span><br><span class="line">cp /usr/local/src/keepalived-1.4.5/keepalived/etc/sysconfig/keepalived /etc/sysconfig/</span><br><span class="line">cp /usr/local/keepalived/sbin/keepalived /usr/sbin/</span><br></pre></td></tr></table></figure>
+
+
+
+<p>7). 修改配置文件 /etc/keepalived/keepalived.conf</p>
+<p>Master: </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">global_defs &#123;</span><br><span class="line">	notification_email &#123;</span><br><span class="line">		javadct@163.com</span><br><span class="line">	&#125;</span><br><span class="line">	notification_email_from keepalived@showjoy.com</span><br><span class="line">	smtp_server 127.0.0.1</span><br><span class="line">	smtp_connect_timeout 30</span><br><span class="line">	router_id haproxy01</span><br><span class="line">	vrrp_skip_check_adv_addr</span><br><span class="line">	vrrp_garp_interval 0</span><br><span class="line">	vrrp_gna_interval 0</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">vrrp_script chk_haproxy &#123;</span><br><span class="line">	script &quot;/etc/keepalived/haproxy_check.sh&quot;</span><br><span class="line">	interval 2</span><br><span class="line">	weight 2</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">vrrp_instance VI_1 &#123;</span><br><span class="line">	#主机配MASTER，备机配BACKUP</span><br><span class="line">	state MASTER</span><br><span class="line">	#所在机器网卡</span><br><span class="line">	interface eth1</span><br><span class="line">	virtual_router_id 51</span><br><span class="line">	#数值越大优先级越高</span><br><span class="line">	priority 120</span><br><span class="line">	advert_int 1</span><br><span class="line">	authentication &#123;</span><br><span class="line">		auth_type PASS</span><br><span class="line">		auth_pass 1111</span><br><span class="line">	&#125;</span><br><span class="line">	## 将 track_script 块加入 instance 配置块</span><br><span class="line">    track_script &#123;</span><br><span class="line">    	chk_haproxy ## 检查 HAProxy 服务是否存活</span><br><span class="line">    &#125;</span><br><span class="line">	virtual_ipaddress &#123;</span><br><span class="line">		#虚拟IP</span><br><span class="line">		192.168.192.200</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>BackUP:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">global_defs &#123;</span><br><span class="line">	notification_email &#123;</span><br><span class="line">		javadct@163.com</span><br><span class="line">	&#125;</span><br><span class="line">	notification_email_from keepalived@showjoy.com</span><br><span class="line">	smtp_server 127.0.0.1</span><br><span class="line">	smtp_connect_timeout 30</span><br><span class="line">	#标识本节点</span><br><span class="line">	router_id haproxy02</span><br><span class="line">	vrrp_skip_check_adv_addr</span><br><span class="line">	vrrp_garp_interval 0</span><br><span class="line">	vrrp_gna_interval 0</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># keepalived 会定时执行脚本并对脚本执行的结果进行分析，动态调整 vrrp_instance 的优先级</span><br><span class="line">vrrp_script chk_haproxy &#123;</span><br><span class="line">	# 检测 haproxy 状态的脚本路径</span><br><span class="line">	script &quot;/etc/keepalived/haproxy_check.sh&quot;</span><br><span class="line">	#检测时间间隔</span><br><span class="line">	interval 2</span><br><span class="line">	#如果条件成立，权重+2</span><br><span class="line">	weight 2</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">vrrp_instance VI_1 &#123;</span><br><span class="line">	#主机配MASTER，备机配BACKUP</span><br><span class="line">	state BACKUP</span><br><span class="line">	#所在机器网卡</span><br><span class="line">	interface eth1</span><br><span class="line">	virtual_router_id 51</span><br><span class="line">	#数值越大优先级越高</span><br><span class="line">	priority 100</span><br><span class="line">	advert_int 1</span><br><span class="line">	authentication &#123;</span><br><span class="line">		auth_type PASS</span><br><span class="line">		auth_pass 1111</span><br><span class="line">	&#125;</span><br><span class="line">	## 将 track_script 块加入 instance 配置块</span><br><span class="line">    track_script &#123;</span><br><span class="line">    	chk_haproxy ## 检查 HAProxy 服务是否存活</span><br><span class="line">    &#125;</span><br><span class="line">	virtual_ipaddress &#123;</span><br><span class="line">		#虚拟IP</span><br><span class="line">		192.168.192.200</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>8). 编写检测haproxy的shell脚本 haproxy_check.sh</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line"></span><br><span class="line">A=`ps -C haproxy --no-header | wc -l`</span><br><span class="line"></span><br><span class="line">if [ $A -eq 0 ];then</span><br><span class="line"></span><br><span class="line">  /usr/local/haproxy/sbin/haproxy -f /usr/local/haproxy/haproxy.conf</span><br><span class="line"></span><br><span class="line">  echo &quot;haproxy restart ...&quot; &amp;&gt; /dev/null</span><br><span class="line"></span><br><span class="line">  sleep 1</span><br><span class="line"></span><br><span class="line">  if [ `ps -C haproxy --no-header | wc -l` -eq 0 ];then</span><br><span class="line"></span><br><span class="line">    /etc/init.d/keepalived stop</span><br><span class="line"></span><br><span class="line">    echo &quot;stop keepalived&quot; &amp;&gt; /dev/null</span><br><span class="line"></span><br><span class="line">  fi</span><br><span class="line"></span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="启动测试"><a href="#启动测试" class="headerlink" title="启动测试"></a>启动测试</h5><p>1). 启动Keepalived</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service keepalived start</span><br></pre></td></tr></table></figure>
+
+<p>2). 登录验证</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -uroot -p123456 -h 192.168.192.200 -P 48066</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151310.png" alt="image-20200202193227448"> </p>
+
+  
+  
+    
+    <div class='footer'>
+      
+      
+      
+        <div class='copyright'>
+          <blockquote>
+            
+              
+                <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+              
+            
+              
+                <p>本文永久链接是：<a href=https://zhaoshuchao.top/2021/06/21/Mycat(%E4%B8%83)---%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/>https://zhaoshuchao.top/2021/06/21/Mycat(%E4%B8%83)---%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/</a></p>
+              
+            
+          </blockquote>
+        </div>
+      
+      
+    </div>
+  
+  
+    
+
+
+  <div class='article-meta' id="bottom">
+    <div class='new-meta-box'>
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/MyCat/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>MyCat</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>分库分表</p></a></div>
+
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://zhaoshuchao.top/2021/06/21/Mycat(%E4%B8%83)---%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/&title=MyCat(七)---高可用集群搭建 - Never Meet Blog&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://zhaoshuchao.top/2021/06/21/Mycat(%E4%B8%83)---%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/&title=MyCat(七)---高可用集群搭建 - Never Meet Blog&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://service.weibo.com/share/share.php?url=https://zhaoshuchao.top/2021/06/21/Mycat(%E4%B8%83)---%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA/&title=MyCat(七)---高可用集群搭建 - Never Meet Blog&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+        
+          
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>字数：4.4k字</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>时长：18分钟</p>
+    </a>
+  </div>
+
+
+        
+      
+    </div>
+  </div>
+
+
+  
+  
+
+  
+    <div class="prev-next">
+      
+        <a class='prev' href='/2021/06/22/MyCat(%E5%85%AD)---%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB/'>
+          <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>MyCat(六)---读写分离</p>
+          <p class='content'>MySQL主从复制原理复制是指将主数据库的DDL 和 DML 操作通过二进制日志传到从库服务器中，然后在从库上对这些日志重新执行（也叫重做），从而使得从库和主库的数据保持同步。
+MySQL支持一...</p>
+        </a>
+      
+      
+        <a class='next' href='/2021/06/20/MyCat(%E5%85%AB)---%E6%9E%B6%E6%9E%84%E8%A7%A3%E6%9E%90/'>
+          <p class='title'>MyCat(八)---架构解析<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+          <p class='content'>MyCat总体架构介绍源码下载及导入 
+导入Idea
+ 
+总体架构MyCat在逻辑上由几个模块组成: 通信协议、路由解析、结果集处理、数据库连接、监控等模块。如图所示： 
+ 
+1). 通信协议模...</p>
+        </a>
+      
+    </div>
+  
+</article>
+
+
+  
+
+  <article class="post white-box reveal shadow" id="comments">
+    <p ct><i class='fas fa-comments'></i> 评论</p>
+    
+    <div id="valine_container" class="valine_thread">
+  <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
+</div>
+
+  </article>
+
+
+
+
+
+
+</div>
+<aside class='l_side'>
+  
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#MyCat%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA"><span class="toc-text">MyCat高可用集群搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#MyCat%E5%AE%9E%E7%8E%B0%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB%E6%9E%B6%E6%9E%84"><span class="toc-text">MyCat实现读写分离架构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MyCat%E9%9B%86%E7%BE%A4%E6%9E%B6%E6%9E%84"><span class="toc-text">MyCat集群架构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MyCat%E7%9A%84%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4"><span class="toc-text">MyCat的高可用集群</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA"><span class="toc-text">高可用集群搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2%E7%8E%AF%E5%A2%83%E8%A7%84%E5%88%92"><span class="toc-text">部署环境规划</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E6%90%AD%E5%BB%BA"><span class="toc-text">MySQL主从复制搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#master"><span class="toc-text">master</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#slave"><span class="toc-text">slave</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E9%AA%8C%E8%AF%81"><span class="toc-text">测试验证</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MyCat%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE"><span class="toc-text">MyCat安装配置</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#schema-xml"><span class="toc-text">schema.xml</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#server-xml"><span class="toc-text">server.xml</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HAProxy%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE"><span class="toc-text">HAProxy安装配置</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-text">安装</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E8%AE%BF%E9%97%AE"><span class="toc-text">启动访问</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Keepalived%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE"><span class="toc-text">Keepalived安装配置</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE"><span class="toc-text">安装配置</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E6%B5%8B%E8%AF%95"><span class="toc-text">启动测试</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </section>
+
+
+  
+
+  
+    
+    
+  
+
+  <section class="widget category shadow desktop">
+    
+  <header>
+    
+      <a href='/blog/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+    
+  </header>
+
+
+    <div class='content'>
+      <ul class="entry navigation">
+        
+          <li><a class="flat-box"
+            title="/categories/Hexo/" href="/categories/Hexo/"
+            id="categoriesHexo"
+            ><div class='name'>Hexo</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/Java/" href="/categories/Java/"
+            id="categoriesJava"
+            ><div class='name'>Java</div><div class='badge'>(13)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/Java/JUC/" href="/categories/Java/JUC/"
+            id="categoriesJavaJUC"
+            ><div class='name'>JUC</div><div class='badge'>(6)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/Java/JVM/" href="/categories/Java/JVM/"
+            id="categoriesJavaJVM"
+            ><div class='name'>JVM</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/Java/Java%E5%9F%BA%E7%A1%80/" href="/categories/Java/Java%E5%9F%BA%E7%A1%80/"
+            id="categoriesJavaJavaE59FBAE7A180"
+            ><div class='name'>Java基础</div><div class='badge'>(3)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/Java/Redis/" href="/categories/Java/Redis/"
+            id="categoriesJavaRedis"
+            ><div class='name'>Redis</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/MySQL/" href="/categories/MySQL/"
+            id="categoriesMySQL"
+            ><div class='name'>MySQL</div><div class='badge'>(16)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/MySQL/MyCat/" href="/categories/MySQL/MyCat/"
+            id="categoriesMySQLMyCat"
+            ><div class='name'>MyCat</div><div class='badge'>(9)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/MySQL/SQL%E4%BC%98%E5%8C%96/" href="/categories/MySQL/SQL%E4%BC%98%E5%8C%96/"
+            id="categoriesMySQLSQLE4BC98E58C96"
+            ><div class='name'>SQL优化</div><div class='badge'>(3)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/MySQL/SQL%E8%AF%AD%E5%8F%A5/" href="/categories/MySQL/SQL%E8%AF%AD%E5%8F%A5/"
+            id="categoriesMySQLSQLE8AFADE58FA5"
+            ><div class='name'>SQL语句</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/MySQL/%E4%BA%8B%E5%8A%A1/" href="/categories/MySQL/%E4%BA%8B%E5%8A%A1/"
+            id="categoriesMySQLE4BA8BE58AA1"
+            ><div class='name'>事务</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/MySQL/%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86/" href="/categories/MySQL/%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86/"
+            id="categoriesMySQLE794A8E688B7E7AEA1E79086"
+            ><div class='name'>用户管理</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/MySQL/%E7%B4%A2%E5%BC%95/" href="/categories/MySQL/%E7%B4%A2%E5%BC%95/"
+            id="categoriesMySQLE7B4A2E5BC95"
+            ><div class='name'>索引</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E5%B7%A5%E5%85%B7/" href="/categories/%E5%B7%A5%E5%85%B7/"
+            id="categoriesE5B7A5E585B7"
+            ><div class='name'>工具</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child"
+            title="/categories/%E5%B7%A5%E5%85%B7/%E5%9B%BE%E5%BA%8A/" href="/categories/%E5%B7%A5%E5%85%B7/%E5%9B%BE%E5%BA%8A/"
+            id="categoriesE5B7A5E585B7E59BBEE5BA8A"
+            ><div class='name'>图床</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"
+            id="categoriesE8AEA1E7AE97E69CBAE7BD91E7BB9C"
+            ><div class='name'>计算机网络</div><div class='badge'>(3)</div></a></li>
+        
+          <li><a class="flat-box"
+            title="/categories/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/" href="/categories/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/"
+            id="categoriesE997AEE9A298E99A8FE7AC94"
+            ><div class='name'>问题随笔</div><div class='badge'>(5)</div></a></li>
+        
+      </ul>
+    </div>
+  </section>
+
+
+  
+
+  
+    
+    
+  
+
+  <section class="widget tagcloud shadow desktop mobile">
+    
+  <header>
+    
+      <a href='/blog/tags/'><i class="fas fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
+    
+  </header>
+
+
+    <div class='content'>
+      <a href="/tags/GC/" style="font-size: 1px; color: #999">GC</a> <a href="/tags/Hexo/" style="font-size: 5.6px; color: #8b8b8b">Hexo</a> <a href="/tags/JUC/" style="font-size: 14.8px; color: #707070">JUC</a> <a href="/tags/JVM/" style="font-size: 5.6px; color: #8b8b8b">JVM</a> <a href="/tags/Java/" style="font-size: 1px; color: #999">Java</a> <a href="/tags/JavaSE/" style="font-size: 10.2px; color: #7e7e7e">JavaSE</a> <a href="/tags/Linux/" style="font-size: 1px; color: #999">Linux</a> <a href="/tags/MyCat/" style="font-size: 24px; color: #555">MyCat</a> <a href="/tags/MySQL/" style="font-size: 19.4px; color: #636363">MySQL</a> <a href="/tags/Redis/" style="font-size: 5.6px; color: #8b8b8b">Redis</a> <a href="/tags/%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8/" style="font-size: 24px; color: #555">分库分表</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 1px; color: #999">工具</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" style="font-size: 14.8px; color: #707070">并发编程</a> <a href="/tags/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 1px; color: #999">微信小程序</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10.2px; color: #7e7e7e">数据库</a> <a href="/tags/%E7%B4%A2%E5%BC%95/" style="font-size: 1px; color: #999">索引</a> <a href="/tags/%E7%BA%BF%E7%A8%8B/" style="font-size: 5.6px; color: #8b8b8b">线程</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10.2px; color: #7e7e7e">计算机网络</a> <a href="/tags/%E9%94%81/" style="font-size: 5.6px; color: #8b8b8b">锁</a> <a href="/tags/%E9%97%AE%E9%A2%98%E9%9A%8F%E7%AC%94/" style="font-size: 10.2px; color: #7e7e7e">问题随笔</a> <a href="/tags/%E9%9B%86%E5%90%88/" style="font-size: 5.6px; color: #8b8b8b">集合</a>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+
+		  
+		  <!--此文件用来存放一些不方便取值的变量-->
+<!--思路大概是将值藏到重加载的区域内-->
+
+<script>
+  window.pdata={}
+  pdata.ispage=true;
+  pdata.postTitle="MyCat(七)---高可用集群搭建";
+  pdata.commentPath="";
+  pdata.commentPlaceholder="";
+  // header 这里无论是否开启pjax都需要
+  var l_header=document.getElementById("l_header");
+  
+  l_header.classList.add("show");
+  
+  
+    // cover
+    var cover_wrapper=document.querySelector('.cover-wrapper');
+    
+    cover_wrapper.id="none";
+    cover_wrapper.style.display="none";
+    
+  
+</script>
+
+        </div>
+        
+  
+  <footer class="footer clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+
+        </div>
+      
+    
+      
+        <br>
+        <div class="social-wrapper">
+          
+            
+          
+            
+          
+            
+          
+        </div>
+      
+    
+      
+        <div><p>博客内容遵循 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+</div>
+      
+    
+      
+        
+          <div><p><span id="lc-sv">本站总访问量为 <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span> 次</span> <span id="lc-uv">访客数为 <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span> 人</span></p>
+</div>
+        
+      
+    
+      
+        本站使用
+        <a href="https://github.com/volantis-x/hexo-theme-volantis/tree/4.3.1" target="_blank" class="codename">Volantis</a>
+        作为主题
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="/">Copyright © 2017-2020 XXX</a></p>
+
+        </div>
+      
+    
+  </footer>
+
+
+        <a id="s-top" class="fas fa-arrow-up fa-fw" href="javascript:void(0)"></a>
+      </div>
+    </div>
+    <div>
+      <script>
+/************这个文件存放不需要重载的全局变量和全局函数*********/
+window.volantis={};
+window.volantis.loadcss=document.getElementById("loadcss");
+/******************** Pjax ********************************/
+function VPjax(){
+	this.list=[] // 存放回调函数
+	this.start=()=>{
+	  for(var i=0;i<this.list.length;i++){
+		this.list[i].run();
+	  }
+	}
+	this.push=(fn,name)=>{
+		var f=new PjaxItem(fn,name);
+		this.list.push(f);
+	}
+	// 构造一个可以run的对象
+	function PjaxItem(fn,name){
+		// 函数名称
+		this.name = name || fn.name
+		// run方法
+		this.run=()=>{
+			fn()
+		}
+	}
+}
+volantis.pjax={}
+volantis.pjax.method={
+	complete: new VPjax(),
+	error: new VPjax(),
+	send: new VPjax()
+}
+volantis.pjax={
+	...volantis.pjax,
+	push: volantis.pjax.method.complete.push,
+	error: volantis.pjax.method.error.push,
+	send: volantis.pjax.method.send.push
+}
+/********************脚本懒加载函数********************************/
+// 已经加入了setTimeout
+function loadScript(src, cb) {
+	setTimeout(function() {
+		var HEAD = document.getElementsByTagName('head')[0] || document.documentElement;
+		var script = document.createElement('script');
+		script.setAttribute('type','text/javascript');
+		if (cb) script.onload = cb;
+		script.setAttribute('src', src);
+		HEAD.appendChild(script);
+	});
+}
+//https://github.com/filamentgroup/loadCSS
+var loadCSS = function( href, before, media, attributes ){
+	var doc = window.document;
+	var ss = doc.createElement( "link" );
+	var ref;
+	if( before ){
+		ref = before;
+	}
+	else {
+		var refs = ( doc.body || doc.getElementsByTagName( "head" )[ 0 ] ).childNodes;
+		ref = refs[ refs.length - 1];
+	}
+	var sheets = doc.styleSheets;
+	if( attributes ){
+		for( var attributeName in attributes ){
+			if( attributes.hasOwnProperty( attributeName ) ){
+				ss.setAttribute( attributeName, attributes[attributeName] );
+			}
+		}
+	}
+	ss.rel = "stylesheet";
+	ss.href = href;
+	ss.media = "only x";
+	function ready( cb ){
+		if( doc.body ){
+			return cb();
+		}
+		setTimeout(function(){
+			ready( cb );
+		});
+	}
+	ready( function(){
+		ref.parentNode.insertBefore( ss, ( before ? ref : ref.nextSibling ) );
+	});
+	var onloadcssdefined = function( cb ){
+		var resolvedHref = ss.href;
+		var i = sheets.length;
+		while( i-- ){
+			if( sheets[ i ].href === resolvedHref ){
+				return cb();
+			}
+		}
+		setTimeout(function() {
+			onloadcssdefined( cb );
+		});
+	};
+	function loadCB(){
+		if( ss.addEventListener ){
+			ss.removeEventListener( "load", loadCB );
+		}
+		ss.media = media || "all";
+	}
+	if( ss.addEventListener ){
+		ss.addEventListener( "load", loadCB);
+	}
+	ss.onloadcssdefined = onloadcssdefined;
+	onloadcssdefined( loadCB );
+	return ss;
+};
+</script>
+<script>
+  
+  loadCSS("https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14/css/all.min.css", window.volantis.loadcss);
+  
+  
+  
+  
+  loadCSS("https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/styles/solarized-light.min.css", window.volantis.loadcss);
+  
+</script>
+<!-- required -->
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5/dist/jquery.min.js"></script>
+
+<script>
+  function pjax_fancybox() {
+    $(".md .gallery").find("img").each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("class", "fancybox");
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 判断当前页面是否存在描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".md .gallery").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  function SCload_fancybox() {
+    if ($(".md .gallery").find("img").length == 0) return;
+    loadCSS("https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css", document.getElementById("loadcss"));
+    loadScript('https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js', pjax_fancybox)
+  };
+  $(function () {
+    SCload_fancybox();
+  });
+  function Pjax_SCload_fancybox(){
+	if (typeof $.fancybox == "undefined") {
+	 SCload_fancybox();
+    } else {
+	 pjax_fancybox();
+    }
+  }
+  volantis.pjax.push(Pjax_SCload_fancybox)
+  volantis.pjax.send(()=>{
+      if (typeof $.fancybox != "undefined") {
+        $.fancybox.close();    // 关闭弹窗
+      }
+  },'fancybox')
+</script>
+
+
+<!-- internal -->
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+        var imgs=["https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602105452.png", "https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602105101.jpg", "https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602105045.jpg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+	  function Pjax_backstretch(){
+        
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        
+	  }
+	  loadScript("https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js",Pjax_backstretch)
+    </script>
+  
+
+
+
+
+<script>
+  function loadIssuesJS() {
+    if ($(".md").find(".issues-api").length == 0) return;
+	
+	  loadScript('/js/issues.js');
+	
+  };
+  $(function () {
+    loadIssuesJS();
+  });
+  volantis.pjax.push(()=>{
+	if (typeof IssuesAPI == "undefined") {
+	  loadIssuesJS();
+	}
+  },"IssuesJS")
+</script>
+
+
+
+
+
+  
+
+<script>
+  window.FPConfig = {
+	delay: 0,
+	ignoreKeywords: [],
+	maxRPS: 5,
+	hoverDelay: 25
+  };
+</script>
+<script defer src="https://cdn.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+<script src="/js/valine.js"></script>
+
+
+<script>
+  function emoji(path, idx, ext) {
+    return path + "/" + path + "-" + idx + "." + ext;
+  }
+  var emojiMaps = {};
+  for (var i = 1; i <= 54; i++) {
+    emojiMaps['tieba-' + i] = emoji('tieba', i, 'png');
+  }
+  for (var i = 1; i <= 101; i++) {
+    emojiMaps['qq-' + i] = emoji('qq', i, 'gif');
+  }
+  for (var i = 1; i <= 116; i++) {
+    emojiMaps['aru-' + i] = emoji('aru', i, 'gif');
+  }
+  for (var i = 1; i <= 125; i++) {
+    emojiMaps['twemoji-' + i] = emoji('twemoji', i, 'png');
+  }
+  for (var i = 1; i <= 4; i++) {
+    emojiMaps['weibo-' + i] = emoji('weibo', i, 'png');
+  }
+  function pjax_valine() {
+    if(!document.querySelectorAll("#valine_container")[0])return;
+    let pagePlaceholder = pdata.commentPlaceholder || "快来评论吧~";
+    let path = pdata.commentPath;
+    if (path.length == 0) {
+      let defaultPath = '';
+      path = defaultPath || decodeURI(window.location.pathname);
+    }
+    var valine = new Valine();
+    valine.init(Object.assign({"path":null,"placeholder":"快来评论吧~","appId":"3Hus5XFQ2sDWy72CDu6mK2mo-gzGzoHsz","appKey":"sV3dLNS95WvJ4WW5HhVxKJ15","meta":["nick"],"requiredFields":["nick"],"enableQQ":true,"recordIP":false,"avatar":"robohash","pageSize":10,"lang":"zh-cn","highlight":true,"mathJax":false}, {
+      el: '#valine_container',
+      path: path,
+      placeholder: pagePlaceholder,
+      emojiCDN: 'https://cdn.jsdelivr.net/gh/volantis-x/cdn-emoji/valine/',
+      emojiMaps: emojiMaps,
+    }))
+  }
+  $(function () {
+    pjax_valine();
+  });
+  volantis.pjax.push(pjax_valine);
+</script>
+
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+<!-- optional -->
+
+  <script>
+const SearchServiceimagePath="https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@master/img/";
+const ROOT =  ("/" || "/").endsWith('/') ? ("/" || "/") : ("//" || "/" );
+
+$('.input.u-search-input').one('focus',function(){
+	
+		loadScript('/js/search/hexo.js',setSearchService);
+	
+})
+
+function listenSearch(){
+  
+    customSearch = new HexoSearch({
+      imagePath: SearchServiceimagePath
+    });
+  
+}
+function setSearchService() {
+	listenSearch();
+	
+		document.addEventListener("pjax:success", listenSearch);
+	
+}
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10/build/highlight.min.js"></script>
+
+<script>hljs.initHighlightingOnLoad();</script>
+
+<script>
+volantis.pjax.push(()=>{
+	document.querySelectorAll('pre code').forEach((block) => {
+	  hljs.highlightBlock(block);
+	});
+},"highlightjs")
+</script>
+
+
+
+  <script defer>
+
+  const LCCounter = {
+    app_id: 'u9j57bwJod4EDmXWdxrwuqQT-MdYXbMMI',
+    app_key: 'jfHtEKVE24j0IVCGHbvuFClp',
+    custom_api_server: '',
+
+    // 查询存储的记录
+    getRecord(Counter, url, title) {
+      return new Promise(function (resolve, reject) {
+        Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({url})))
+          .then(resp => resp.json())
+          .then(({results, code, error}) => {
+            if (code === 401) {
+              throw error;
+            }
+            if (results && results.length > 0) {
+              var record = results[0];
+              resolve(record);
+            } else {
+              Counter('post', '/classes/Counter', {url, title: title, times: 0})
+                .then(resp => resp.json())
+                .then((record, error) => {
+                  if (error) {
+                    throw error;
+                  }
+                  resolve(record);
+                }).catch(error => {
+                console.error('Failed to create', error);
+                reject(error);
+              });
+            }
+          }).catch((error) => {
+          console.error('LeanCloud Counter Error:', error);
+          reject(error);
+        });
+      })
+    },
+
+    // 发起自增请求
+    increment(Counter, incrArr) {
+      return new Promise(function (resolve, reject) {
+        Counter('post', '/batch', {
+          "requests": incrArr
+        }).then((res) => {
+          res = res.json();
+          if (res.error) {
+            throw res.error;
+          }
+          resolve(res);
+        }).catch((error) => {
+          console.error('Failed to save visitor count', error);
+          reject(error);
+        });
+      });
+    },
+
+    // 构建自增请求体
+    buildIncrement(objectId) {
+      return {
+        "method": "PUT",
+        "path": `/1.1/classes/Counter/${ objectId }`,
+        "body": {
+          "times": {
+            '__op': 'Increment',
+            'amount': 1
+          }
+        }
+      }
+    },
+
+    // 校验是否为有效的 UV
+    validUV() {
+      var key = 'LeanCloudUVTimestamp';
+      var flag = localStorage.getItem(key);
+      if (flag) {
+        // 距离标记小于 24 小时则不计为 UV
+        if (new Date().getTime() - parseInt(flag) <= 86400000) {
+          return false;
+        }
+      }
+      localStorage.setItem(key, new Date().getTime().toString());
+      return true;
+    },
+
+    addCount(Counter) {
+      var enableIncr = '' === 'true' && window.location.hostname !== 'localhost';
+      enableIncr = true;
+      var getterArr = [];
+      var incrArr = [];
+      // 请求 PV 并自增
+      var pvCtn = document.querySelector('#lc-sv');
+      if (pvCtn || enableIncr) {
+        var pvGetter = this.getRecord(Counter, 'https://zhaoshuchao.top' + '/#lc-sv', 'Visits').then((record) => {
+          incrArr.push(this.buildIncrement(record.objectId))
+          var eles = document.querySelectorAll('#lc-sv #number');
+          if (eles.length > 0) {
+            eles.forEach((el,index,array)=>{
+              el.innerText = record.times + 1;
+              if (pvCtn) {
+                pvCtn.style.display = 'inline';
+              }
+            })
+          }
+        });
+        getterArr.push(pvGetter);
+      }
+
+      // 请求 UV 并自增
+      var uvCtn = document.querySelector('#lc-uv');
+      if (uvCtn || enableIncr) {
+        var uvGetter = this.getRecord(Counter, 'https://zhaoshuchao.top' + '/#lc-uv', 'Visitors').then((record) => {
+          var vuv = this.validUV();
+          vuv && incrArr.push(this.buildIncrement(record.objectId))
+          var eles = document.querySelectorAll('#lc-uv #number');
+          if (eles.length > 0) {
+            eles.forEach((el,index,array)=>{
+              el.innerText = record.times + (vuv ? 1 : 0);
+              if (uvCtn) {
+                uvCtn.style.display = 'inline';
+              }
+            })
+          }
+        });
+        getterArr.push(uvGetter);
+      }
+
+      // 请求文章的浏览数，如果是当前页面就自增
+      var allPV = document.querySelectorAll('#lc-pv');
+      if (allPV.length > 0 || enableIncr) {
+        for (i = 0; i < allPV.length; i++) {
+          let pv = allPV[i];
+          let title = pv.getAttribute('data-title');
+          var url = 'https://zhaoshuchao.top' + pv.getAttribute('data-path');
+          if (url) {
+            var viewGetter = this.getRecord(Counter, url, title).then((record) => {
+              // 是当前页面就自增
+              let curPath = window.location.pathname;
+              if (curPath.includes('index.html')) {
+                curPath = curPath.substring(0, curPath.lastIndexOf('index.html'));
+              }
+              if (pv.getAttribute('data-path') == curPath) {
+                incrArr.push(this.buildIncrement(record.objectId));
+              }
+              if (pv) {
+                var ele = pv.querySelector('#lc-pv #number');
+                if (ele) {
+                  if (pv.getAttribute('data-path') == curPath) {
+                    ele.innerText = (record.times || 0) + 1;
+                  } else {
+                    ele.innerText = record.times || 0;
+                  }
+                  pv.style.display = 'inline';
+                }
+              }
+            });
+            getterArr.push(viewGetter);
+          }
+        }
+      }
+
+      // 如果启动计数自增，批量发起自增请求
+      if (enableIncr) {
+        Promise.all(getterArr).then(() => {
+          incrArr.length > 0 && this.increment(Counter, incrArr);
+        })
+      }
+
+    },
+
+
+    fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${ api_server }/1.1${ url }`, {
+          method,
+          headers: {
+            'X-LC-Id': this.app_id,
+            'X-LC-Key': this.app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      this.addCount(Counter);
+    },
+
+    refreshCounter() {
+      var api_server = this.app_id.slice(-9) !== '-MdYXbMMI' ? this.custom_api_server : `https://${ this.app_id.slice(0, 8).toLowerCase() }.api.lncldglobal.com`;
+      if (api_server) {
+        this.fetchData(api_server);
+      } else {
+        fetch('https://app-router.leancloud.cn/2/route?appId=' + this.app_id)
+          .then(resp => resp.json())
+          .then(({api_server}) => {
+            this.fetchData('https://' + api_server);
+          });
+      }
+    }
+
+  };
+
+  LCCounter.refreshCounter();
+
+  document.addEventListener('pjax:complete', function () {
+    LCCounter.refreshCounter();
+  });
+</script>
+
+
+
+
+  <script>
+const rootElement = document.documentElement;
+const darkModeStorageKey = "user-color-scheme";
+const rootElementDarkModeAttributeName = "data-user-color-scheme";
+
+const setLS = (k, v) => {
+    localStorage.setItem(k, v);
+};
+
+const removeLS = (k) => {
+    localStorage.removeItem(k);
+};
+
+const getLS = (k) => {
+    return localStorage.getItem(k);
+};
+
+const getModeFromCSSMediaQuery = () => {
+  return window.matchMedia("(prefers-color-scheme: dark)").matches
+    ? "dark"
+    : "light";
+};
+
+const resetRootDarkModeAttributeAndLS = () => {
+  rootElement.removeAttribute(rootElementDarkModeAttributeName);
+  removeLS(darkModeStorageKey);
+};
+
+const validColorModeKeys = {
+  dark: true,
+  light: true,
+};
+
+const applyCustomDarkModeSettings = (mode) => {
+  const currentSetting = mode || getLS(darkModeStorageKey);
+
+  if (currentSetting === getModeFromCSSMediaQuery()) {
+    resetRootDarkModeAttributeAndLS();
+  } else if (validColorModeKeys[currentSetting]) {
+    rootElement.setAttribute(rootElementDarkModeAttributeName, currentSetting);
+  } else {
+    resetRootDarkModeAttributeAndLS();
+  }
+};
+
+const invertDarkModeObj = {
+  dark: "light",
+  light: "dark",
+};
+
+/**
+ * get target mode
+ */
+const toggleCustomDarkMode = () => {
+  let currentSetting = getLS(darkModeStorageKey);
+
+  if (validColorModeKeys[currentSetting]) {
+    currentSetting = invertDarkModeObj[currentSetting];
+  } else if (currentSetting === null) {
+    currentSetting = invertDarkModeObj[getModeFromCSSMediaQuery()];
+  } else {
+    return;
+  }
+  setLS(darkModeStorageKey, currentSetting);
+  return currentSetting;
+};
+
+/**
+ * bind click event for toggle button
+ */
+var btn=$("#wrapper .toggle-mode-btn,#rightmenu-wrapper .toggle-mode-btn");
+function bindToggleButton() {
+    btn.on('click',(e) => {
+      const mode = toggleCustomDarkMode();
+      applyCustomDarkModeSettings(mode);
+    });
+}
+
+applyCustomDarkModeSettings();
+document.addEventListener("DOMContentLoaded", bindToggleButton);
+volantis.pjax.push(bindToggleButton);
+volantis.pjax.send(()=>{
+	btn.unbind('click');
+},'toggle-mode-btn-unbind');
+</script>
+
+
+
+
+
+
+
+
+<script>
+function listennSidebarTOC() {
+  const navItems = document.querySelectorAll(".toc li");
+  if (!navItems.length) return;
+  const sections = [...navItems].map((element) => {
+    const link = element.querySelector(".toc-link");
+    const target = document.getElementById(
+      decodeURI(link.getAttribute("href")).replace("#", "")
+    );
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      window.scrollTo({
+		top: target.offsetTop + 100,
+		
+		behavior: "smooth"
+		
+	  });
+    });
+    return target;
+  });
+
+  function activateNavByIndex(target) {
+    if (target.classList.contains("active-current")) return;
+
+    document.querySelectorAll(".toc .active").forEach((element) => {
+      element.classList.remove("active", "active-current");
+    });
+    target.classList.add("active", "active-current");
+    let parent = target.parentNode;
+    while (!parent.matches(".toc")) {
+      if (parent.matches("li")) parent.classList.add("active");
+      parent = parent.parentNode;
+    }
+  }
+
+  function findIndex(entries) {
+    let index = 0;
+    let entry = entries[index];
+    if (entry.boundingClientRect.top > 0) {
+      index = sections.indexOf(entry.target);
+      return index === 0 ? 0 : index - 1;
+    }
+    for (; index < entries.length; index++) {
+      if (entries[index].boundingClientRect.top <= 0) {
+        entry = entries[index];
+      } else {
+        return sections.indexOf(entry.target);
+      }
+    }
+    return sections.indexOf(entry.target);
+  }
+
+  function createIntersectionObserver(marginTop) {
+    marginTop = Math.floor(marginTop + 10000);
+    let intersectionObserver = new IntersectionObserver(
+      (entries, observe) => {
+        let scrollHeight = document.documentElement.scrollHeight + 100;
+        if (scrollHeight > marginTop) {
+          observe.disconnect();
+          createIntersectionObserver(scrollHeight);
+          return;
+        }
+        let index = findIndex(entries);
+        activateNavByIndex(navItems[index]);
+      },
+      {
+        rootMargin: marginTop + "px 0px -100% 0px",
+        threshold: 0,
+      }
+    );
+    sections.forEach((element) => {
+      element && intersectionObserver.observe(element);
+    });
+  }
+  createIntersectionObserver(document.documentElement.scrollHeight);
+}
+
+document.addEventListener("DOMContentLoaded", listennSidebarTOC);
+document.addEventListener("pjax:success", listennSidebarTOC);
+</script>
+
+<!-- more -->
+
+ 
+	   
+	    
+
+
+<script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script>
+
+
+<script>
+    var pjax;
+    document.addEventListener('DOMContentLoaded', function () {
+      pjax = new Pjax({
+        elements: 'a[href]:not([href^="#"]):not([href="javascript:void(0)"]):not([pjax-fancybox])',
+        selectors: [
+          "title",
+          
+          "#pjax-container",
+          "#pjax-header-nav-list"
+        ],
+        cacheBust: false,   // url 地址追加时间戳，用以避免浏览器缓存
+        timeout: 5000
+      });
+    });
+
+    document.addEventListener('pjax:send', function (e) {
+      //window.stop(); // 相当于点击了浏览器的停止按钮
+
+      try {
+        var currentUrl = window.location.pathname;
+        var targetUrl = e.triggerElement.href;
+        var banUrl = [""];
+        if (banUrl[0] != "") {
+          banUrl.forEach(item => {
+            if(currentUrl.indexOf(item) != -1 || targetUrl.indexOf(item) != -1) {
+              window.location.href = targetUrl;
+            }
+          });
+        }
+      } catch (error) {}
+
+      window.subData = null; // 移除标题（用于一二级导航栏切换处）
+
+      volantis.$switcher.removeClass('active'); // 关闭移动端激活的搜索框
+      volantis.$header.removeClass('z_search-open'); // 关闭移动端激活的搜索框
+      volantis.$wrapper.removeClass('sub'); // 跳转页面时关闭二级导航
+
+      // 解绑事件 避免重复监听
+      volantis.$topBtn.unbind('click');
+      $('.menu a').unbind('click');
+      $(window).unbind('resize');
+      $(window).unbind('scroll');
+      $(document).unbind('scroll');
+      $(document).unbind('click');
+      $('body').unbind('click');
+	  // 使用 volantis.pjax.send 方法传入pjax:send回调函数 参见layout/_partial/scripts/global.ejs
+	  volantis.pjax.method.send.start();
+    });
+
+    document.addEventListener('pjax:complete', function () {
+      $('.nav-main').find('.list-v').not('.menu-phone').removeAttr("style",""); // 移除小尾巴的移除
+      $('.menu-phone.list-v').removeAttr("style",""); // 移除小尾巴的移除
+      $('script[data-pjax], .pjax-reload script').each(function () {
+        $(this).parent().append($(this).remove());
+      });
+      try{
+		// 使用 volantis.pjax.push 方法传入重载函数 参见layout/_partial/scripts/global.ejs
+		volantis.pjax.method.complete.start();
+      } catch (e) {
+        console.log(e);
+      }
+    });
+
+    document.addEventListener('pjax:error', function (e) {
+	  // 使用 volantis.pjax.error 方法传入pjax:error回调函数 参见layout/_partial/scripts/global.ejs
+	  volantis.pjax.method.error.start();
+      window.location.href = e.triggerElement.href;
+    });
+</script>
+ 
+	  
+    </div>
+  </body>
+</html>
