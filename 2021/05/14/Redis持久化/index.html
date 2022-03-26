@@ -37,7 +37,7 @@
 
   <!-- link -->
   
-    <link rel="shortcut icon" type='image/x-icon' href="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210603105954.png">
+    <link rel="shortcut icon" type='image/x-icon' href="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210603105954.png">
   
 
   <!-- import link -->
@@ -440,7 +440,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
             
 <div class='new-meta-item author'>
   <a class='author' href="/" rel="nofollow">
-    <img no-lazy src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210603111048.png">
+    <img no-lazy src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210603111048.png">
     <p>By：赵树超</p>
   </a>
 </div>
@@ -516,7 +516,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>redis使用操作系统的<strong>多进程COW机制</strong>(Copy On Write)机制来实现快照的持久化，在持久化过程中调用 <code>glibc</code>(Linux下的C函数库) 的函数<code>fork()</code>产生一个子进程，<strong>快照持久化完全交给子进程来处理</strong>，父进程继续处理客户端的读写请求。子进程刚刚产生时，和父进程<strong>共享</strong>内存里面的代码段和数据段，这是Linux操作系统的机制，为了节约内存资源，所以尽可能让父子进程共享内存，这样在进程分离的一瞬间，内存的增长几乎没有明显变化。</p>
 <p>子进程对当前内存中的数据进行持久化，并<strong>不会</strong>修改当前的数据结构，如果父进程收到了读写请求，那么会把处理的那一部分数据复制一份到内存，对复制后的数据进行修改，所以<strong>即使对某个数据进行了修改，redis持久化到RDB中的数据也是未修改的数据</strong>，这也是把RDB文件称为”快照”文件的原因，子进程所看到的数据在它被创建的一瞬间就固定下来了，<strong>父进程修改的某个数据只是该数据的复制品</strong>。</p>
 <p>实际上，内存中的全量数据由一个个的”<strong>数据段页面</strong>“组成，每个数据段页面的大小为4K，客户端要修改的数据在哪个页面中，就会复制一份这个页面到内存中，这个复制的过程称为”<strong>页面分离</strong>“，在持久化过程中，随着分离出的页面越来越多，内存就会持续增长，但是不会超过原内存的2倍，因为在一次持久化的过程中，几乎不会出现所有的页面都会分离的情况，读写请求针对的只是原数据中的小部分，大部分redis数据还是”<strong>冷数据</strong>“。</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210528140151.webp" alt="Image"></p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210528140151.webp" alt="Image"></p>
 <h4 id="2-AOF"><a href="#2-AOF" class="headerlink" title="(2) AOF"></a>(2) AOF</h4><p>AOF日志存储的是redis服务器的<strong>顺序指令序列</strong>，即对内存中数据进行修改的指令记录。当redis收到客户端修改指令后，先进行参数<strong>校验</strong>，如果校验通过，先把该指令存储到AOF日志文件中，也就是先存到磁盘，然后再执行该修改指令。</p>
 <p>当redis宕机后重启后，可以读取该AOF文件中的指令，进行数据恢复，恢复的过程就是把记录的指令再<strong>顺序</strong>执行一次，这样就可以恢复到宕机之前的状态。</p>
 <p>redis在长期运行过程中，AOF日志会越来越大，如果redis服务重启后根据很大的AOF文件来顺序执行指令，将会非常耗时，导致redis服务长时间无法对外提供服务，所以需要对AOF文件进行”瘦身”。”瘦身”的过程称作<strong>AOF重写</strong>(rewrite)。</p>
@@ -524,14 +524,14 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>redis把操作指令追加到AOF文件这个过程，并不是直接写到AOF文件中，而是先写到操作系统的内存缓存中，这个内存缓存是由操作系统内核分配的，然后操作系统内核会<strong>异步</strong>地把内存缓存中的redis操作指令刷写到AOF文件中。</p>
 <p>一个新问题是，假如内存缓存中的redis指令还没有来得及刷写到AOF文件中就宕机了，那么这部分未刷写的指令就会丢失，不过，<code>glibc</code>函数库提供了 <code>fsync()</code> 函数，该函数可以将指定文件的内容强制从内存缓存中刷写到磁盘上。fsync操作的<strong>周期</strong>对redis的性能有很大影响，如何配置将在本文后续的内容中给出建议。</p>
 <blockquote>
-<p>AOF过程<br><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210528140155.webp" alt="Image"></p>
+<p>AOF过程<br><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210528140155.webp" alt="Image"></p>
 </blockquote>
 <blockquote>
-<p>AOF Rewrite过程<br><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210528140200.webp" alt="Image"></p>
+<p>AOF Rewrite过程<br><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210528140200.webp" alt="Image"></p>
 </blockquote>
 <h4 id="3-redis-4-x-混合持久化"><a href="#3-redis-4-x-混合持久化" class="headerlink" title="(3) redis-4.x 混合持久化"></a>(3) redis-4.x 混合持久化</h4><p>重启redis时，我们很少使用RDB来恢复内存状态，因为会丢失大量数据。我们通常使用AOF日志重放，但是重放AOF日志性能相对RDB来说要慢很多，这样在redis实例很大的情况下，启动需要花费很长的时间。redis-4.0为了解决这个问题，带来了一个新的持久化选项——<strong>混合持久化</strong>。将RDB文件的内容和增量的AOF日志文件存在一起。这里的AOF日志不再是全量<br>的日志，而是自持久化开始到持久化结束的这段时间发生的<strong>增量AOF日志</strong>，通常这部分AOF日志很小。</p>
 <blockquote>
-<p>redis-4.x混合持久化机制<br><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210528140203.webp" alt="Image"></p>
+<p>redis-4.x混合持久化机制<br><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210528140203.webp" alt="Image"></p>
 </blockquote>
 <p>redis重启的时候，可以<strong>先加载RDB的内容</strong>，然后<strong>再重放增量AOF日志</strong>，就可以完全替代之前的AOF全量文件重放，恢复效率因此大幅得到提升。</p>
 <h3 id="redis-持久化机制对比"><a href="#redis-持久化机制对比" class="headerlink" title="redis 持久化机制对比"></a>redis 持久化机制对比</h3><h4 id="1-RDB的优缺点"><a href="#1-RDB的优缺点" class="headerlink" title="(1) RDB的优缺点"></a>(1) RDB的优缺点</h4><h5 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h5><ul>
@@ -1222,7 +1222,7 @@ var loadCSS = function( href, before, media, attributes ){
 <script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
 
     <script type="text/javascript">
-        var imgs=["https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602105452.png", "https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602105101.jpg", "https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602105045.jpg"];
+        var imgs=["https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210602105452.png", "https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210602105101.jpg", "https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210602105045.jpg"];
         if ('true' == 'true') {
           function shuffle(arr){
             /*From countercurrent-time*/

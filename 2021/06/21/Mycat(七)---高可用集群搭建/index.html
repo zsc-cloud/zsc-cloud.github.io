@@ -37,7 +37,7 @@
 
   <!-- link -->
   
-    <link rel="shortcut icon" type='image/x-icon' href="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210603105954.png">
+    <link rel="shortcut icon" type='image/x-icon' href="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210603105954.png">
   
 
   <!-- import link -->
@@ -440,7 +440,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
             
 <div class='new-meta-item author'>
   <a class='author' href="/" rel="nofollow">
-    <img no-lazy src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210603111048.png">
+    <img no-lazy src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210603111048.png">
     <p>By：赵树超</p>
   </a>
 </div>
@@ -511,10 +511,10 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   
   
   <h3 id="MyCat高可用集群搭建"><a href="#MyCat高可用集群搭建" class="headerlink" title="MyCat高可用集群搭建"></a>MyCat高可用集群搭建</h3><h4 id="MyCat实现读写分离架构"><a href="#MyCat实现读写分离架构" class="headerlink" title="MyCat实现读写分离架构"></a>MyCat实现读写分离架构</h4><p>在上面的章节, 我们已经讲解过了通过MyCat来实现MySQL的读写分离, 从而完成MySQL集群的负载均衡 , 如下面的结构图: </p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151225.png" alt="image-20200104144550132"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151225.png" alt="image-20200104144550132"> </p>
 <p>但是以上架构存在问题 , 由于MyCat中间件是单节点的服务, 前端客户端所有的压力过来都直接请求这一台MyCat , 存在单点故障。所以这个时候， 我们就需要考虑MyCat的集群 ；</p>
 <h4 id="MyCat集群架构"><a href="#MyCat集群架构" class="headerlink" title="MyCat集群架构"></a>MyCat集群架构</h4><p>通过MyCat来实现后端MySQL的负载均衡 ， 通过HAProxy再实现MyCat集群的负载均衡 ; </p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151230.png" alt="image-20200104151016408"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151230.png" alt="image-20200104151016408"> </p>
 <p>HAProxy 负责将请求分发到 MyCat 上，起到负载均衡的作用，同时 HAProxy 也能检测到 MyCat 是否存活，HAProxy 只会将请求转发到存活的 MyCat 上。如果一台 MyCat 服务器宕机，HAPorxy 转发请求时不会转发到宕机的 MyCat 上，所以 MyCat 依然可用。</p>
 <p><strong>HAProxy介绍:</strong></p>
 <p>HAProxy 是一个开源的、高性能的基于TCP(第四层)和HTTP(第七层)应用的负载均衡软件。 使用HAProxy可以快速、可靠地实现基于TCP与HTTP应用的负载均衡解决方案。</p>
@@ -524,7 +524,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>③. 支持多种负载均衡算法 ;</p>
 <p>④. 有功能强大的监控界面, 通过此页面可以实时了解系统的运行情况 ;</p>
 <p>但是， 上述的架构也是存在问题的， 因为所以的客户端请求都是先到达HAProxy, 由HAProxy再将请求再向下分发, 如果HAProxy宕机的话, 就会造成整个MyCat集群不能正常运行, 依然存在单点故障。</p>
-<h4 id="MyCat的高可用集群"><a href="#MyCat的高可用集群" class="headerlink" title="MyCat的高可用集群"></a>MyCat的高可用集群</h4><p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151236.png" alt="image-20200104153537319"> </p>
+<h4 id="MyCat的高可用集群"><a href="#MyCat的高可用集群" class="headerlink" title="MyCat的高可用集群"></a>MyCat的高可用集群</h4><p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151236.png" alt="image-20200104153537319"> </p>
 <p><strong>图解说明：</strong><br>1). HAProxy 实现了 MyCat 多节点的集群高可用和负载均衡，而 HAProxy 自身的高可用则可以通过Keepalived 来实现。因此，HAProxy 主机上要同时安装 HAProxy 和 Keepalived，Keepalived 负责为该服务器抢占 vip（虚拟 ip），抢占到 vip 后，对该主机的访问可以通过原来的 ip访问，也可以直接通过 vip访问。</p>
 <p>2). Keepalived 抢占 vip 有优先级，在 keepalived.conf 配置中的 priority 属性决定。但是一般哪台主机上的Keepalived服务先启动就会抢占到vip，即使是slave，只要先启动也能抢到（要注意避免Keepalived的资源抢占问题）。</p>
 <p>3). HAProxy 负责将对 vip 的请求分发到 MyCat 集群节点上，起到负载均衡的作用。同时 HAProxy 也能检测到 MyCat 是否存活，HAProxy 只会将请求转发到存活的 MyCat 上。</p>
@@ -579,7 +579,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <td align="center"></td>
 </tr>
 </tbody></table>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151241.png" alt="image-20200104153537319"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151241.png" alt="image-20200104153537319"> </p>
 <h4 id="MySQL主从复制搭建"><a href="#MySQL主从复制搭建" class="headerlink" title="MySQL主从复制搭建"></a>MySQL主从复制搭建</h4><h5 id="master"><a href="#master" class="headerlink" title="master"></a>master</h5><p>1） 在master 的配置文件（/usr/my.cnf）中，配置如下内容：</p>
 <figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#mysql 服务ID,保证整个集群环境中唯一</span></span><br><span class="line"><span class="meta">server-id</span>=<span class="string">1</span></span><br><span class="line"><span class="comment">#mysql binlog 日志的存储路径和文件名</span></span><br><span class="line"><span class="meta">log-bin</span>=<span class="string">/var/lib/mysql/mysqlbin</span></span><br><span class="line"><span class="comment">#设置logbin格式</span></span><br><span class="line"><span class="attr">binlog_format</span>=<span class="string">STATEMENT</span></span><br><span class="line"><span class="comment">#是否只读,1 代表只读, 0 代表读写</span></span><br><span class="line"><span class="meta">read-only</span>=<span class="string">0</span></span><br><span class="line"><span class="comment">#指定同步的数据库</span></span><br><span class="line"><span class="meta">binlog-do-db</span>=<span class="string">db01</span></span><br><span class="line"><span class="meta">binlog-do-db</span>=<span class="string">db02</span></span><br><span class="line"><span class="meta">binlog-do-db</span>=<span class="string">db03</span></span><br></pre></td></tr></table></figure>
 
@@ -598,7 +598,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>4） 查看master状态：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> master status;</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151247.png" alt="image-20200104171647471">  </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151247.png" alt="image-20200104171647471">  </p>
 <p>字段含义:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">File : 从哪个日志文件开始推送日志文件 </span><br><span class="line">Position ： 从哪个位置开始推送日志</span><br><span class="line">Binlog_Do_DB : 指定需要同步的数据库</span><br></pre></td></tr></table></figure>
 
@@ -621,7 +621,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>4） 开启同步操作</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">start slave;</span><br><span class="line">show slave status;</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151251.png" alt="image-20200103144903105">  </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151251.png" alt="image-20200103144903105">  </p>
 <p>5） 停止同步操作</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stop slave;</span><br></pre></td></tr></table></figure>
 
@@ -728,8 +728,8 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>3). 访问</p>
 <p><a target="_blank" rel="noopener" href="http://192.168.192.162:8888/admin">http://192.168.192.162:8888/admin</a></p>
 <p>界面: </p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151301.png" alt="image-20200202214408231">  </p>
-<h4 id="Keepalived安装配置"><a href="#Keepalived安装配置" class="headerlink" title="Keepalived安装配置"></a>Keepalived安装配置</h4><p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151304.png" alt="image-20200203010953404"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151301.png" alt="image-20200202214408231">  </p>
+<h4 id="Keepalived安装配置"><a href="#Keepalived安装配置" class="headerlink" title="Keepalived安装配置"></a>Keepalived安装配置</h4><p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151304.png" alt="image-20200203010953404"> </p>
 <h5 id="安装配置"><a href="#安装配置" class="headerlink" title="安装配置"></a>安装配置</h5><p>1). 上传安装包到Linux</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alt + p --------&gt; put D:/tmp/keepalived-1.4.5.tar.gz</span><br></pre></td></tr></table></figure>
 
@@ -784,7 +784,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 
 
 
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151310.png" alt="image-20200202193227448"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151310.png" alt="image-20200202193227448"> </p>
 
   
   
@@ -1391,7 +1391,7 @@ var loadCSS = function( href, before, media, attributes ){
 <script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
 
     <script type="text/javascript">
-        var imgs=["https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602105452.png", "https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602105101.jpg", "https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602105045.jpg"];
+        var imgs=["https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210602105452.png", "https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210602105101.jpg", "https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210602105045.jpg"];
         if ('true' == 'true') {
           function shuffle(arr){
             /*From countercurrent-time*/

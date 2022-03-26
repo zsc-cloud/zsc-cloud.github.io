@@ -37,7 +37,7 @@
 
   <!-- link -->
   
-    <link rel="shortcut icon" type='image/x-icon' href="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210603105954.png">
+    <link rel="shortcut icon" type='image/x-icon' href="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210603105954.png">
   
 
   <!-- import link -->
@@ -440,7 +440,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
             
 <div class='new-meta-item author'>
   <a class='author' href="/" rel="nofollow">
-    <img no-lazy src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210603111048.png">
+    <img no-lazy src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210603111048.png">
     <p>By：赵树超</p>
   </a>
 </div>
@@ -529,7 +529,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <li><strong>Java虚拟机内部的引用。</strong>（系统内部的东西当然能作为根了）</li>
 </ol>
 <p><strong>例如：</strong></p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210524141415.webp"></p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210524141415.webp"></p>
 <blockquote>
 <p>GC Roots算法是从离散数学中的图论引入的，程序把所有的引用关系看作一张图，从一个节点 <code>GC ROOT</code> 开始，寻找对应的引用节点，找到这个节点以后，继续寻找这个节点的引用节点，当所有的引用节点寻找完毕之后，剩余的节点则被认为是没有被引用到的节点，即无用的节点。<br>如上图中的 <code>ObjF</code>、<code>ObjD</code>、<code>ObjE</code>通过 <code>GC Root</code> 是无法找到的，所以它们是无用节点。</p>
 </blockquote>
@@ -542,11 +542,11 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>有代码如下:</p>
 <p>String p = <strong>new</strong> String(“abc”);</p>
 <p>abc这个字符串对象的引用计数值为1.</p>
-<img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210524143224.png" alt="image-20210524143224480" style="zoom:50%;" />
+<img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210524143224.png" alt="image-20210524143224480" style="zoom:50%;" />
 
 <p>将引用变量p的值设置为0</p>
 <p>p = <strong>null</strong>;</p>
-<img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210524143310.png" alt="image-20210524143310621" style="zoom: 67%;" />
+<img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210524143310.png" alt="image-20210524143310621" style="zoom: 67%;" />
 
 <p>引用计数垃圾收集机制，它只是在引用计数变化为0时即刻发生，而且只针对某一个对象以及它所依赖的其它对象。所以，我们一般也称呼引用计数垃圾收集为<strong>直接</strong>的垃圾收集机制.垃圾收集的开销被分摊到整个应用程序的运行当中了，而不是在进行垃圾收集时，要挂起整个应用的运行，直到对堆中所有对象的处理都结束。因此，采用引用计数的垃圾收集不属于严格意义上的”Stop-The-World”的垃圾收集机制。</p>
 <p><strong>优点</strong>:</p>
@@ -557,7 +557,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>解决不了对象相互引用</p>
 <h4 id="标记清除"><a href="#标记清除" class="headerlink" title="标记清除"></a>标记清除</h4><p>它的做法是当堆中的有效内存空间被耗尽的时候，就会停止整个程序（也被成为stop the world），然后进行两项工作，第一项则是标记，第二项则是清除。<br>标记：从根集合（GC Root)开始扫描，每到达一个对象就会标记该对象为存活状态，</p>
 <p>清除：过程将遍历堆中所有的对象，将没有标记的对象全部清除掉。</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210524141421.jpeg"></p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210524141421.jpeg"></p>
 <p><strong>优点 : 实现简单</strong></p>
 <p><strong>缺点 :</strong> </p>
 <p> 效率低, 因为标记和清除两个动作都要遍历所有的对象</p>
@@ -566,14 +566,14 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>标记 : 标记的过程其实就是，从根对象开始遍历所有的对象，然后将所有存活的对象标记为可达的对象。</p>
 <p>压缩 : 移动所有的可达对象到堆内存的同一个区域中，使他们紧凑的排列在一起，从而将所有非可达对象释放出来的空闲内存都集中在一起，通过这样的方式来达到减少内存碎片的目的。</p>
 <p>标记整理就没有内存碎片的问题了，也是从根集合（GC Root)开始扫描进行标记然后清除无用的对象，清除完成后它会整理内存。</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210524141425.jpeg"></p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210524141425.jpeg"></p>
 <p><strong>优点 : 标记压缩算法是对标记清除算法的优化, 解决了碎片化的问题</strong></p>
 <p><strong>缺点 : 还是效率问题, 在标记清除算法上又多加了一步, 效率可想而知会更慢</strong></p>
 <h4 id="复制算法"><a href="#复制算法" class="headerlink" title="复制算法"></a>复制算法</h4><p>复制算法的核心就是，<strong>将原有的内存空间一分为二</strong>，每次只用其中的一块，在垃圾回收时，将正在使用的对象复制到另一个内存空间中，并以此排列, 然后将该内存空间清空，交换两个内存的角色，完成垃圾的回收。</p>
 <blockquote>
 <p>复制算法会将JVM堆分成二等分，如果堆设置的是1g，那使用复制算法的时候堆就会有被划分为两块区域各512m。给对象分配内存的时候总是使用其中的一块来分配，分配满了以后，GC就会进行标记，然后将存活的对象移动到另外一块空白的区域，然后清除掉所有没有存活的对象，这样重复的处理，始终就会有一块空白的区域没有被合理的利用到。</p>
 </blockquote>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210524141428.jpeg"></p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210524141428.jpeg"></p>
 <p><strong>优点:</strong></p>
 <p> 在垃圾多的情况下(新生代), 效率较高</p>
 <p> 清理后, 内存无碎片</p>
@@ -586,7 +586,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>• 新生代适合使用复制算法，</p>
 <p>• 老年代适合使用标记整理算法</p>
 </blockquote>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210524141433.png"></p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210524141433.png"></p>
 <h5 id="区域划分："><a href="#区域划分：" class="headerlink" title="区域划分："></a>区域划分：</h5><p>新生代占1/3   老年代占2/3</p>
 <h6 id="年轻代"><a href="#年轻代" class="headerlink" title="年轻代:"></a>年轻代:</h6><ol>
 <li><p>所有新生成的对象首先都是放在年轻代的。年轻代的目标就是尽可能快速的收集掉那些生命周期短的对象。</p>
@@ -636,7 +636,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 </ol>
 </blockquote>
 <h4 id="分区收集算法"><a href="#分区收集算法" class="headerlink" title="分区收集算法"></a>分区收集算法</h4><p>上面介绍的分代收集算法是将对象的生命周期按长短划分为两个部分, 而分区算法则将整个堆空间划分为连续的不同小区间, 每个小区间独立使用, 独立回收. 这样做的好处是可以<strong>控制一次回收多少个小区间</strong>. 在相同条件下, 堆空间越大, 一次GC耗时就越长, 从而产生的停顿也越长. 为了更好地控制GC产生的停顿时间, 将一块大的内存区域分割为多个小块, 根据目标停顿时间, 每次合理地回收若干个小区间(而不是整个堆), 从而减少一次GC所产生的停顿.</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210524145507.png" alt="image-20210524145507401"></p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210524145507.png" alt="image-20210524145507401"></p>
 <h3 id="垃圾回收器的分类"><a href="#垃圾回收器的分类" class="headerlink" title="垃圾回收器的分类"></a>垃圾回收器的分类</h3><h4 id="串行垃圾回收器"><a href="#串行垃圾回收器" class="headerlink" title="串行垃圾回收器"></a>串行垃圾回收器</h4><p><strong>Serial 收集器</strong></p>
 <p>新生代串行回收器SerialGC : 采用复制算法实现, 单线程垃圾回收, 独占式垃圾回收器</p>
 <p>老年代串行回收器SerialOldGC : 采用标记压缩算法, 单线程独占式垃圾回收器</p>
@@ -657,24 +657,24 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>G1计划作为并发标记-清除收集器的长期替代品</p>
 <p>启用G1收集器参数: -XX:+UseG1GC 启用G1收集器.</p>
 <p>G1将整个Java堆划分为多个大小相等的独立区域(Region), 虽然还保留有新生代和老年代的概念, 但新生代和老年代不再是物理隔离的了, 它们都是一部分Region(不需要连续)的集合.</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210524152412.png" alt="image-20210524152412119"></p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210524152412.png" alt="image-20210524152412119"></p>
 <p>每块区域既有可能属于Old区、也有可能是Young区, 因此不需要一次就对整个老年代/新生代回收. 而是<strong>当线程并发寻找可回收的对象时, 有些区块包含可回收的对象要比其他区块多很多. 虽然在清理这些区块时G1仍然需要暂停应用线程, 但可以用相对较少的时间优先回收垃圾较多的Region</strong>(这也是G1命名的来源). 这种方式保证了G1可以在有限的时间内获取尽可能高的收集效率.</p>
 <h3 id="JDK8的垃圾回收器"><a href="#JDK8的垃圾回收器" class="headerlink" title="JDK8的垃圾回收器"></a>JDK8的垃圾回收器</h3><p>我们通过查看Java参数的方式查询到默认的垃圾回收器为<strong>ParallelGC</strong> </p>
-<img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210524151526.png" alt="image-20210524151526829" style="zoom:67%;" />
+<img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210524151526.png" alt="image-20210524151526829" style="zoom:67%;" />
 
 <p>引用《深入理解Java虚拟机：JVM高级特性与最佳实践》的介绍：</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210524151619.png"></p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210524151619.png"></p>
 <p>UseParallelGC =  Parallel Scavenge + PS MarkSweep。 PS MarkSweep和Serial Old很像，一般书上会把他们当做一个去讲解。</p>
 <blockquote>
 <p>这个PS MarkSweep默认的实现实际上是一层皮，它底下真正做mark-sweep-compact工作的代码是跟分代式GC框架里的serial old（这个collector名字叫做MarkSweepCompact）是共用同一份代码的。也就是说实际上PS MarkSweep与MarkSweepCompact在HotSpot VM里是同一个collector实现，包了两张不同的皮；这个collector是串行的。 </p>
 </blockquote>
 <p> 其实也可以通过jconsole工具直接看到使用的垃圾收集器</p>
-<img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210524152021.png" style="zoom: 67%;" />
+<img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210524152021.png" style="zoom: 67%;" />
 
 
 
 <p>设置参数如下：</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210524141438.jpeg"></p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210524141438.jpeg"></p>
 <p><img src="https://img-blog.csdnimg.cn/20210524141752464.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ0MTYxNjk1,size_16,color_FFFFFF,t_70#pic_center" alt="img"></p>
 <p>​                                                                                                                                                                                                    </p>
 
@@ -1281,7 +1281,7 @@ var loadCSS = function( href, before, media, attributes ){
 <script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
 
     <script type="text/javascript">
-        var imgs=["https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602105452.png", "https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602105101.jpg", "https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602105045.jpg"];
+        var imgs=["https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210602105452.png", "https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210602105101.jpg", "https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210602105045.jpg"];
         if ('true' == 'true') {
           function shuffle(arr){
             /*From countercurrent-time*/

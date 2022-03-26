@@ -37,7 +37,7 @@
 
   <!-- link -->
   
-    <link rel="shortcut icon" type='image/x-icon' href="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210603105954.png">
+    <link rel="shortcut icon" type='image/x-icon' href="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210603105954.png">
   
 
   <!-- import link -->
@@ -440,7 +440,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
             
 <div class='new-meta-item author'>
   <a class='author' href="/" rel="nofollow">
-    <img no-lazy src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210603111048.png">
+    <img no-lazy src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210603111048.png">
     <p>By：赵树超</p>
   </a>
 </div>
@@ -511,9 +511,9 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   
   
   <h3 id="MyCat-性能监控"><a href="#MyCat-性能监控" class="headerlink" title="MyCat 性能监控"></a>MyCat 性能监控</h3><h4 id="MyCat-web简介"><a href="#MyCat-web简介" class="headerlink" title="MyCat-web简介"></a>MyCat-web简介</h4><p>Mycat-web 是 Mycat 可视化运维的管理和监控平台，弥补了 Mycat 在监控上的空白。帮 Mycat 分担统计任务和配置管理任务。Mycat-web 引入了 ZooKeeper 作为配置中心，可以管理多个节点。Mycat-web 主要管理和监控 Mycat 的流量、连接、活动线程和内存等，具备 IP 白名单、邮件告警等模块，还可以统计 SQL 并分析慢 SQL 和高频 SQL 等。为优化 SQL 提供依据。</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628150949.png" alt="1577358192118"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628150949.png" alt="1577358192118"> </p>
 <h4 id="MyCat-web下载"><a href="#MyCat-web下载" class="headerlink" title="MyCat-web下载"></a>MyCat-web下载</h4><p>下载地址 : <a target="_blank" rel="noopener" href="http://dl.mycat.io/">http://dl.mycat.io/</a></p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628150953.png" alt="1577369790112"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628150953.png" alt="1577369790112"> </p>
 <h4 id="Mycat-web安装配置"><a href="#Mycat-web安装配置" class="headerlink" title="Mycat-web安装配置"></a>Mycat-web安装配置</h4><h5 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h5><p>1). 安装Zookeeper</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">A. 上传安装包 </span><br><span class="line">	alt + p -----&gt; put D:\tmp\zookeeper-3.4.11.tar.gz</span><br><span class="line">	</span><br><span class="line">B. 解压</span><br><span class="line">	tar -zxvf zookeeper-3.4.11.tar.gz -C /usr/local/</span><br><span class="line"></span><br><span class="line">C. 创建数据存放目录</span><br><span class="line">	mkdir data</span><br><span class="line"></span><br><span class="line">D. 修改配置文件名称并配置</span><br><span class="line">	mv zoo_sample.cfg zoo.cfg</span><br><span class="line"></span><br><span class="line">E. 配置数据存放目录</span><br><span class="line">	dataDir=/usr/local/zookeeper-3.4.11/data</span><br><span class="line">	</span><br><span class="line">F. 启动Zookeeper</span><br><span class="line">	bin/zkServer.sh start</span><br></pre></td></tr></table></figure>
 
@@ -521,41 +521,41 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">A. 上传安装包 </span><br><span class="line">	alt + p --------&gt; put D:\tmp\Mycat-web-1.0-SNAPSHOT-20170102153329-linux.tar.gz</span><br><span class="line">	</span><br><span class="line">B. 解压</span><br><span class="line">	tar -zxvf Mycat-web-1.0-SNAPSHOT-20170102153329-linux.tar.gz -C /usr/local/</span><br><span class="line"></span><br><span class="line">C. 目录介绍</span><br><span class="line">    drwxr-xr-x. 2 root root  4096 Oct 19  2015 etc         ----&gt; jetty配置文件</span><br><span class="line">    drwxr-xr-x. 3 root root  4096 Oct 19  2015 lib         ----&gt; 依赖jar包</span><br><span class="line">    drwxr-xr-x. 7 root root  4096 Jan  1  2017 mycat-web   ----&gt; mycat-web项目</span><br><span class="line">    -rwxr-xr-x. 1 root root   116 Oct 19  2015 readme.txt</span><br><span class="line">    -rwxr-xr-x. 1 root root 17125 Oct 19  2015 start.jar   ----&gt; 启动jar</span><br><span class="line">    -rwxr-xr-x. 1 root root   381 Oct 19  2015 start.sh    ----&gt; linux启动脚本</span><br><span class="line"></span><br><span class="line">D. 启动</span><br><span class="line">	sh start.sh</span><br><span class="line">	</span><br><span class="line">E. 访问</span><br><span class="line">	http://192.168.192.147:8082/mycat</span><br></pre></td></tr></table></figure>
 
 <p>如果Zookeeper与Mycat-web不在同一台服务器上 , 需要设置Zookeeper的地址 ; 在/usr/local/mycat-web/mycat-web/WEB-INF/classes/mycat.properties文件中配置 : </p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628150958.png" alt="1577370960657"> </p>
-<h5 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h5><p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151002.png" alt="1577372353498"> </p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151006.png" alt="1577372371549"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628150958.png" alt="1577370960657"> </p>
+<h5 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h5><p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151002.png" alt="1577372353498"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151006.png" alt="1577372371549"> </p>
 <h4 id="Mycat-web之MyCat性能监控"><a href="#Mycat-web之MyCat性能监控" class="headerlink" title="Mycat-web之MyCat性能监控"></a>Mycat-web之MyCat性能监控</h4><p>在 Mycat-web 上可以进行 Mycat 性能监控，例如：内存分享、流量分析、连接分析、活动线程分析等等。 如下图: </p>
 <p>A. MyCat内存分析: </p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151009.png" alt="1577373437531">  </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151009.png" alt="1577373437531">  </p>
 <p>MyCat的内存分析 , 反映了当前的内存使用情况与历史时间段的峰值、平均值。</p>
 <p>B. MyCat流量分析: </p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151013.png" alt="1577373861622"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151013.png" alt="1577373861622"> </p>
 <p>MyCat流量分析统计了历史时间段的流量峰值、当前值、平均值，是MyCat数据传输的重要指标， In代表输入， Out代表输出。</p>
 <p>C. MyCat连接分析</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151017.png" alt="1577374030291"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151017.png" alt="1577374030291"> </p>
 <p>MyCat连接分析, 反映了MyCat的连接数 </p>
 <p>D. MyCat TPS分析</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151021.png" alt="1577374126073"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151021.png" alt="1577374126073"> </p>
 <p>MyCat TPS 是并发性能的重要参数指标, 指系统在每秒内能够处理的请求数量。 MyCat TPS的值越高 , 代表MyCat单位时间内能够处理的请求就越多, 并发能力也就越高。</p>
 <p>E. MyCat活动线程分析反映了MyCat线程的活动情况。</p>
 <p>F. MyCat缓存队列分析, 反映了当前在缓存队列中的任务数量。</p>
 <h4 id="Mycat-web之MySQL性能监控指标"><a href="#Mycat-web之MySQL性能监控指标" class="headerlink" title="Mycat-web之MySQL性能监控指标"></a>Mycat-web之MySQL性能监控指标</h4><p>1). MySQL配置</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151026.png" alt="1577374634946"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151026.png" alt="1577374634946"> </p>
 <p>2). MySQL监控指标</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151033.png" alt="1577374588708"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151033.png" alt="1577374588708"> </p>
 <p>可以通过MySQL服务监控, 检测每一个MySQL节点的运行状态, 包含缓存命中率 、增删改查比例、流量统计、慢查询比例、线程、临时表等相关性能数据。</p>
 <h4 id="Mycat-web之SQL监控"><a href="#Mycat-web之SQL监控" class="headerlink" title="Mycat-web之SQL监控"></a>Mycat-web之SQL监控</h4><p>1). SQL 统计</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151037.png" alt="1577374982024"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151037.png" alt="1577374982024"> </p>
 <p>2). SQL表分析</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151040.png" alt="1577375016852"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151040.png" alt="1577375016852"> </p>
 <p>3). SQL监控</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151044.png" alt="1577375043787">  </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151044.png" alt="1577375043787">  </p>
 <p>4). 高频SQL</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151047.png" alt="1577375072881"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151047.png" alt="1577375072881"> </p>
 <p>5). 慢SQL统计</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151051.png" alt="1577375100383"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151051.png" alt="1577375100383"> </p>
 <p>6). SQL解析</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151054.png" alt="1577375162928"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151054.png" alt="1577375162928"> </p>
 
   
   
@@ -1159,7 +1159,7 @@ var loadCSS = function( href, before, media, attributes ){
 <script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
 
     <script type="text/javascript">
-        var imgs=["https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602105452.png", "https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602105101.jpg", "https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602105045.jpg"];
+        var imgs=["https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210602105452.png", "https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210602105101.jpg", "https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210602105045.jpg"];
         if ('true' == 'true') {
           function shuffle(arr){
             /*From countercurrent-time*/

@@ -37,7 +37,7 @@
 
   <!-- link -->
   
-    <link rel="shortcut icon" type='image/x-icon' href="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210603105954.png">
+    <link rel="shortcut icon" type='image/x-icon' href="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210603105954.png">
   
 
   <!-- import link -->
@@ -440,7 +440,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
             
 <div class='new-meta-item author'>
   <a class='author' href="/" rel="nofollow">
-    <img no-lazy src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210603111048.png">
+    <img no-lazy src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210603111048.png">
     <p>By：赵树超</p>
   </a>
 </div>
@@ -519,7 +519,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 
 <h4 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h4><p><strong>corePoolSize</strong>（必需）：核心线程数。默认情况下，核心线程会一直存活，但是当将 allowCoreThreadTimeout 设置为 true 时，核心线程也会超时回收。<br><strong>maximumPoolSize</strong>（必需）：线程池所能容纳的最大线程数。当活跃线程数达到该数值后，后续的新任务将会阻塞。<br><strong>keepAliveTime</strong>（必需）：线程闲置超时时长。如果超过该时长，非核心线程就会被回收。如果将 allowCoreThreadTimeout 设置为 true 时，核心线程也会超时回收。<br><strong>unit</strong>（必需）：指定 keepAliveTime 参数的时间单位。常用的有：TimeUnit.MILLISECONDS（毫秒）、TimeUnit.SECONDS（秒）、TimeUnit.MINUTES（分）。<br><strong>workQueue</strong>（必需）：任务队列。通过线程池的 execute() 方法提交的 Runnable 对象将存储在该参数中。其采用阻塞队列实现。<br>threadFactory（可选）：线程工厂。用于指定为线程池创建新线程的方式。<br><strong>handler</strong>（可选）：拒绝策略。当达到最大线程数时需要执行的饱和策略。<br>线程池的使用流程如下：</p>
 <h3 id="线程池的工作原理"><a href="#线程池的工作原理" class="headerlink" title="线程池的工作原理"></a>线程池的工作原理</h3><p>下面来描述一下线程池工作的原理，同时对上面的参数有一个更深的了解。其工作原理流程图如下：</p>
-<img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602153516.png" alt="img" style="zoom: 67%;" />
+<img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210602153516.png" alt="img" style="zoom: 67%;" />
 
 <p>通过上图，相信大家已经对所有参数有个了解了。下面再对任务队列、线程工厂和拒绝策略做更多的说明。</p>
 <h3 id="线程池的参数"><a href="#线程池的参数" class="headerlink" title="线程池的参数"></a>线程池的参数</h3><h4 id="任务队列（workQueue）"><a href="#任务队列（workQueue）" class="headerlink" title="任务队列（workQueue）"></a>任务队列（workQueue）</h4><p>任务队列是基于<strong>阻塞队列</strong>实现的，即采用<strong>生产者消费者模式</strong>，在 Java 中需要实现 BlockingQueue 接口。但 Java 已经为我们提供了 7 种阻塞队列的实现：</p>
@@ -581,7 +581,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>使用示例：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1. 创建单线程化线程池</span></span><br><span class="line">ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();</span><br><span class="line"><span class="comment">// 2. 创建好Runnable类线程对象 &amp; 需执行的任务</span></span><br><span class="line">Runnable task =<span class="keyword">new</span> Runnable()&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">     System.out.println(<span class="string">&quot;执行任务啦&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 3. 向线程池提交任务</span></span><br><span class="line">singleThreadExecutor.execute(task);</span><br></pre></td></tr></table></figure>
 
-<h4 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h4><p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602153537.png" alt="img"></p>
+<h4 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h4><p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210602153537.png" alt="img"></p>
 <h5 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h5><p>Executors 的 4 个功能线程池虽然方便，但现在已经不建议使用了，而是建议直接通过使用 ThreadPoolExecutor 的方式，这样的处理方式让写的同学更加明确线程池的运行规则，规避资源耗尽的风险。</p>
 <p>其实 Executors 的 4 个功能线程有如下弊端：</p>
 <p>FixedThreadPool 和 SingleThreadExecutor：主要问题是堆积的请求处理队列均采用 LinkedBlockingQueue，可能会耗费非常大的内存，甚至 OOM。<br>CachedThreadPool 和 ScheduledThreadPool：主要问题是线程数最大数是 Integer.MAX_VALUE，可能会创建数量非常多的线程，甚至 OOM。</p>
@@ -1198,7 +1198,7 @@ var loadCSS = function( href, before, media, attributes ){
 <script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
 
     <script type="text/javascript">
-        var imgs=["https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602105452.png", "https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602105101.jpg", "https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602105045.jpg"];
+        var imgs=["https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210602105452.png", "https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210602105101.jpg", "https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210602105045.jpg"];
         if ('true' == 'true') {
           function shuffle(arr){
             /*From countercurrent-time*/

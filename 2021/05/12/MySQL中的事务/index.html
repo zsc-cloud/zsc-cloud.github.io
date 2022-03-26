@@ -37,7 +37,7 @@
 
   <!-- link -->
   
-    <link rel="shortcut icon" type='image/x-icon' href="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210603105954.png">
+    <link rel="shortcut icon" type='image/x-icon' href="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210603105954.png">
   
 
   <!-- import link -->
@@ -440,7 +440,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
             
 <div class='new-meta-item author'>
   <a class='author' href="/" rel="nofollow">
-    <img no-lazy src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210603111048.png">
+    <img no-lazy src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210603111048.png">
     <p>By：赵树超</p>
   </a>
 </div>
@@ -522,7 +522,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <li><p>在无并发的情况下，事务串行执行，隔离性一定能够满足。此时只要能满足原子性，就一定能满足一致性。在并发的情况下，多个事务并行执行，事务不仅要满足原子性，还需要满足隔离性，才能满足一致性。</p>
 </li>
 <li><p>事务满足持久化是为了能应对数据库崩溃的情况。</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210525150701.jpeg" alt="在这里插入图片描述"></p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210525150701.jpeg" alt="在这里插入图片描述"></p>
 </li>
 </ul>
 </blockquote>
@@ -619,7 +619,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p><strong>为什么要采用redolog刷盘，而不是每次提交事务进行数据刷盘？</strong></p>
 <p>MySQL加载的内存中<strong>Buffer pool</strong> 的数据最小单位是页。一页有16K大小。只修改一个页的几个字节，就要将整个页面刷入磁盘，太浪费性能和资源。而且一个事务中的SQL可能牵涉到多个数据页的修改，而这次数据页可能也不是相邻的。也就是刷盘的时候要进行随机IO，速度会比较慢。</p>
 <p>而redo log 体积小，毕竟只记录了哪一页修改了啥，因此体积小，刷盘快。redo log是一直向<strong>末尾进行追加</strong>，输入顺序IO，效率快（这个刷盘指的是redo log内存中的数据刷盘到磁盘中的redolog。若MySQL服务器正常，则redolog不会对数据库进行操作，只有当mysql出现宕机重启，才会触发redolog写入数据库中。）</p>
-<img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210526134616.png" alt="在这里插入图片描述" style="zoom:67%;" />
+<img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210526134616.png" alt="在这里插入图片描述" style="zoom:67%;" />
 
 <blockquote>
 <p>MySQL会预读数据，能把一些“可能要访问”的页提前加入缓冲池buffer poll，避免未来的磁盘IO操作；管理算法是<strong>LRU</strong></p>
@@ -695,7 +695,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>insert 操作中产生的undo log，因为insert操作记录只对当前事务本身可见，对于其他事务此记录不可见，所以 insert undo log 可以在事务提交后直接删除而不需要进行purge操作。</p>
 <p>purge的主要任务是将数据库中已经 mark del 的数据删除，另外也会批量回收undo pages</p>
 <p>数据库 Insert时的数据初始状态：此时回滚指针是null;</p>
-<img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210526145228.jpeg" alt="在这里插入图片描述" style="zoom:67%;" />
+<img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210526145228.jpeg" alt="在这里插入图片描述" style="zoom:67%;" />
 
 <ul>
 <li><p>update undo log：</p>
@@ -703,11 +703,11 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <ol>
 <li>数据第一次被修改时：</li>
 </ol>
-<img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210526145233.jpeg" alt="在这里插入图片描述" style="zoom:67%;" />
+<img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210526145233.jpeg" alt="在这里插入图片描述" style="zoom:67%;" />
 
 <ol start="2">
 <li><p>当另一个事务第二次修改当前数据：</p>
-<img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210526145237.jpeg" alt="在这里插入图片描述" style="zoom:67%;" /></li>
+<img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210526145237.jpeg" alt="在这里插入图片描述" style="zoom:67%;" /></li>
 </ol>
 </li>
 <li><p>为了保证事务并发操作时，在写各自的undo log时不产生冲突，InnoDB采用回滚段的方式来维护undo log的并发写入和持久化。回滚段实际上是一种 Undo 文件组织方式</p>
@@ -799,7 +799,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <h4 id="二进制日志（binlog）"><a href="#二进制日志（binlog）" class="headerlink" title="二进制日志（binlog）"></a>二进制日志（binlog）</h4><p>用于复制，在主从复制中，从库利用主库上的binlog进行重播，实现主从同步。<br>用于数据库的基于时间点的还原。</p>
 <p>Mysql的日志系统主要有redo log（重做日志）和binlog （归档日志）。redo log是Innodb存储引擎层面的日志，binlog是MySQL Server层的记录日志。两者都是记录了某种操作的日志，自然会有写重复。</p>
 <p>MySQL的逻辑架构图：</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210601153811.png" alt="image-20210601153811495"></p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210601153811.png" alt="image-20210601153811495"></p>
 <h5 id="redo-log日志模块"><a href="#redo-log日志模块" class="headerlink" title="redo log日志模块"></a>redo log日志模块</h5><p>redo log是InnoDB存储引擎层的日志，又称重做日志文件，用于记录事务操作的变化，记录的是数据修改之后的值，不管事务是否提交都会记录下来。在实例和介质失败（media failure）时，redo log文件就能派上用场，如数据库掉电，InnoDB存储引擎会使用redo log恢复到掉电前的时刻，以此来保证数据的完整性。</p>
 <p>在一条更新语句进行执行的时候，InnoDB引擎会把更新记录写到redo log日志中，然后更新内存，此时算是语句执行完了，然后在空闲的时候或者是按照设定的更新策略将redo log中的内容更新到磁盘中，这里涉及到<code>WAL</code>即<code>Write Ahead logging</code>技术，他的关键点是<strong>先写日志，再写磁盘</strong>。兵马未动，粮草先行</p>
 <p>有了redo log日志，那么在数据库进行异常重启的时候，可以根据redo log日志进行恢复，也就达到了<code>crash-safe</code>。</p>
@@ -813,7 +813,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <li>redo log是循环写，日志空间大小固定；binlog是追加写，是指一份写到一定大小的时候会更换下一个文件，不会覆盖。</li>
 <li>binlog可以作为恢复数据使用，主从复制搭建，redo log作为异常宕机或者介质故障后的数据恢复使用。</li>
 </ul>
-<img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210526160444.jpeg" alt="在这里插入图片描述" style="zoom: 33%;" />
+<img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210526160444.jpeg" alt="在这里插入图片描述" style="zoom: 33%;" />
 
 <h5 id="一条更新语句执行的顺序"><a href="#一条更新语句执行的顺序" class="headerlink" title="一条更新语句执行的顺序"></a>一条更新语句执行的顺序</h5><p>二阶段提交</p>
 <p>update T set c=c+1 where ID=2;</p>
@@ -837,9 +837,9 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <li>使用更少的 fsync()操作，减少系统脆弱的问题。</li>
 </ol>
 </blockquote>
-<h4 id="二阶段提交（prepare-，commit）"><a href="#二阶段提交（prepare-，commit）" class="headerlink" title="二阶段提交（prepare ，commit）"></a>二阶段提交（prepare ，commit）</h4><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210526160736.jpeg" alt="在这里插入图片描述" style="zoom: 33%;" />
+<h4 id="二阶段提交（prepare-，commit）"><a href="#二阶段提交（prepare-，commit）" class="headerlink" title="二阶段提交（prepare ，commit）"></a>二阶段提交（prepare ，commit）</h4><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210526160736.jpeg" alt="在这里插入图片描述" style="zoom: 33%;" />
 
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210526160740.png" alt="img"></p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210526160740.png" alt="img"></p>
 <h5 id="两阶段提交原理描述"><a href="#两阶段提交原理描述" class="headerlink" title="两阶段提交原理描述:"></a>两阶段提交原理描述:</h5><p>阶段1：InnoDB redo log 写盘，InnoDB 事务进入 prepare 状态</p>
 <p>阶段2：如果前面prepare成功，binlog 写盘，那么再继续将事务日志持久化到binlog，如果持久化成功，那么InnoDB </p>
 <p>事务 则进入 commit 状态(实际是在redo log里面写上一个commit记录)</p>
@@ -1456,7 +1456,7 @@ var loadCSS = function( href, before, media, attributes ){
 <script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
 
     <script type="text/javascript">
-        var imgs=["https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602105452.png", "https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602105101.jpg", "https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602105045.jpg"];
+        var imgs=["https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210602105452.png", "https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210602105101.jpg", "https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210602105045.jpg"];
         if ('true' == 'true') {
           function shuffle(arr){
             /*From countercurrent-time*/

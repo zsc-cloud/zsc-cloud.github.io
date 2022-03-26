@@ -37,7 +37,7 @@
 
   <!-- link -->
   
-    <link rel="shortcut icon" type='image/x-icon' href="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210603105954.png">
+    <link rel="shortcut icon" type='image/x-icon' href="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210603105954.png">
   
 
   <!-- import link -->
@@ -440,7 +440,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
             
 <div class='new-meta-item author'>
   <a class='author' href="/" rel="nofollow">
-    <img no-lazy src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210603111048.png">
+    <img no-lazy src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210603111048.png">
     <p>By：赵树超</p>
   </a>
 </div>
@@ -514,25 +514,25 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p> 天各一方的两台计算机是如何通信的呢？在成千上万的计算机中，为什么一台计算机能够准确的寻找到另外一台计算机，并且把数据发送给它呢？</p>
 <p>可能很多人都听说过网络通信的 5 层模型，但是可能并不是很清楚为什么需要五层模型，五层模型负责的任务也有可能经常混淆。下面是网络通信的五层模型</p>
 </blockquote>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210624155122.png" alt="img"></p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210624155122.png" alt="img"></p>
 <h4 id="1-物理层"><a href="#1-物理层" class="headerlink" title="1. 物理层"></a>1. 物理层</h4><p>一台计算机与另一台计算机要进行通信，第一件要做的事是什么？当然是把这台计算机与另外的其他计算机连起来。这样，我们才能把数据传输过去。例如可以通过光纤，电缆，双绞线等介质把他们连接起来。然后才能进行通信。</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210624155544.png" alt="img"></p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210624155544.png" alt="img"></p>
 <p>也就是说，物理层负责把两台计算机连起来，然后在计算机之间通过高低电频来传送0,1这样的电信号。</p>
 <h4 id="2-数据链路层"><a href="#2-数据链路层" class="headerlink" title="2. 数据链路层"></a>2. 数据链路层</h4><p>前面说了，物理层它只是单纯的负责把计算机连接起来。并且在计算机之间传输0，1这样的电信号。如果是这些0，1组合的传送毫无规则的话，计算机是解读不了的，一大堆0,1谁知道是什么东西。</p>
 <p>因此，我们需要制定一套规则来进行0,1的传送。例如多少个电信号为一组，每一组信号应该如何标识才能让计算机读懂等等。</p>
 <p>于是，有了以太网协议。</p>
 <h5 id="1-以太网协议"><a href="#1-以太网协议" class="headerlink" title="1. 以太网协议"></a>1. 以太网协议</h5><p>以太网协议规定，一组电信号构成一个数据包，我们把这个数据包称之为帧。每一个帧由标头（Head）和数据（Data）两部分组成。</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210624160509.png" alt="img"></p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210624160509.png" alt="img"></p>
 <p>帧的大小一般为 64 – 1518 个字节。假如需要传送的数据很大的话，就分成多个桢来进行传送。</p>
 <p>对于表头和数据这两个部分，他们存放的都是一些什么数据呢？我猜你眯着眼睛都能想到他们应该放什么数据。 毫无疑问，我们至少得知道这个桢是谁发送，发送给谁的等这些信息吧？所以标头部分主要是一些说明数据，例如发送者，接收者等信息。而数据部分则是这个数据包具体的，想给接守者的内容。</p>
 <p>大家想一个问题，一个桢的长度是 64~1518 个字节，也就是说桢的长度不是固定的，那你觉得标头部分的字节长度是固定的吗？它当然是固定的啊，假如不是固定的，每个桢都是单独发的，那计算机怎么知道标头是几个字节，数据是几个字节呢。所以标头部分的字节是固定的，并且固定为18个字节。</p>
 <p>把一台计算的的数据通过物理层和链路层发送给另一台计算机，究竟是谁发给谁的，计算机与计算机之间如何区分，，你总得给他们一个唯一的标识吧？</p>
 <p>于是，MAC 地址出现了。</p>
 <h5 id="2-MAC-地址"><a href="#2-MAC-地址" class="headerlink" title="2. MAC 地址"></a>2. MAC 地址</h5><p>连入网络的每一个计算机都会有网卡接口，每一个网卡都会有一个唯一的地址，这个地址就叫做 MAC 地址。计算机之间的数据传送，就是通过 MAC 地址来唯一寻找、传送的。</p>
-<img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210624161440.png" alt="img" style="zoom:67%;" />
+<img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210624161440.png" alt="img" style="zoom:67%;" />
 
 <p>MAC地址 由 6 个字节（48位）所构成，在网卡生产时就被唯一标识了。</p>
-<h5 id="3-广播与ARP协议"><a href="#3-广播与ARP协议" class="headerlink" title="3. 广播与ARP协议"></a>3. 广播与ARP协议</h5><h6 id="广播"><a href="#广播" class="headerlink" title="广播"></a>广播</h6><p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210624161814.png" alt="img"></p>
+<h5 id="3-广播与ARP协议"><a href="#3-广播与ARP协议" class="headerlink" title="3. 广播与ARP协议"></a>3. 广播与ARP协议</h5><h6 id="广播"><a href="#广播" class="headerlink" title="广播"></a>广播</h6><p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210624161814.png" alt="img"></p>
 <p>如图，假如计算机 A 知道了计算机 B 的 MAC 地址，然后计算机 A 想要给计算机 B 传送数据，虽然计算机 A 知道了计算机 B 的 MAC 地址，可是它要怎么给它传送数据呢？计算机 A 不仅连着计算机 B，而且计算机 A 也还连着其他的计算机。 虽然计算机 A 知道计算机 B 的 MAC 地址，可是计算机 A 却不知道知道计算机 B 是分布在哪边路线上，为了解决这个问题，于是，有了<strong>广播</strong>的出现。</p>
 <p>在同一个<strong>子网</strong>中，计算机 A 要向计算机 B 发送一个数据包，这个数据包会包含接收者的 MAC 地址。当发送时，计算机 A 是通过<strong>广播</strong>的方式发送的，这时同一个子网中的计算机 C, D 也会收到这个数据包的，然后收到这个数据包的计算机，会把数据包的 MAC 地址取出来，与自身的 MAC 地址对比，如果两者相同，则接受这个数据包，否则就丢弃这个数据包。这种发送方式我们称之为广播,就像我们平时在广场上通过广播的形式呼叫某个人一样，如果这个名字是你，你就理会一下，如果不是你，你就当作听不见。</p>
 <h6 id="ARP-协议"><a href="#ARP-协议" class="headerlink" title="ARP 协议"></a>ARP 协议</h6><p>那么问题来了，计算机 A 是如何知道计算机 B 的 MAC 地址的呢？这个时候就得由 ARP 协议这个家伙来解决了，不过 ARP 协议会涉及到IP地址，我们下面才会扯到IP地址。因此我们先放着，就当作是有这么一个 ARP 协议，通过它我们可以知道子网中其他计算机的 MAC 地址。</p>
@@ -546,14 +546,14 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>假如两台计算机的网络部分是一模一样的，我们就说这两台计算机是处于同一个子网中。例如 192.168.43.1 和 192.168.43.2, 假如这两个 IP 地址的网络部分为 24 位，主机部分为 8 位。那么他们的网络部分都为 192.168.43，所以他们处于同一个子网中。</p>
 <p>可是问题来了，你怎么知道网络部分是占几位，主机部分又是占几位呢？也就是说，单单从两台计算机的IP地址，我们是无法判断他们的是否处于同一个子网中的。</p>
 <p>这就引申出了另一个关键词————<strong>子网掩码</strong>。子网掩码和IP地址一样也是 32 位二进制数，不过它的网络部分规定全部为 1，主机部分规定全部为 0.也就是说，假如上面那两个IP地址的网络部分为 24 位，主机部分为 8 位的话，那他们的子网掩码都为 11111111.11111111.11111111.00000000，即255.255.255.0。</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210624161935.png" alt="img"></p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210624161935.png" alt="img"></p>
 <p>那有了子网掩码，如何来判端IP地址是否处于同一个子网中呢。显然，知道了子网掩码，相当于我们知道了网络部分是几位，主机部分是几位。我们只需要把 IP 地址与它的子网掩码做与(and)运算，然后把各自的结果进行比较就行了，如果比较的结果相同，则代表是同一个子网，否则不是同一个子网。</p>
 <p>例如，192.168.43.1和192.168.43.2的子码掩码都为255.255.255.0，把IP与子码掩码相与，可以得到他们都为192.168.43.0，进而他们处于同一个子网中。</p>
 <h6 id="2-ARP协议"><a href="#2-ARP协议" class="headerlink" title="2.  ARP协议"></a>2.  ARP协议</h6><p>有了上面IP协议的知识，我们回来讲一下ARP协议。</p>
 <p>有了两台计算机的IP地址与子网掩码，我们就可以判断出它们是否处于同一个子网之中了。</p>
 <p>假如他们处于同一个子网之中，计算机A要给计算机B发送数据时。我们可以通过ARP协议来得到计算机B的MAC地址。</p>
 <p>ARP协议也是通过广播的形式给同一个子网中的每台电脑发送一个数据包(当然，这个数据包会包含接收方的IP地址)。对方收到这个数据包之后，会取出IP地址与自身的对比，如果相同，则把自己的MAC地址回复给对方，否则就丢弃这个数据包。这样，计算机A就能知道计算机B的MAC地址了。</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210624162151.png" alt="img"></p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210624162151.png" alt="img"></p>
 <p>可能有人会问，知道了MAC地址之后，发送数据是通过广播的形式发送，询问对方的MAC地址也是通过广播的形式来发送，那其他计算机怎么知道你是要传送数据还是要询问MAC地址呢？其实在询问MAC地址的数据包中，在对方的MAC地址这一栏中，填的是一个特殊的MAC地址，其他计算机看到这个特殊的MAC地址之后，就能知道广播想干嘛了。</p>
 <p>假如两台计算机的IP不是处于同一个子网之中，这个时候，我们就会把数据包发送给网关，然后让网关让我们进行转发传送</p>
 <h6 id="DNS服务器"><a href="#DNS服务器" class="headerlink" title="DNS服务器"></a>DNS服务器</h6><p>这里再说一个问题，我们是如何知道对方计算机的IP地址的呢？这个问题可能有人会觉得很白痴，心想，当然是计算机的操作者来进行输入了。这没错，当我们想要访问某个网站的时候，我们可以输入IP来进行访问，但是我相信绝大多数人是输入一个网址域名的，例如访问百度是输入 <a target="_blank" rel="noopener" href="http://www.baidu.com/">www.baidu.com</a> 这个域名。其实当我们输入这个域名时，会有一个叫做DNS服务器的家伙来帮我们解析这个域名，然后返回这个域名对应的IP给我们的。</p>
@@ -1169,7 +1169,7 @@ var loadCSS = function( href, before, media, attributes ){
 <script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
 
     <script type="text/javascript">
-        var imgs=["https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602105452.png", "https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602105101.jpg", "https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602105045.jpg"];
+        var imgs=["https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210602105452.png", "https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210602105101.jpg", "https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210602105045.jpg"];
         if ('true' == 'true') {
           function shuffle(arr){
             /*From countercurrent-time*/

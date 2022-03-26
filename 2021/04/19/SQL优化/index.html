@@ -37,7 +37,7 @@
 
   <!-- link -->
   
-    <link rel="shortcut icon" type='image/x-icon' href="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210603105954.png">
+    <link rel="shortcut icon" type='image/x-icon' href="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210603105954.png">
   
 
   <!-- import link -->
@@ -440,7 +440,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
             
 <div class='new-meta-item author'>
   <a class='author' href="/" rel="nofollow">
-    <img no-lazy src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210603111048.png">
+    <img no-lazy src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210603111048.png">
     <p>By：赵树超</p>
   </a>
 </div>
@@ -633,9 +633,9 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>然后呢？</p>
 <p>当然是判断其他条件是否满足，比如size。</p>
 <p>在MySQL 5.6之前，只能从ID1开始一个个回表，到主键索引上找出数据行，再对比字段值。</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210527151808.jpeg" alt="img"></p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210527151808.jpeg" alt="img"></p>
 <p>而MySQL 5.6 引入的索引下推优化（index condition pushdown)， 可以在索引遍历过程中，对索引中包含的字段先做判断，直接过滤掉不满足条件的记录，减少回表次数。</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210527152018.jpeg" alt="img"></p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210527152018.jpeg" alt="img"></p>
 <h4 id="条件字段函数操作"><a href="#条件字段函数操作" class="headerlink" title="条件字段函数操作"></a>条件字段函数操作</h4><p>日常开发过程中，大家经常对很多字段进行函数操作，如果对日期字段操作，浮点字符操作等等，大家需要注意的是，如果对字段做了函数计算，就用不上索引了，这是MySQL的规定。</p>
 <p>对索引字段做函数操作，可能会破坏索引值的有序性，因此优化器就决定放弃走树搜索功能。</p>
 <h4 id="唯一索引普通索引选择难题"><a href="#唯一索引普通索引选择难题" class="headerlink" title="唯一索引普通索引选择难题"></a>唯一索引普通索引选择难题</h4><p>核心是需要回答到<strong>change buffer</strong>，那change buffer又是个什么东西呢？</p>
@@ -644,7 +644,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>需要说明的是，虽然名字叫作change buffer，实际上它是可以<strong>持久化的数据</strong>。也就是说，change buffer在内存中有拷贝，也会被写入到磁盘上。</p>
 <p>将change buffer中的操作应用到原数据页，得到最新结果的过程称为<strong>merge。</strong></p>
 <p>除了访问这个数据页会触发merge外，系统有后台线程会<strong>定期</strong>merge。在数据库正常关闭（shutdown）的过程中，也会执行merge操作。</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210527152455.jpeg"></p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210527152455.jpeg"></p>
 <p>显然，如果能够将更新操作先记录在change buffer，减少读磁盘，语句的执行速度会得到明显的提升。而且，数据读入内存是需要占用buffer pool的，所以这种方式还能够避免占用内存，提高内存利用率</p>
 <p>那么，<strong>什么条件下可以使用change buffer呢？</strong></p>
 <p>对于唯一索引来说，所有的更新操作都要先判断这个操作是否违反唯一性约束。</p>
@@ -1324,7 +1324,7 @@ var loadCSS = function( href, before, media, attributes ){
 <script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
 
     <script type="text/javascript">
-        var imgs=["https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602105452.png", "https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602105101.jpg", "https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602105045.jpg"];
+        var imgs=["https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210602105452.png", "https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210602105101.jpg", "https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210602105045.jpg"];
         if ('true' == 'true') {
           function shuffle(arr){
             /*From countercurrent-time*/

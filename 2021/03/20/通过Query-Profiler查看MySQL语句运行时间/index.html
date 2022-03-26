@@ -37,7 +37,7 @@
 
   <!-- link -->
   
-    <link rel="shortcut icon" type='image/x-icon' href="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210603105954.png">
+    <link rel="shortcut icon" type='image/x-icon' href="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210603105954.png">
   
 
   <!-- import link -->
@@ -440,7 +440,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
             
 <div class='new-meta-item author'>
   <a class='author' href="/" rel="nofollow">
-    <img no-lazy src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210603111048.png">
+    <img no-lazy src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210603111048.png">
     <p>By：赵树超</p>
   </a>
 </div>
@@ -517,16 +517,16 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>Show profiles是5.0.37之后添加的，要想使用此功能，要确保版本在5.0.37之后。</p>
 <hr>
 <h5 id="登录MySQL查看数据库版本方法"><a href="#登录MySQL查看数据库版本方法" class="headerlink" title="登录MySQL查看数据库版本方法"></a>登录MySQL查看数据库版本方法</h5><p>登录：<code>mysql -u username -p</code><br>使用想选择的数据库：<code> use databses</code><br>查看版本：<code>show variables like &quot;%version%&quot;;  或者  select version();</code> </p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210606105113.png" alt="在这里插入图片描述"></p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210606105113.png" alt="在这里插入图片描述"></p>
 <h5 id="查看profile是否开启，数据库默认是不开启的"><a href="#查看profile是否开启，数据库默认是不开启的" class="headerlink" title="查看profile是否开启，数据库默认是不开启的"></a>查看profile是否开启，数据库默认是不开启的</h5><blockquote>
 <p>查看方法： <code>show variables like &quot;%pro%&quot;; </code><br>设置开启方法： <code>set profiling = 1;</code></p>
 </blockquote>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210606105154.png" alt="在这里插入图片描述"></p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210606105154.png" alt="在这里插入图片描述"></p>
 <p> 可以开始执行一些想要分析的sql语句了</p>
 <h5 id="执行完后-，查询SQL的执行时间："><a href="#执行完后-，查询SQL的执行时间：" class="headerlink" title="执行完后 ，查询SQL的执行时间："></a>执行完后 ，查询SQL的执行时间：</h5><p> <code> show profiles；</code></p>
-<p>即可查看所有sql的总的执行时间。<br><strong>Query_ID：SQL编号ID；</strong><br><strong>Duration：SQL执行时间；</strong><br><strong>Query：SQL语句。</strong><br><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210606105230.png" alt="在这里插入图片描述"></p>
-<p><strong><code> show profile for query 1</code> 即可查看第1个sql语句的执行的各个操作的耗时详情。</strong><br><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210606105234.png" alt="在这里插入图片描述"></p>
-<p><strong>查看出一条SQL语句执行的各种资源消耗情况，比如CPU，IO等:</strong><br><code> show profile cpu, block io, memory,swaps,context switches,source for query 1</code><br><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210606105236.png" alt="在这里插入图片描述"></p>
+<p>即可查看所有sql的总的执行时间。<br><strong>Query_ID：SQL编号ID；</strong><br><strong>Duration：SQL执行时间；</strong><br><strong>Query：SQL语句。</strong><br><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210606105230.png" alt="在这里插入图片描述"></p>
+<p><strong><code> show profile for query 1</code> 即可查看第1个sql语句的执行的各个操作的耗时详情。</strong><br><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210606105234.png" alt="在这里插入图片描述"></p>
+<p><strong>查看出一条SQL语句执行的各种资源消耗情况，比如CPU，IO等:</strong><br><code> show profile cpu, block io, memory,swaps,context switches,source for query 1</code><br><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210606105236.png" alt="在这里插入图片描述"></p>
 <blockquote>
 <h5 id="关于show-profile-all-返回行和列的详解请见下篇文章：MySQL中show-profile详解"><a href="#关于show-profile-all-返回行和列的详解请见下篇文章：MySQL中show-profile详解" class="headerlink" title="关于show profile all 返回行和列的详解请见下篇文章：MySQL中show profile详解"></a>关于show profile all 返回行和列的详解请见下篇文章：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_44161695/article/details/115204821">MySQL中show profile详解</a></h5><p><strong>测试完毕后，关闭参数：<code>set profiling=0</code></strong></p>
 </blockquote>
@@ -1134,7 +1134,7 @@ var loadCSS = function( href, before, media, attributes ){
 <script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
 
     <script type="text/javascript">
-        var imgs=["https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602105452.png", "https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602105101.jpg", "https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602105045.jpg"];
+        var imgs=["https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210602105452.png", "https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210602105101.jpg", "https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210602105045.jpg"];
         if ('true' == 'true') {
           function shuffle(arr){
             /*From countercurrent-time*/

@@ -37,7 +37,7 @@
 
   <!-- link -->
   
-    <link rel="shortcut icon" type='image/x-icon' href="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210603105954.png">
+    <link rel="shortcut icon" type='image/x-icon' href="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210603105954.png">
   
 
   <!-- import link -->
@@ -440,7 +440,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
             
 <div class='new-meta-item author'>
   <a class='author' href="/" rel="nofollow">
-    <img no-lazy src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210603111048.png">
+    <img no-lazy src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210603111048.png">
     <p>By：赵树超</p>
   </a>
 </div>
@@ -510,18 +510,18 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 
   
   
-  <h3 id="MyCat总体架构介绍"><a href="#MyCat总体架构介绍" class="headerlink" title="MyCat总体架构介绍"></a>MyCat总体架构介绍</h3><h4 id="源码下载及导入"><a href="#源码下载及导入" class="headerlink" title="源码下载及导入"></a>源码下载及导入</h4><p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151313.png" alt="image-20200202220149279"> </p>
+  <h3 id="MyCat总体架构介绍"><a href="#MyCat总体架构介绍" class="headerlink" title="MyCat总体架构介绍"></a>MyCat总体架构介绍</h3><h4 id="源码下载及导入"><a href="#源码下载及导入" class="headerlink" title="源码下载及导入"></a>源码下载及导入</h4><p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151313.png" alt="image-20200202220149279"> </p>
 <p>导入Idea</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151317.png" alt="image-20200202220220682"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151317.png" alt="image-20200202220220682"> </p>
 <h4 id="总体架构"><a href="#总体架构" class="headerlink" title="总体架构"></a>总体架构</h4><p>MyCat在逻辑上由几个模块组成: 通信协议、路由解析、结果集处理、数据库连接、监控等模块。如图所示： </p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151323.png" alt="image-20200107230122662"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151323.png" alt="image-20200107230122662"> </p>
 <p>1). 通信协议模块： 通信协议模块承担底层的收发数据、线程回调处理工作， MyCat通信协议默认采用Reactor模式，在协议层采用MySQL协议；</p>
 <p>2). 路由解析模块: 负责对传入的SQL语句进行语法解析, 解析语句的条件、类型、关键字等，并进行优化；</p>
 <p>3). SQL执行模块: 负责从连接池中获取连接, 再根据路由解析的结果, 把SQL语句分发到相应的节点执行;</p>
 <p>4). 数据库连接模块: 负责创建、管理、维护后端的连接池。为减少每次建立数据库连接的开销，数据库使用连接池机制对连接声明周期进行管理；</p>
 <p>5). 结果集处理模块: 负责对跨分片的查询结果进行汇聚、排序、截取等；</p>
 <p>6). 监控管理模块: 负责MyCat的连接、内存等资源进行监控和管理。监控主要通过管理指令及监控服务展现一些监控数据； 管理则主要通过轮询事件来检测和释放不适用的资源；</p>
-<h4 id="总体执行流程"><a href="#总体执行流程" class="headerlink" title="总体执行流程"></a>总体执行流程</h4><p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151327.png" alt="image-20200107233001248"> </p>
+<h4 id="总体执行流程"><a href="#总体执行流程" class="headerlink" title="总体执行流程"></a>总体执行流程</h4><p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151327.png" alt="image-20200107233001248"> </p>
 <h3 id="MyCat网络I-O架构及实现"><a href="#MyCat网络I-O架构及实现" class="headerlink" title="MyCat网络I/O架构及实现"></a>MyCat网络I/O架构及实现</h3><h4 id="BIO、NIO与AIO"><a href="#BIO、NIO与AIO" class="headerlink" title="BIO、NIO与AIO"></a>BIO、NIO与AIO</h4><p>1). BIO</p>
 <p>BIO(同步阻塞I/O) 通常由一个单独的Acceptor线程负责监听客户端的连接, 接收到客户端的连接请求后, 会为每个客户端创建一个新的线程进行处理, 处理完成之后, 再给客户端返回结果, 销毁线程 。</p>
 <p>每个客户端请求接入时， 都需要开启一个线程进行处理， 一个线程只能处理一个客户端连接。 当客户端变多时，会创建大量的处理线程， 每个线程都需要分配栈空间和CPU， 并且频繁的线程上下文切换也会造成性能的浪费。所以该模式， 无法满足高性能、高并发接入的需求。</p>
@@ -536,77 +536,77 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 
 <p>usingAIO为1代表使用AIO模型 , 为0表示使用NIO模型;</p>
 <p><strong>MyCat的AIO架构</strong></p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151332.png" alt="image-20200108103954458"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151332.png" alt="image-20200108103954458"> </p>
 <p>1). MyCatStartUp是整个MyCat服务启动的入口;</p>
 <p>2). 在获取到MyCat的home目录后, 把主要的任务交给MyCatServer , 并调用其startup方法;</p>
 <p>3). 初始化系统配置, 获取配置文件中的usingAIO的配置, 如果配置为1, 说明使用AIO模型 , 进入到AIO的分支, 并创建两个连接, 一个是管理后台连接(9066), 一个server的连接(8066);</p>
 <p>4). 进入AIO分支 , 主要有AIOAcceptor接收客户端请求, 绑定端口, 创建服务端的异步Socket ;在accept方法中完成两件事: ①. FrontedConnection的创建, 这是前段连接的关键; ②. register注册事件, MySQL协议握手包就在此时发送;</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151336.png" alt="image-20200108111012502"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151336.png" alt="image-20200108111012502"> </p>
 <p><strong>MyCat的NIO架构</strong></p>
 <p>如果设置的usingAIO为0 ,那么将走NIOAcceptor通道 , 流程如下: </p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151339.png" alt="image-20200108111153230"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151339.png" alt="image-20200108111153230"> </p>
 <p>1). 如果走NIO分支 , 将首先创建NIOAcceptor对象, 并调用其start方法;</p>
 <p>2). NIOAcceptor 负责处理Accept事件, 服务端接收客户端的连接事件, 就是MyCat作为服务端去处理前端业务程序发过来的连接请求, 建立链接后, 调用NIOAcceptor的 NIOReactor.postRegister方法进行注册（并没有注解注册， 而是放入缓冲队列， 避免加锁的竞争）。 </p>
 <p>NIOAcceptor的accept方法 ： </p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151345.png" alt="image-20200108112521438"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151345.png" alt="image-20200108112521438"> </p>
 <p>NIOReactor的postRegister方法： </p>
 <p><img src="G:\BaiduNetdiskDownload\MyCat资料\文档\文档\assets\image-20200108112959564.png" alt="image-20200108112959564"> </p>
 <h3 id="Mycat实现MySQL协议"><a href="#Mycat实现MySQL协议" class="headerlink" title="Mycat实现MySQL协议"></a>Mycat实现MySQL协议</h3><h4 id="MySQL协议简介"><a href="#MySQL协议简介" class="headerlink" title="MySQL协议简介"></a>MySQL协议简介</h4><h5 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h5><p>MySQL协议处于应用层之下、TCP/IP之上, 在MySQL客户端和服务端之间使用。包含了链接器、MySQL代理、主从复制服务器之间通信，并支持SSL加密、传输数据的压缩、连接和身份验证及数据交互等。其中，握手认证阶段和命令执行阶段是MySQL协议中的两个重要阶段。</p>
-<h5 id="握手认证阶段"><a href="#握手认证阶段" class="headerlink" title="握手认证阶段"></a>握手认证阶段</h5><p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151350.png" alt="image-20200109113445831"> </p>
+<h5 id="握手认证阶段"><a href="#握手认证阶段" class="headerlink" title="握手认证阶段"></a>握手认证阶段</h5><p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151350.png" alt="image-20200109113445831"> </p>
 <p>A. 握手认证阶段是客户端连接服务器的必经之路, 客户端与服务端完成TCP的三次握手以后, 服务端会向客户端发送一个初始化握手包, 握手包中包含了协议版本、MySQLServer版本、线程ID、服务器的权能标识和字符集等信息。</p>
 <p>B. 客户端在接收到服务端的初始化握手包之后， 会发送身份验证包给服务端（AuthPacket）, 该包中包含用户名、密码等信息。</p>
 <p>C. 服务端接收到客户端的登录验证包之后，需要进行逻辑校验，校验该登录信息是否正确。如果信息都符合，则返回一个OKPacket，表示登录成功,否则返回ERR_Packet，表示拒绝。</p>
 <p>Wireshark抓包如下:</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151353.png" alt="image-20200127165109223"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151353.png" alt="image-20200127165109223"> </p>
 <p>报文分析如下： </p>
 <p>1). 初始化握手包</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151356.png" alt="image-20200109133647751"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151356.png" alt="image-20200109133647751"> </p>
 <p>通过抓包工具Wireshark抓取到的握手包信息如下, 握手包格式:</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151401.png" alt="image-20200127162616334">  </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151401.png" alt="image-20200127162616334">  </p>
 <p>说明: </p>
 <p>Packet Length : 包的长度;</p>
 <p>Packet Number : 包的序号;</p>
 <p>Server Greeting : 消息体, 包含了协议版本、MySQLServer版本、线程ID和字符集等信息。</p>
 <p>2). 登录认证包</p>
 <p>客户端在接收到服务端发来的初始握手包之后， 向服务端发出认证请求， 该请求包含以下信息（由Wireshark抓获） ： </p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151405.png" alt="image-20200127163702804"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151405.png" alt="image-20200127163702804"> </p>
 <p>3). OK包或ERROR包</p>
 <p>服务端接收到客户端的登录认证包之后，如果通过认证，则返回一个OKPacket，如果未通过认证，则返回一个ERROR包。</p>
 <p>OK报文如下： </p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151420.png" alt="image-20200127163957990"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151420.png" alt="image-20200127163957990"> </p>
 <p>ERROR报文如下 :</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151425.png" alt="image-20200127165156952"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151425.png" alt="image-20200127165156952"> </p>
 <h5 id="命令执行阶段"><a href="#命令执行阶段" class="headerlink" title="命令执行阶段"></a>命令执行阶段</h5><p>在握手认证阶段通过并完成以后, 客户端可以向服务端发送各种命令来请求数据, 此阶段的流程是: 命令请求-&gt;返回结果集。</p>
 <p>Wireshark 捕获的数据包如下： </p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151431.png" alt="image-20200127170112968"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151431.png" alt="image-20200127170112968"> </p>
 <p>1). 命令包</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151436.png" alt="image-20200127170235143"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151436.png" alt="image-20200127170235143"> </p>
 <p>2). 结果集包</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151442.png" alt="image-20200127170823882"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151442.png" alt="image-20200127170823882"> </p>
 <h4 id="MySQL协议在MyCat中实现"><a href="#MySQL协议在MyCat中实现" class="headerlink" title="MySQL协议在MyCat中实现"></a>MySQL协议在MyCat中实现</h4><h5 id="握手认证实现"><a href="#握手认证实现" class="headerlink" title="握手认证实现"></a>握手认证实现</h5><p>在MyCat中同时实现了NIO和AIO, 通过配置可以选择NIO和AIO。MyCat Server在启动阶段已经选择好采用NIO还是AIO，因此建立I/O通道后,MyCat服务端一直等待客户端端的连接,当有连接到来的时候,MyCat首先发送握手包。 </p>
 <p>1). 握手包源码实现</p>
 <p>MyCat中的源码中io.mycat.net.FrontendConnection类的实现如下:</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151448.png" alt="image-20200127183259378"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151448.png" alt="image-20200127183259378"> </p>
 <p>握手包信息组装完毕后, 通过FrontedConnection写回客户端。</p>
 <p>2). 认证包源码实现</p>
 <p>客户端接收到握手包后, 紧接着向服务端发起一个认证包, MyCat封装为类 AuthPacket:</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151502.png" alt="image-20200127231628215"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151502.png" alt="image-20200127231628215"> </p>
 <p>客户端发送的认证包转由 FrontendAuthenticator 的Handler来处理, 主要操作就是 拆包, 检查用户名、密码合法性， 检查连接数是够超出限制。源码实现如下： </p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151506.png" alt="image-20200127232022594"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151506.png" alt="image-20200127232022594"> </p>
 <p>认证失败， 调用failure方法， 认证成功调用success方法。</p>
 <p>failure方法源码： </p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151510.png" alt="image-20200127232344040"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151510.png" alt="image-20200127232344040"> </p>
 <p>success方法源码： </p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151514.png" alt="image-20200127232422887"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151514.png" alt="image-20200127232422887"> </p>
 <h5 id="命令执行实现"><a href="#命令执行实现" class="headerlink" title="命令执行实现"></a>命令执行实现</h5><p>命令执行阶段就是SQL命令和SQL语句执行阶段， 在该阶段MyCat主要需要做的事情， 就是对客户端发来的数据包进行拆包， 并判断命令的类型， 并解析SQL语句， 执行响应的SQL语句， 最后把执行结果封装在结果集包中， 返回给客户端。</p>
 <p>从客户端发来的命令交给 FrontendCommandHandler 中的handle方法处理:</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151520.png" alt="image-20200127235140959"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151520.png" alt="image-20200127235140959"> </p>
 <p>处理具体的请求, 返回客户端结果集数据包: </p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151527.png" alt="image-20200128000050787"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151527.png" alt="image-20200128000050787"> </p>
 <h3 id="MyCat线程架构与实现"><a href="#MyCat线程架构与实现" class="headerlink" title="MyCat线程架构与实现"></a>MyCat线程架构与实现</h3><h4 id="MyCat线程池实现"><a href="#MyCat线程池实现" class="headerlink" title="MyCat线程池实现"></a>MyCat线程池实现</h4><p>在MyCat中大量用到了线程池， 通过线程池来避免频繁的创建和销毁线程而造成的系统性能的浪费。在MyCat中使用的线程池是JDK中提供的线程池 ThreadPoolExecutor 的子类 NameableExecutor ， 构造方法如下： </p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151532.png" alt="image-20200108114506434"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151532.png" alt="image-20200108114506434"> </p>
 <p>父类构造为： </p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151536.png" alt="image-20200108114611505"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151536.png" alt="image-20200108114611505"> </p>
 <p>构造参数含义: </p>
 <p>corePoolSize : 核心池大小</p>
 <p>maximumPoolSize : 最大线程数</p>
@@ -614,7 +614,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>timeUnit: 时间单位</p>
 <p>workQueue: 阻塞任务队列</p>
 <p>threadFactory: 线程工厂, 用来创建线程</p>
-<h4 id="MyCat线程架构"><a href="#MyCat线程架构" class="headerlink" title="MyCat线程架构"></a>MyCat线程架构</h4><p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151541.png" alt="image-20200108114952672"> </p>
+<h4 id="MyCat线程架构"><a href="#MyCat线程架构" class="headerlink" title="MyCat线程架构"></a>MyCat线程架构</h4><p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151541.png" alt="image-20200108114952672"> </p>
 <p>在MyCat中主要有两大线程池: timerExecutor 和 businessExecutor。</p>
 <p>1). timerExecutor 线程池主要完成系统时间定时更新、处理器定时检查、数据节点定时连接空闲超时检查、数据节点定时心跳检测等任务。</p>
 <p>2). businessExecutor是MyCat最重要的线程资源池, 该资源池的线程使用的范围非常广, 涵盖以下方面: </p>
@@ -625,7 +625,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>E. 批量SQL作业</p>
 <p>F. 查询结果的异步分发</p>
 <p>G. 基于guava实现异步回调</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151545.png" alt="image-20200108141645417"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151545.png" alt="image-20200108141645417"> </p>
 <h3 id="MyCat内存管理及缓存框架与实现"><a href="#MyCat内存管理及缓存框架与实现" class="headerlink" title="MyCat内存管理及缓存框架与实现"></a>MyCat内存管理及缓存框架与实现</h3><p>这里所提到的内存管理指的是MyCat缓冲区管理, 众所周知设置缓冲区的唯一目的是提高系统的性能, 缓冲区通常是部分常用的数据存放在缓冲池中以便系统直接访问, 避免使用磁盘IO访问磁盘数据, 从而提高性能。</p>
 <h4 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h4><p>1). 缓冲池组成</p>
 <p>缓冲池的最小单位为chunk, 默认的chunk大小为4096字节(DEFAULT_BUFFER_CHUNK_SIZE), BufferPool的总大小为4096 x processors x 1000(其中processors为处理器数量)。对I/O进程而言, 他们共享一个缓冲池。缓冲池有两种类型： 本地缓存线程（以$_开头的线程）缓冲区和其他缓冲区， 分配buffer时, 优先获取ThreadLocalPool中的buffer, 没有命中时会获取BufferPool中的buffer。</p>
@@ -640,21 +640,21 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>C. buffer的容量大于chunkSize</p>
 <h4 id="MyCat缓存架构"><a href="#MyCat缓存架构" class="headerlink" title="MyCat缓存架构"></a>MyCat缓存架构</h4><p>1). 缓存框架选择</p>
 <p>MyCat支持ehcache、mapdb、leveldb缓存, 可通过配置文件cacheserver.properties来进行配置;</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151549.png" alt="image-20200108154627518"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151549.png" alt="image-20200108154627518"> </p>
 <p>2). 缓存内容</p>
 <p>MyCat有路由缓存、表主键到datanode缓存、ER关系缓存。</p>
 <p>A. 路由缓存: 即SQLRouteCache, 根据SQL语句查找路由信息的缓存, 该缓存只是针对select语句, 如果执行了之前已经执行过的某个SQL语句(缓存命中), 那么路由信息就不需要重复计算了, 直接从缓存中获取。</p>
 <p>B. 表主键到datanode缓存: 当分片字段与主键字段不一致时, 直接通过主键值查询时无法定位具体分片的(只能全分片下发), 所以设置该缓存之后, 就可以利用主键值查找到分片名, 缓存的key是ID值, value是节点名。</p>
 <p>C. ER关系缓存: 在ER分片时使用, 而且在insert查询中才会使用缓存, 当字表插入数据时, 根据父子关联字段确定子表分片, 下次可以直接从缓存中获取所在的分片。 </p>
 <p>查看缓存指令： show @@cache；</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151553.png" alt="image-20200108155642414"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151553.png" alt="image-20200108155642414"> </p>
 <h3 id="MyCat连接池架构与实现"><a href="#MyCat连接池架构与实现" class="headerlink" title="MyCat连接池架构与实现"></a>MyCat连接池架构与实现</h3><p>这里我们所讨论的连接池是MyCat的后端连接池， 也就是MyCat后端与各个数据库节点之间的连接架构。</p>
 <p>1). 连接池创建</p>
 <p>MyCat按照每个dataHost创建一个连接池, 根据schema.xml文件的配置取得最小的连接数minCon,  并初始化minCon个连接。在初始化连接时， 还需要判定用户选择的是JDBC还是原生的MySQL协议， 以便于创建对应的连接。</p>
 <p>2). 连接池分配</p>
 <p>分配连接就是从连接池队列中取出一个连接， 在取出一个连接时， MyCat需要根据负载均衡（balance属性）的类型选择不同的数据源， 因为连接和数据源绑在一起，所以需要知道MyCat读写的是那些数据源， 才能分配响应的连接。 </p>
 <p>3). 架构</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151557.png" alt="image-20200108162456464"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151557.png" alt="image-20200108162456464"> </p>
 <h3 id="MyCat主从切换架构与实现"><a href="#MyCat主从切换架构与实现" class="headerlink" title="MyCat主从切换架构与实现"></a>MyCat主从切换架构与实现</h3><h4 id="MyCat主从切换概述"><a href="#MyCat主从切换概述" class="headerlink" title="MyCat主从切换概述"></a>MyCat主从切换概述</h4><p>MyCat实现MySQL读写分离的目的在于降低单节点数据库的访问压力,  原理就是让主数据库执行增删改操作, 从数据库执行查询操作, 利用MySQL数据库的复制机制将Master的数据同步到slave上。</p>
 <p>当master宕机后，slave承载的业务如何切换到master继续提供服务，以及slave宕机后如何将master切换到slave上。手动切换数据源很简单， 但不是运维工作的首选，本节重点就是讲解如何实现自动切换。</p>
 <p>MyCat的读写分离依赖于MySQL的主从同步, 也就是说MyCat没有实现数据的主从同步功能, 但是实现了自动切换功能。</p>
@@ -668,7 +668,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>原理就是通过检查MySQL的主从同步状态（show slave status）中的Seconds_Behind_Master、Slave_IO_Running、Slave_SQL_Running三个字段,来确定当前主从同步的状态以及主从之间的数据延迟。 Seconds_Behind_Master为0表示没有延迟，数值越大，则说明延迟越高。</p>
 <h4 id="MyCat主从切换实现"><a href="#MyCat主从切换实现" class="headerlink" title="MyCat主从切换实现"></a>MyCat主从切换实现</h4><p>基于延迟的切换， 则判断结果集中的Slave_IO_Running、Slave_SQL_Running两个个字段是否都为yes，以及Seconds_Behind_Master 是否小于配置文件中配置的 slaveThreshold的值, 如果有其中任何一个条件不满足, 则切换。</p>
 <p>主要流程如下:</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151603.png" alt="image-20200128005840029"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151603.png" alt="image-20200128005840029"> </p>
 <h3 id="MyCat核心技术"><a href="#MyCat核心技术" class="headerlink" title="MyCat核心技术"></a>MyCat核心技术</h3><h4 id="MyCat分布式事务实现"><a href="#MyCat分布式事务实现" class="headerlink" title="MyCat分布式事务实现"></a>MyCat分布式事务实现</h4><p>MyCat在1.6版本以后已经支持XA分布式事务类型了。具体的使用流程如下：</p>
 <p>1). 在应用层需要设置事务不能自动提交</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set autocommit=0;</span><br></pre></td></tr></table></figure>
@@ -685,9 +685,9 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 
 
 <p>完整流程如下: </p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151608.png" alt="image-20200129223657058"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151608.png" alt="image-20200129223657058"> </p>
 <h4 id="MyCat-SQL路由实现"><a href="#MyCat-SQL路由实现" class="headerlink" title="MyCat SQL路由实现"></a>MyCat SQL路由实现</h4><p>MyCat的路由是和SQL解析组件息息相关的, SQL路由模块是MyCat数据库中间件最重要的模块之一, 使用MyCat主要是为了分库分表, 而分库分表的核心就是路由。</p>
-<h5 id="路由的作用"><a href="#路由的作用" class="headerlink" title="路由的作用"></a>路由的作用</h5><p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151611.png" alt="image-20200113225535847"> </p>
+<h5 id="路由的作用"><a href="#路由的作用" class="headerlink" title="路由的作用"></a>路由的作用</h5><p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151611.png" alt="image-20200113225535847"> </p>
 <p>如图所示， MyCat接收到应用系统发来的查询语句， 要将其发送到后端连接的MySQL数据库去执行， 但是后端有三个数据库服务器，具体要查询那一台数据库服务器呢， 这就是路由需要实现的功能。</p>
 <p>SQL的路由既要保证数据的完整 ， 也不能造成资源的浪费， 还要保证路由的效率。</p>
 <h5 id="解析器"><a href="#解析器" class="headerlink" title="解析器"></a>解析器</h5><p>Mycat1.3版本之前模式使用的是Fdbparser的foundationdb的开源SQL解析器，在2015年被apple收购后，从开源变为闭源了。</p>
@@ -698,12 +698,12 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>A. 全局表的insert、update、delete操作会实时地在所有节点同步执行, 保持各个节点数据的一致性</p>
 <p>B. 全局表的查询操作会从任意节点执行,因为所有节点的数据都一致</p>
 <p>C. 全局表可以和任意表进行join操作</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151616.png" alt="image-20200128013501684"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151616.png" alt="image-20200128013501684"> </p>
 <h5 id="ER表"><a href="#ER表" class="headerlink" title="ER表"></a>ER表</h5><p>关系型数据库是基于实体关系模型(Entity Relationship Model)的, MyCat中的ER表便来源于此。 MyCat提出了基于ER关系的数据分片策略 , 子表的记录与其所关联的父表的记录存放在同一个数据分片中, 通过表分组(Table Group)保证数据关联查询不会跨库操作。</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151619.png" alt="image-20200129101108379"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151619.png" alt="image-20200129101108379"> </p>
 <h5 id="catlet"><a href="#catlet" class="headerlink" title="catlet"></a>catlet</h5><p>catlet是MyCat为了解决跨分片Join提出的一种创新思路, 也叫做人工智能(HBT)。MyCat参考了数据库中存储过程的实现方式，提出类似的跨库解决方案，用户可以根据系统提供的API接口实现跨分片Join。</p>
 <p>采用这种方案开发时,必须要实现Catlet接口的两个方法 :</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151623.png" alt="image-20200129104415975"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151623.png" alt="image-20200129104415975"> </p>
 <p>route 方法: 路由的方法, 传递系统配置和schema配置等 ;</p>
 <p>processSQL方法: EngineCtx执行SQL并给客户端返回结果集 ;</p>
 <p>当我们自定义Catlet完成之后, 需要将Catlet的实现类进行编译,并将其字节码文件 XXXCatlet.class存放在mycat_home/catlet目录下, 系统会加载相关Class, 而且每隔1分钟扫描一次文件是否更新, 若更新则自动重新加载,因此无需重启服务。</p>
@@ -716,7 +716,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 
 <h4 id="MyCat数据汇聚与排序"><a href="#MyCat数据汇聚与排序" class="headerlink" title="MyCat数据汇聚与排序"></a>MyCat数据汇聚与排序</h4><p>通过MyCat实现数据汇聚和排序,不仅可以减少各分片与客户端之间的数据传输IO, 也可以帮助开发者总复杂的数据处理中解放出来,从而专注于开发业务代码。</p>
 <p>在MySQL中存在两种排序方式： 一种利用有序索引获取有序数据， 另一种通过相应的排序算法将获取到的数据在内存中进行排序。 而MyCat中数据排序采用堆排序法对多个分片返回有序数据，并在合并、排序后再返回给客户端。</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151627.png" alt="image-20200129113055429"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151627.png" alt="image-20200129113055429"> </p>
 
   
   
@@ -1321,7 +1321,7 @@ var loadCSS = function( href, before, media, attributes ){
 <script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
 
     <script type="text/javascript">
-        var imgs=["https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602105452.png", "https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602105101.jpg", "https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602105045.jpg"];
+        var imgs=["https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210602105452.png", "https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210602105101.jpg", "https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210602105045.jpg"];
         if ('true' == 'true') {
           function shuffle(arr){
             /*From countercurrent-time*/

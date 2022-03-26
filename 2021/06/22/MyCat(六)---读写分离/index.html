@@ -37,7 +37,7 @@
 
   <!-- link -->
   
-    <link rel="shortcut icon" type='image/x-icon' href="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210603105954.png">
+    <link rel="shortcut icon" type='image/x-icon' href="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210603105954.png">
   
 
   <!-- import link -->
@@ -440,7 +440,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
             
 <div class='new-meta-item author'>
   <a class='author' href="/" rel="nofollow">
-    <img no-lazy src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210603111048.png">
+    <img no-lazy src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210603111048.png">
     <p>By：赵树超</p>
   </a>
 </div>
@@ -513,7 +513,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   <h4 id="MySQL主从复制原理"><a href="#MySQL主从复制原理" class="headerlink" title="MySQL主从复制原理"></a>MySQL主从复制原理</h4><p>复制是指将主数据库的DDL 和 DML 操作通过二进制日志传到从库服务器中，然后在从库上对这些日志重新执行（也叫重做），从而使得从库和主库的数据保持同步。</p>
 <p>MySQL支持一台主库同时向多台从库进行复制， 从库同时也可以作为其他从服务器的主库，实现链状复制。</p>
 <p>MySQL主从复制的原理如下 : </p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151100.png" alt="image-20200103093716416"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151100.png" alt="image-20200103093716416"> </p>
 <p>从上层来看，复制分成三步：</p>
 <ul>
 <li><p>Master 主库在事务提交时，会把数据变更作为时间 Events 记录在二进制日志文件 Binlog 中。</p>
@@ -561,7 +561,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>4） 查看master状态：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> master status;</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151105.png" alt="image-20200103102209631"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151105.png" alt="image-20200103102209631"> </p>
 <p>字段含义:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">File : 从哪个日志文件开始推送日志文件 </span><br><span class="line">Position ： 从哪个位置开始推送日志</span><br><span class="line">Binlog_Ignore_DB : 指定不需要同步的数据库</span><br></pre></td></tr></table></figure>
 
@@ -584,7 +584,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>4） 开启同步操作</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">start slave;</span><br><span class="line"></span><br><span class="line">show slave status;</span><br></pre></td></tr></table></figure>
 
-<p> <img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151110.png" alt="image-20200103144903105">  </p>
+<p> <img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151110.png" alt="image-20200103144903105">  </p>
 <p>5） 停止同步操作</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stop slave;</span><br></pre></td></tr></table></figure>
 
@@ -597,10 +597,10 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 
 <p>2） 在从库中查询数据，进行验证 ：</p>
 <p>在从库中，可以查看到刚才创建的数据库：</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151115.png" alt="image-20200103103029311">  </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151115.png" alt="image-20200103103029311">  </p>
 <p>在该数据库中，查询user表中的数据：</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151118.png" alt="image-20200103103049675">  </p>
-<h4 id="MyCat一主一从读写分离"><a href="#MyCat一主一从读写分离" class="headerlink" title="MyCat一主一从读写分离"></a>MyCat一主一从读写分离</h4><h5 id="读写分离原理"><a href="#读写分离原理" class="headerlink" title="读写分离原理"></a>读写分离原理</h5><p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151122.png" alt="image-20200103140249789"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151118.png" alt="image-20200103103049675">  </p>
+<h4 id="MyCat一主一从读写分离"><a href="#MyCat一主一从读写分离" class="headerlink" title="MyCat一主一从读写分离"></a>MyCat一主一从读写分离</h4><h5 id="读写分离原理"><a href="#读写分离原理" class="headerlink" title="读写分离原理"></a>读写分离原理</h5><p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151122.png" alt="image-20200103140249789"> </p>
 <p>读写分离,简单地说是把对数据库的读和写操作分开,以对应不同的数据库服务器。主数据库提供写操作，从数据库提供读操作，这样能有效地减轻单台数据库的压力。</p>
 <p>通过MyCat即可轻易实现上述功能，不仅可以支持MySQL，也可以支持Oracle和SQL Server。</p>
 <p>MyCat控制后台数据库的读写分离和负载均衡由schema.xml文件datahost标签的balance属性控制。</p>
@@ -624,7 +624,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 
 <h5 id="验证读写分离"><a href="#验证读写分离" class="headerlink" title="验证读写分离"></a>验证读写分离</h5><p>修改balance的值, 查询MyCat中的逻辑表中的数据变化; </p>
 <h4 id="MySQL双主双从搭建"><a href="#MySQL双主双从搭建" class="headerlink" title="MySQL双主双从搭建"></a>MySQL双主双从搭建</h4><h5 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h5><p>一个主机 Master1 用于处理所有写请求，它的从机 Slave1 和另一台主机 Master2 还有它的从机 Slave2 负责所有读请求。当 Master1 主机宕机后，Master2 主机负责写请求，Master1 、Master2 互为备机。架构图如下: </p>
-<p> <img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151128.png" alt="image-20200103170452653"> </p>
+<p> <img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151128.png" alt="image-20200103170452653"> </p>
 <h5 id="双主双从配置"><a href="#双主双从配置" class="headerlink" title="双主双从配置"></a>双主双从配置</h5><p>准备的机器如下: </p>
 <table>
 <thead>
@@ -688,9 +688,9 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#在主机MySQL里执行授权命令</span><br><span class="line"><span class="keyword">GRANT</span> REPLICATION SLAVE <span class="keyword">ON</span> <span class="operator">*</span>.<span class="operator">*</span> <span class="keyword">TO</span> <span class="string">&#x27;itcast&#x27;</span>@<span class="string">&#x27;%&#x27;</span> IDENTIFIED <span class="keyword">BY</span> <span class="string">&#x27;itcast&#x27;</span>;</span><br><span class="line"></span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
 
 <p>查询Master1的状态 : </p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151134.png" alt="image-20200104090901765"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151134.png" alt="image-20200104090901765"> </p>
 <p>查询Master2的状态 :</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151137.png" alt="image-20200104090922386"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151137.png" alt="image-20200104090922386"> </p>
 <p><strong>6). 在从机上配置需要复制的主机</strong></p>
 <p>Slave1 复制 Master1，Slave2 复制 Master2</p>
 <p>slave1 指令: </p>
@@ -706,8 +706,8 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p><strong>7). 启动两台从服务器复制功能 , 查看主从复制的运行状态</strong></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">start slave;</span><br><span class="line"></span><br><span class="line">show slave status\G;</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151141.png" alt="image-20200104091917814"> </p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151144.png" alt="image-20200104091948213"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151141.png" alt="image-20200104091917814"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151144.png" alt="image-20200104091948213"> </p>
 <p><strong>8). 两个主机互相复制</strong></p>
 <p>Master2 复制 Master1，Master1 复制 Master2</p>
 <p>Master1 执行指令: </p>
@@ -723,17 +723,17 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p><strong>9). 启动两台主服务器复制功能 , 查看主从复制的运行状态</strong></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">start slave;</span><br><span class="line"></span><br><span class="line">show slave status\G;</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151148.png" alt="image-20200104092654432"> </p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151154.png" alt="image-20200104092741892"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151148.png" alt="image-20200104092654432"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151154.png" alt="image-20200104092741892"> </p>
 <p><strong>10). 验证</strong></p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> database db03;</span><br><span class="line"></span><br><span class="line">use db03;</span><br><span class="line"></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> <span class="keyword">user</span>(</span><br><span class="line">	id <span class="type">int</span>(<span class="number">11</span>) <span class="keyword">not</span> <span class="keyword">null</span> auto_increment,</span><br><span class="line">	name <span class="type">varchar</span>(<span class="number">50</span>) <span class="keyword">not</span> <span class="keyword">null</span>,</span><br><span class="line">	sex <span class="type">varchar</span>(<span class="number">1</span>),</span><br><span class="line">	<span class="keyword">primary</span> key (id)</span><br><span class="line">)engine<span class="operator">=</span>innodb <span class="keyword">default</span> charset<span class="operator">=</span>utf8;</span><br><span class="line"></span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="keyword">user</span>(id,name,sex) <span class="keyword">values</span>(<span class="keyword">null</span>,<span class="string">&#x27;Tom&#x27;</span>,<span class="string">&#x27;1&#x27;</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="keyword">user</span>(id,name,sex) <span class="keyword">values</span>(<span class="keyword">null</span>,<span class="string">&#x27;Trigger&#x27;</span>,<span class="string">&#x27;0&#x27;</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="keyword">user</span>(id,name,sex) <span class="keyword">values</span>(<span class="keyword">null</span>,<span class="string">&#x27;Dawn&#x27;</span>,<span class="string">&#x27;1&#x27;</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="keyword">user</span>(id,name,sex) <span class="keyword">values</span>(<span class="keyword">null</span>,<span class="string">&#x27;Jack Ma&#x27;</span>,<span class="string">&#x27;1&#x27;</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="keyword">user</span>(id,name,sex) <span class="keyword">values</span>(<span class="keyword">null</span>,<span class="string">&#x27;Coco&#x27;</span>,<span class="string">&#x27;0&#x27;</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="keyword">user</span>(id,name,sex) <span class="keyword">values</span>(<span class="keyword">null</span>,<span class="string">&#x27;Jerry&#x27;</span>,<span class="string">&#x27;1&#x27;</span>);</span><br></pre></td></tr></table></figure>
 
 
 
 <p>在Master1上创建数据库: </p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151202.png" alt="image-20200104095232047"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151202.png" alt="image-20200104095232047"> </p>
 <p>在Master1上创建表 :</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151206.png" alt="image-20200104095521070"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151206.png" alt="image-20200104095521070"> </p>
 <p><strong>11). 停止从服务复制功能</strong></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stop slave;</span><br></pre></td></tr></table></figure>
 
@@ -759,9 +759,9 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>1 : 默认值, 自动切换</p>
 <p>2 : 表示基于MySQL的主从同步状态决定是否切换, 心跳语句 : show slave status</p>
 <h5 id="读写分离验证"><a href="#读写分离验证" class="headerlink" title="读写分离验证"></a>读写分离验证</h5><p>查询数据 : select * from user;</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151213.png" alt="image-20200104101106144"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151213.png" alt="image-20200104101106144"> </p>
 <p>插入数据 : insert into user(id,name,sex) values(null,’Dawn’,’1’);</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628151218.png" alt="image-20200104100956216"> </p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628151218.png" alt="image-20200104100956216"> </p>
 <h5 id="可用性验证"><a href="#可用性验证" class="headerlink" title="可用性验证"></a>可用性验证</h5><p>关闭Master1 , 然后再执行写入的SQL语句 , 通过日志查询当前写入操作, 操作的是那台服务器 ;</p>
 
   
@@ -1365,7 +1365,7 @@ var loadCSS = function( href, before, media, attributes ){
 <script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
 
     <script type="text/javascript">
-        var imgs=["https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602105452.png", "https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602105101.jpg", "https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602105045.jpg"];
+        var imgs=["https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210602105452.png", "https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210602105101.jpg", "https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210602105045.jpg"];
         if ('true' == 'true') {
           function shuffle(arr){
             /*From countercurrent-time*/

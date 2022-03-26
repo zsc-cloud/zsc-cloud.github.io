@@ -37,7 +37,7 @@
 
   <!-- link -->
   
-    <link rel="shortcut icon" type='image/x-icon' href="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210603105954.png">
+    <link rel="shortcut icon" type='image/x-icon' href="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210603105954.png">
   
 
   <!-- import link -->
@@ -440,7 +440,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
             
 <div class='new-meta-item author'>
   <a class='author' href="/" rel="nofollow">
-    <img no-lazy src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210603111048.png">
+    <img no-lazy src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210603111048.png">
     <p>By：赵树超</p>
   </a>
 </div>
@@ -511,7 +511,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   
   
   <h4 id="如何通过反射创建对象"><a href="#如何通过反射创建对象" class="headerlink" title="如何通过反射创建对象"></a>如何通过反射创建对象</h4><p>简单的说，反射机制就是在程序的运行过程中被允许对程序本身进行操作，比如<strong>自我检查</strong>，<strong>进行装载</strong>，还可以<strong>获取类本身</strong>，类的所有成员变量和方法，类的对象，还可以在运行过程中动态的创建<strong>类的实例</strong>，通过实例来调用类的方法，这就是反射机制一个比较重要的功能了。那么要通过程序来理解反射机制，首先要理解类的加载过程</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210531171052.png"></p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210531171052.png"></p>
 <p>在Java程序执行的时候，要经历三个步骤：加载、连接和初始化。首先程序要加载到JVM的方法区中，然后进行连接，最后初始化。这里就主要介绍一下类的加载。如上图，首先，JVM会从硬盘中读取Java源文件并将其加载到方法区中同时生成<strong>类名.class</strong>文件，也就是类对象，这个类对象中包含了我们创建类的实例时所需要的模板信息，也就是源代码中的成员变量和方法等。Class本身也是一个类，它的主要功能之一就是生成类加载时的class文件，为类的初始化及实例化做准备。而我们在程序中通过关键字new创建的对象创建的是<strong>类的对象</strong>，而不是类对象，二者的区别如图中所示。</p>
 <h4 id="反射的作用和意义"><a href="#反射的作用和意义" class="headerlink" title="反射的作用和意义"></a>反射的作用和意义</h4><p>1、<strong>反射的应用场合</strong>：在编译时根本无法知道该对象或类可能属于哪些类，程序只依靠运行时信息来发现该对象和类的真实信息.</p>
 <p>2、反射的作用：通过反射可以使程序代码访问装载到JVM 中的类的内部信息</p>
@@ -1159,7 +1159,7 @@ var loadCSS = function( href, before, media, attributes ){
 <script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
 
     <script type="text/javascript">
-        var imgs=["https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602105452.png", "https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602105101.jpg", "https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602105045.jpg"];
+        var imgs=["https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210602105452.png", "https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210602105101.jpg", "https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210602105045.jpg"];
         if ('true' == 'true') {
           function shuffle(arr){
             /*From countercurrent-time*/

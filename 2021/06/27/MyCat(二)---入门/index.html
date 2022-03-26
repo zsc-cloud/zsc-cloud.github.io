@@ -37,7 +37,7 @@
 
   <!-- link -->
   
-    <link rel="shortcut icon" type='image/x-icon' href="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210603105954.png">
+    <link rel="shortcut icon" type='image/x-icon' href="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210603105954.png">
   
 
   <!-- import link -->
@@ -440,7 +440,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
             
 <div class='new-meta-item author'>
   <a class='author' href="/" rel="nofollow">
-    <img no-lazy src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210603111048.png">
+    <img no-lazy src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210603111048.png">
     <p>By：赵树超</p>
   </a>
 </div>
@@ -520,18 +520,18 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 
 <h4 id="1-2-配置JDK环境"><a href="#1-2-配置JDK环境" class="headerlink" title="1.2 配置JDK环境"></a>1.2 配置JDK环境</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">配置PATH环境变量 , 在该配置文件(/etc/profile)的最后加入如下配置</span><br><span class="line">	export JAVA_HOME=/usr/share/jdk1.8.0_181</span><br><span class="line">	export PATH=$PATH:$JAVA_HOME/bin</span><br></pre></td></tr></table></figure>
 
-<h4 id="1-3-MyCat"><a href="#1-3-MyCat" class="headerlink" title="1.3 MyCat"></a>1.3 MyCat</h4><p>   <img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628093716.png" alt="1573556739880"></p>
+<h4 id="1-3-MyCat"><a href="#1-3-MyCat" class="headerlink" title="1.3 MyCat"></a>1.3 MyCat</h4><p>   <img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628093716.png" alt="1573556739880"></p>
 <h3 id="2-MyCat核心概念"><a href="#2-MyCat核心概念" class="headerlink" title="2. MyCat核心概念"></a>2. MyCat核心概念</h3><h4 id="2-1-分片"><a href="#2-1-分片" class="headerlink" title="2.1 分片"></a>2.1 分片</h4><p>简单来说，就是指通过某种特定的条件，将我们存放在同一个数据库中的数据分散存放到多个数据库或者主机上面，已达到分散单台设备负载的效果。数据的切分，根据其切分规则的类型，可以分为两种切分模式。</p>
 <ul>
 <li><p>一种是按照不同的表（或者Schema）来切分到不同的数据库智商，这种切分已经称之为数据的垂直切分</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628094405.png" alt="1573622314361"></p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628094405.png" alt="1573622314361"></p>
 </li>
 <li><p>另外一种则是根据表中的数据的逻辑关系，将同一个表中的数据按照某种条件拆分到多台数据库上面，这种切分称之为水平切分</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628094541.png" alt="1573622358104"></p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628094541.png" alt="1573622358104"></p>
 </li>
 </ul>
 <p><strong>MyCat分片策略</strong></p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628094613.png" alt="1573659631804"></p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628094613.png" alt="1573659631804"></p>
 <blockquote>
 <p>虚线以辑结构图，虚线之下是物理结构图</p>
 </blockquote>
@@ -555,7 +555,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <h4 id="2-5-节点主机（dataHost）"><a href="#2-5-节点主机（dataHost）" class="headerlink" title="2.5 节点主机（dataHost）"></a>2.5 节点主机（dataHost）</h4><p>数据切分之后，每个分片节点（dataNode）不一定都会独占一台机器，同一机器上面可以有多个分片数据库，这样一个或者多个分片节点所在的机器就是节点主机，为了规避单节点主机的并发数限制，尽量将读写压力高的分片节点均衡的放在不同的节点主机</p>
 <h4 id="2-6-分片规则（rule）"><a href="#2-6-分片规则（rule）" class="headerlink" title="2.6 分片规则（rule）"></a>2.6 分片规则（rule）</h4><p>前面讲了数据切分，一个大表被分成若干个分片表，就需要一定的规则。这样按照某种业务规则把数据分到某个分片的规则就是分片规则，数据切分选择合适的分片规则是非常重要的。将极大的避免后续数据处理的难度。</p>
 <h3 id="3-分片配置测试"><a href="#3-分片配置测试" class="headerlink" title="3. 分片配置测试"></a>3. 分片配置测试</h3><h4 id="3-1-需求"><a href="#3-1-需求" class="headerlink" title="3.1 需求"></a>3.1 需求</h4><p>由于TB_TEST表中的数据很大，现在需要对TB_TEST表进行数据分片，分为三个节点，每一个节点主机位于不同的服务器上，具体的结构，参考下图：</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628140911.png" alt="1575724614686"></p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628140911.png" alt="1575724614686"></p>
 <h4 id="3-2-环境准备"><a href="#3-2-环境准备" class="headerlink" title="3.2 环境准备"></a>3.2 环境准备</h4><p>准备三台虚拟机，并且按照好MySQL，并配置好：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">IP 地址列表 : </span><br><span class="line">	192.168.192.157</span><br><span class="line">	192.168.192.158</span><br><span class="line">	192.168.192.159</span><br></pre></td></tr></table></figure>
 
@@ -602,7 +602,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>1). 通过命令行</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -h 127.0.0.1 -P 8066 -u root -p</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628142803.png" alt="1573916419746"></p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628142803.png" alt="1573916419746"></p>
 <h4 id="3-6-MyCat分片测试"><a href="#3-6-MyCat分片测试" class="headerlink" title="3.6 MyCat分片测试"></a>3.6 MyCat分片测试</h4><p>进入MyCat，执行下列语句创建一个表</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> TB_TEST (</span><br><span class="line">  id <span class="type">BIGINT</span>(<span class="number">20</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">  title <span class="type">VARCHAR</span>(<span class="number">100</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span> ,</span><br><span class="line">  <span class="keyword">PRIMARY</span> KEY (id)</span><br><span class="line">) ENGINE<span class="operator">=</span>INNODB <span class="keyword">DEFAULT</span> CHARSET<span class="operator">=</span>utf8 ;</span><br></pre></td></tr></table></figure>
 
@@ -624,7 +624,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 
 
 <h3 id="4-原理介绍"><a href="#4-原理介绍" class="headerlink" title="4. 原理介绍"></a>4. 原理介绍</h3><p>MyCat原理中最重要的一个动词就是“拦截”，它拦截了用户发送过来的SQL语句，首先对SQL语句做了一些特定的分析，如分片分析，路由分析，读写分离分析，缓存分析等，然后将此SQL语句发往后端真实的数据库中，并将返回的结果做适当的处理，最终在返回给用户。如图所示。</p>
-<p><img src="https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210628144252.png" alt="1577358066323"></p>
+<p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210628144252.png" alt="1577358066323"></p>
 <p>在图中，user表被分为三个分片节点dn1,dn2,dn3。他们分布在三个MySQLServer上，因此可以使用1-n台服务器来分片，分片规则为典型的字符串枚举分片，一个规则的定义是分片字段+分片函数，这是的分片字段为status，分片函数则为字符串枚举方式</p>
 <p>MyCat收到一条SQL语句时，首先解析SQL语句涉及到的表，接着查看此表的定义，如果该表存在分片规则，则获取SQL语句里的分片字段的值，并匹配分片函数，得到该SQL语句对应的分片列表，然后将SQL语句发送到相对应的分片去执行，最好处理所有分片返回的数据并返回给客户端，以 ‘select * from user where status = ‘0’;为例，查询status=0，按照分片函数，0值存放在dn1,于是SQL语句被发送到了第一个节点中执行，然后再将查询返回的结果返回的用户</p>
 <p>如果发送的SQL条件为 where status in (0,1),那么SQL语句会被发送到dn1,dn2对应的主机上执行，然后将结果集合并后输出给用户</p>
@@ -1242,7 +1242,7 @@ var loadCSS = function( href, before, media, attributes ){
 <script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
 
     <script type="text/javascript">
-        var imgs=["https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602105452.png", "https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602105101.jpg", "https://gitee.com/zhao_shu_chao/img/raw/master/blog/20210602105045.jpg"];
+        var imgs=["https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210602105452.png", "https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210602105101.jpg", "https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20210602105045.jpg"];
         if ('true' == 'true') {
           function shuffle(arr){
             /*From countercurrent-time*/
