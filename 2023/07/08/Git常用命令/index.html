@@ -490,13 +490,13 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>字数：1.5k字</p>
+      <p>字数：1.6k字</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>时长：5分钟</p>
+      <p>时长：6分钟</p>
     </a>
   </div>
 
@@ -619,12 +619,32 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global credential.helper store</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://zsc-cloud-1305849843.cos.ap-beijing.myqcloud.com/img/20230708180647.png" alt="image-20230708180647435"></p>
-<h3 id="Git-fatal-refusing-to-merge-unrelated-histories解决"><a href="#Git-fatal-refusing-to-merge-unrelated-histories解决" class="headerlink" title="Git :fatal: refusing to merge unrelated histories解决"></a>Git :fatal: refusing to merge unrelated histories解决</h3><p>本地创建了一个仓库，把本地仓库和Gitee上关联以后发现git pull/git push，git feach提醒fatal: refusing to merge unrelated histories</p>
+<h3 id="本地分支跟远程分支不关联问题"><a href="#本地分支跟远程分支不关联问题" class="headerlink" title="本地分支跟远程分支不关联问题"></a>本地分支跟远程分支不关联问题</h3><blockquote>
+<p>报错信息：atal: refusing to merge unrelated histories</p>
+</blockquote>
+<p>本地创建了一个仓库，把本地仓库和Gitee上关联以后发现git pull/git push，git feach提醒fatal: refusing to merge unrelated histories</p>
 <p>原因是两个分支是两个不同的版本，具有不同的提交历史</p>
 <p>拉取远程代码的时候执行</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$git pull origin master --allow-unrelated-histories</span><br></pre></td></tr></table></figure>
 
 <p>可以允许不相关历史提交，强制合并</p>
+<h3 id="git切换ssh和http协议"><a href="#git切换ssh和http协议" class="headerlink" title="git切换ssh和http协议"></a>git切换ssh和http协议</h3><ul>
+<li>查看当前remote</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote -v</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>切换到http：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote set-url https://github.com/username/repository.git</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>切换到ssh：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote set-url [git@github.com](mailto:git@github.com):username/repository.git</span><br></pre></td></tr></table></figure>
+
+
+
 
   
   
@@ -718,13 +738,13 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>字数：1.5k字</p>
+      <p>字数：1.6k字</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>时长：5分钟</p>
+      <p>时长：6分钟</p>
     </a>
   </div>
 
@@ -802,7 +822,7 @@ golang
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#git-cherry-pick"><span class="toc-text">git cherry-pick</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#git-config"><span class="toc-text">git config</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#git-reset"><span class="toc-text">git reset</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#git-revert"><span class="toc-text">git revert</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E4%B8%80%E4%B8%AA%E6%96%87%E4%BB%B6%E7%9A%84%E5%8E%86%E5%8F%B2%E6%8F%90%E4%BA%A4%E8%AE%B0%E5%BD%95"><span class="toc-text">查看一个文件的历史提交记录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%88%E5%B9%B6%E5%A4%9A%E4%B8%AAcommit"><span class="toc-text">合并多个commit</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#git%E4%BD%BF%E7%94%A8http%E5%BD%A2%E5%BC%8F%E5%85%8D%E5%AF%86%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4"><span class="toc-text">git使用http形式免密执行命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Git-fatal-refusing-to-merge-unrelated-histories%E8%A7%A3%E5%86%B3"><span class="toc-text">Git :fatal: refusing to merge unrelated histories解决</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#git-cherry-pick"><span class="toc-text">git cherry-pick</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#git-config"><span class="toc-text">git config</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#git-reset"><span class="toc-text">git reset</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#git-revert"><span class="toc-text">git revert</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E4%B8%80%E4%B8%AA%E6%96%87%E4%BB%B6%E7%9A%84%E5%8E%86%E5%8F%B2%E6%8F%90%E4%BA%A4%E8%AE%B0%E5%BD%95"><span class="toc-text">查看一个文件的历史提交记录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%88%E5%B9%B6%E5%A4%9A%E4%B8%AAcommit"><span class="toc-text">合并多个commit</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#git%E4%BD%BF%E7%94%A8http%E5%BD%A2%E5%BC%8F%E5%85%8D%E5%AF%86%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4"><span class="toc-text">git使用http形式免密执行命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E5%88%86%E6%94%AF%E8%B7%9F%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E4%B8%8D%E5%85%B3%E8%81%94%E9%97%AE%E9%A2%98"><span class="toc-text">本地分支跟远程分支不关联问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#git%E5%88%87%E6%8D%A2ssh%E5%92%8Chttp%E5%8D%8F%E8%AE%AE"><span class="toc-text">git切换ssh和http协议</span></a></li></ol>
     </div>
   </section>
 
